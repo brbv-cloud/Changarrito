@@ -6,22 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.changarrito.database.AppDatabase;
-import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.entity.ProductoEntity;
+import com.changarrito.repository.ProductoRepository;
 
 import java.util.List;
 
 public class ProductoViewModel extends AndroidViewModel {
 
-    private ProductoDAO productoDAO;
+    private ProductoRepository repository;
     private LiveData<List<ProductoEntity>> allProductos;
 
     public ProductoViewModel(@NonNull Application application) {
         super(application);
-        AppDatabase db = AppDatabase.getInstance(application);
-        productoDAO = db.productoDao();
-        allProductos = productoDAO.getAllProductos();
+        repository = new ProductoRepository(application);
+        allProductos = repository.getAllProductos();
     }
 
     public LiveData<List<ProductoEntity>> getAllProductos() {
@@ -29,20 +27,18 @@ public class ProductoViewModel extends AndroidViewModel {
     }
 
     public void insertarProducto(ProductoEntity producto) {
-        new Thread(() -> {
-            productoDAO.insert(producto);
-        }).start();
+        repository.insert(producto);
     }
 
     public void actualizarProducto(ProductoEntity producto) {
-        new Thread(() -> {
-            productoDAO.update(producto);
-        }).start();
+        repository.update(producto);
     }
 
     public void eliminarProducto(ProductoEntity producto) {
-        new Thread(() -> {
-            productoDAO.delete(producto);
-        }).start();
+        repository.delete(producto);
+    }
+
+    public LiveData<List<ProductoEntity>> buscar(String nombre) {
+        return repository.search(nombre);
     }
 }
