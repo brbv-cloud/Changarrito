@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.changarrito.R;
+import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.ui.adapters.ProductoAdapter;
+import com.changarrito.ui.fragments.ProductoDialogFragment;
 import com.changarrito.viewmodel.ProductoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class ProductosActivity extends AppCompatActivity {
+public class ProductosActivity extends AppCompatActivity implements ProductoDialogFragment.ProductoDialogListener {
 
     private RecyclerView rvProductos;
     private FloatingActionButton fabAgregarProducto;
@@ -43,9 +45,21 @@ public class ProductosActivity extends AppCompatActivity {
             rvProductos.setAdapter(adapter);
         });
 
-        // FAB click listener
+        // FAB click listener - Abrir dialog agregar
         fabAgregarProducto.setOnClickListener(v -> {
-            // TODO: abrir formulario agregar producto
+            ProductoDialogFragment dialog = ProductoDialogFragment.newInstance(null, this);
+            dialog.show(getSupportFragmentManager(), "ProductoDialog");
         });
+    }
+
+    @Override
+    public void onProductoGuardado(ProductoEntity producto) {
+        if (producto.id == 0) {
+            // Nuevo producto
+            viewModel.insertarProducto(producto);
+        } else {
+            // Editar producto existente
+            viewModel.actualizarProducto(producto);
+        }
     }
 }
