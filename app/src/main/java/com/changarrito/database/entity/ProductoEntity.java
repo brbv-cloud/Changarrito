@@ -10,9 +10,10 @@ public class ProductoEntity {
 
     public String nombre;
     public double precio;
-    public int cantidadDisponible;
+    public double cantidadDisponible;
+    public UnidadMedida unidadMedida;
     public long fechaCaducidadMs;
-    public int umbralStockBajo;
+    public double umbralStockBajo;
     public String telefonoProveedor;
     public String barcode;
     public long timestampCreacionMs;

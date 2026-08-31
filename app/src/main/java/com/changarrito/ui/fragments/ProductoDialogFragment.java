@@ -1,9 +1,14 @@
 package com.changarrito.ui.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,12 +17,21 @@ import androidx.fragment.app.DialogFragment;
 
 import com.changarrito.R;
 import com.changarrito.database.entity.ProductoEntity;
+import com.changarrito.database.entity.UnidadMedida;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ProductoDialogFragment extends DialogFragment {
 
-    private EditText etNombre, etPrecio, etCantidad, etUmbral, etTelefono;
+    private EditText etNombre, etPrecio, etCantidad, etUmbral, etTelefono, etBarcode;
+    private Spinner spUnidadMedida;
+    private TextView tvFechaCaducidad;
     private ProductoDialogListener listener;
     private ProductoEntity productoEditando;
+    private long fechaCaducidadMs = 0;
 
     public interface ProductoDialogListener {
         void onProductoGuardado(ProductoEntity producto);
@@ -37,13 +51,28 @@ public class ProductoDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
-        android.view.View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_producto, null);
+        View view = requireActivity().getLayoutInflater().inflate(R.layout.dialog_producto, null);
 
         etNombre = view.findViewById(R.id.etNombre);
         etPrecio = view.findViewById(R.id.etPrecio);
         etCantidad = view.findViewById(R.id.etCantidad);
         etUmbral = view.findViewById(R.id.etUmbral);
         etTelefono = view.findViewById(R.id.etTelefono);
+        etBarcode = view.findViewById(R.id.etBarcode);
+        spUnidadMedida = view.findViewById(R.id.spUnidadMedida);
+        tvFechaCaducidad = view.findViewById(R.id.tvFechaCaducidad);
+
+        // Llenar el spinner con las unidades de medida
+        ArrayAdapter<UnidadMedida> unidadAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                UnidadMedida.values()
+        );
+        unidadAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spUnidadMedida.setAdapter(unidadAdapter);
+
+        // Selector de fecha de caducidad
+        tvFechaCaducidad.setOnClickListener(v -> mostrarDatePicker());
 
         // Si es edición, llenar campos
         if (productoEditando != null) {
@@ -52,36 +81,88 @@ public class ProductoDialogFragment extends DialogFragment {
             etCantidad.setText(String.valueOf(productoEditando.cantidadDisponible));
             etUmbral.setText(String.valueOf(productoEditando.umbralStockBajo));
             etTelefono.setText(productoEditando.telefonoProveedor);
+            etBarcode.setText(productoEditando.barcode);
+
+            if (productoEditando.unidadMedida != null) {
+                spUnidadMedida.setSelection(unidadAdapter.getPosition(productoEditando.unidadMedida));
+            }
+
+            fechaCaducidadMs = productoEditando.fechaCaducidadMs;
+            actualizarTextoFecha();
         }
 
         builder.setView(view);
-
         AlertDialog dialog = builder.create();
 
         // Botón Guardar
         view.findViewById(R.id.btnGuardar).setOnClickListener(v -> {
-            if (validar()) {
-                ProductoEntity producto = new ProductoEntity();
-                if (productoEditando != null) {
-                    producto.id = productoEditando.id;
-                }
-                producto.nombre = etNombre.getText().toString();
-                producto.precio = Double.parseDouble(etPrecio.getText().toString());
-                producto.cantidadDisponible = Integer.parseInt(etCantidad.getText().toString());
-                producto.umbralStockBajo = Integer.parseInt(etUmbral.getText().toString());
-                producto.telefonoProveedor = etTelefono.getText().toString();
-                producto.timestampCreacionMs = System.currentTimeMillis();
-                producto.timestampActualizacionMs = System.currentTimeMillis();
+            if (!validar()) return;
 
-                listener.onProductoGuardado(producto);
-                dialog.dismiss();
+            ProductoEntity producto = new ProductoEntity();
+            if (productoEditando != null) {
+                producto.id = productoEditando.id;
+                producto.timestampCreacionMs = productoEditando.timestampCreacionMs;
             }
+
+            producto.nombre = etNombre.getText().toString().trim();
+            producto.precio = parseDouble(etPrecio);
+            producto.cantidadDisponible = parseDouble(etCantidad);
+            producto.umbralStockBajo = parseDouble(etUmbral);
+            producto.unidadMedida = (UnidadMedida) spUnidadMedida.getSelectedItem();
+            producto.telefonoProveedor = etTelefono.getText().toString().trim();
+            producto.barcode = etBarcode.getText().toString().trim();
+            producto.fechaCaducidadMs = fechaCaducidadMs;
+
+            listener.onProductoGuardado(producto);
+            dialog.dismiss();
         });
 
         // Botón Cancelar
         view.findViewById(R.id.btnCancelar).setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
+    }
+
+    private void mostrarDatePicker() {
+        Calendar cal = Calendar.getInstance();
+        if (fechaCaducidadMs > 0) {
+            cal.setTimeInMillis(fechaCaducidadMs);
+        }
+
+        DatePickerDialog picker = new DatePickerDialog(
+                requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    Calendar seleccion = Calendar.getInstance();
+                    seleccion.set(year, month, dayOfMonth, 0, 0, 0);
+                    seleccion.set(Calendar.MILLISECOND, 0);
+                    fechaCaducidadMs = seleccion.getTimeInMillis();
+                    actualizarTextoFecha();
+                },
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+        );
+        picker.show();
+    }
+
+    private void actualizarTextoFecha() {
+        if (fechaCaducidadMs > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            tvFechaCaducidad.setText(sdf.format(new Date(fechaCaducidadMs)));
+        } else {
+            tvFechaCaducidad.setText("Sin fecha de caducidad (tocar para elegir)");
+        }
+    }
+
+    /** Convierte a double de forma segura; devuelve 0 si está vacío o mal escrito. */
+    private double parseDouble(EditText campo) {
+        String texto = campo.getText().toString().trim();
+        if (texto.isEmpty()) return 0;
+        try {
+            return Double.parseDouble(texto);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private boolean validar() {
@@ -95,6 +176,13 @@ public class ProductoDialogFragment extends DialogFragment {
         }
         if (etCantidad.getText().toString().trim().isEmpty()) {
             etCantidad.setError("Cantidad requerida");
+            return false;
+        }
+
+        UnidadMedida unidad = (UnidadMedida) spUnidadMedida.getSelectedItem();
+        double cantidad = parseDouble(etCantidad);
+        if (unidad == UnidadMedida.PZA && cantidad != Math.floor(cantidad)) {
+            etCantidad.setError("PZA no acepta decimales");
             return false;
         }
         return true;

@@ -1,6 +1,7 @@
 package com.changarrito.ui.activities;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,12 +38,31 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         // RecyclerView setup
         rvProductos.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ProductoAdapter(new ArrayList<>());
+        adapter.setOnProductoClickListener(new ProductoAdapter.OnProductoClickListener() {
+            @Override
+            public void onEditar(ProductoEntity producto) {
+                ProductoDialogFragment dialog =
+                        ProductoDialogFragment.newInstance(producto, ProductosActivity.this);
+                dialog.show(getSupportFragmentManager(), "ProductoDialog");
+            }
+
+            @Override
+            public void onEliminar(ProductoEntity producto) {
+                viewModel.eliminarProducto(producto);
+            }
+        });
         rvProductos.setAdapter(adapter);
 
         // Observar cambios en BD
         viewModel.getAllProductos().observe(this, productos -> {
-            adapter = new ProductoAdapter(productos);
-            rvProductos.setAdapter(adapter);
+            adapter.setProductos(productos);
+        });
+
+        // Observar errores de validación
+        viewModel.getErrorMessage().observe(this, error -> {
+            if (error != null && !error.isEmpty()) {
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            }
         });
 
         // FAB click listener - Abrir dialog agregar
@@ -54,12 +74,6 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
 
     @Override
     public void onProductoGuardado(ProductoEntity producto) {
-        if (producto.id == 0) {
-            // Nuevo producto
-            viewModel.insertarProducto(producto);
-        } else {
-            // Editar producto existente
-            viewModel.actualizarProducto(producto);
-        }
+        viewModel.guardarProducto(producto);
     }
 }

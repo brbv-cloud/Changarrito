@@ -9,16 +9,20 @@ import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.entity.ProductoEntity;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProductoRepository {
 
     private ProductoDAO productoDAO;
     private LiveData<List<ProductoEntity>> allProductos;
+    private ExecutorService executorService;
 
     public ProductoRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         productoDAO = db.productoDao();
         allProductos = productoDAO.getAllProductos();
+        executorService = Executors.newFixedThreadPool(4);
     }
 
     public LiveData<List<ProductoEntity>> getAllProductos() {
@@ -30,18 +34,30 @@ public class ProductoRepository {
     }
 
     public void insert(ProductoEntity producto) {
-        new Thread(() -> productoDAO.insert(producto)).start();
+        executorService.execute(() -> productoDAO.insert(producto));
+    }
+
+    public void insertAll(List<ProductoEntity> productos) {
+        executorService.execute(() -> productoDAO.insertAll(productos));
     }
 
     public void update(ProductoEntity producto) {
-        new Thread(() -> productoDAO.update(producto)).start();
+        executorService.execute(() -> productoDAO.update(producto));
     }
 
     public void delete(ProductoEntity producto) {
-        new Thread(() -> productoDAO.delete(producto)).start();
+        executorService.execute(() -> productoDAO.delete(producto));
     }
 
     public LiveData<List<ProductoEntity>> search(String nombre) {
         return productoDAO.searchProductoByName(nombre);
+    }
+
+    public LiveData<ProductoEntity> getProductoByBarcode(String barcode) {
+        return productoDAO.getProductoByBarcode(barcode);
+    }
+
+    public LiveData<List<ProductoEntity>> getProductosProximosAVencer(long ahora, long limite) {
+        return productoDAO.getProductosProximosAVencer(ahora, limite);
     }
 }

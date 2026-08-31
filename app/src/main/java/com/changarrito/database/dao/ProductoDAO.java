@@ -17,6 +17,9 @@ public interface ProductoDAO {
     @Insert
     long insert(ProductoEntity producto);
 
+    @Insert
+    void insertAll(List<ProductoEntity> productos);
+
     @Update
     int update(ProductoEntity producto);
 
@@ -31,4 +34,10 @@ public interface ProductoDAO {
 
     @Query("SELECT * FROM producto WHERE nombre LIKE '%' || :nombre || '%'")
     LiveData<List<ProductoEntity>> searchProductoByName(String nombre);
+
+    @Query("SELECT * FROM producto WHERE barcode = :barcode LIMIT 1")
+    LiveData<ProductoEntity> getProductoByBarcode(String barcode);
+
+    @Query("SELECT * FROM producto WHERE fechaCaducidadMs BETWEEN :ahora AND :limite")
+    LiveData<List<ProductoEntity>> getProductosProximosAVencer(long ahora, long limite);
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.repository.ProductoRepository;
@@ -15,6 +16,7 @@ public class ProductoViewModel extends AndroidViewModel {
 
     private ProductoRepository repository;
     private LiveData<List<ProductoEntity>> allProductos;
+    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     public ProductoViewModel(@NonNull Application application) {
         super(application);
@@ -26,12 +28,27 @@ public class ProductoViewModel extends AndroidViewModel {
         return allProductos;
     }
 
-    public void insertarProducto(ProductoEntity producto) {
-        repository.insert(producto);
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 
-    public void actualizarProducto(ProductoEntity producto) {
-        repository.update(producto);
+    public boolean guardarProducto(ProductoEntity producto) {
+        String error = ProductoValidator.validar(producto);
+        if (error != null) {
+            errorMessage.setValue(error);
+            return false;
+        }
+
+        long ahora = System.currentTimeMillis();
+        producto.timestampActualizacionMs = ahora;
+
+        if (producto.id == 0) {
+            producto.timestampCreacionMs = ahora;
+            repository.insert(producto);
+        } else {
+            repository.update(producto);
+        }
+        return true;
     }
 
     public void eliminarProducto(ProductoEntity producto) {
@@ -40,5 +57,9 @@ public class ProductoViewModel extends AndroidViewModel {
 
     public LiveData<List<ProductoEntity>> buscar(String nombre) {
         return repository.search(nombre);
+    }
+
+    public LiveData<ProductoEntity> getProductoByBarcode(String barcode) {
+        return repository.getProductoByBarcode(barcode);
     }
 }
