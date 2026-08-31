@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,7 +61,6 @@ public class ProductoDialogFragment extends DialogFragment {
         spUnidadMedida = view.findViewById(R.id.spUnidadMedida);
         tvFechaCaducidad = view.findViewById(R.id.tvFechaCaducidad);
 
-        // Llenar el spinner con las unidades de medida
         ArrayAdapter<UnidadMedida> unidadAdapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
@@ -71,35 +69,45 @@ public class ProductoDialogFragment extends DialogFragment {
         unidadAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spUnidadMedida.setAdapter(unidadAdapter);
 
-        // Selector de fecha de caducidad
+        // Por defecto PZA: casi todo lo que trae código de barras se vende por pieza.
+        // El granel (KG/LT/GR) rara vez viene empaquetado con código.
+        spUnidadMedida.setSelection(unidadAdapter.getPosition(UnidadMedida.PZA));
+
         tvFechaCaducidad.setOnClickListener(v -> mostrarDatePicker());
 
-        // Si es edición, llenar campos
         if (productoEditando != null) {
-            etNombre.setText(productoEditando.nombre);
-            etPrecio.setText(String.valueOf(productoEditando.precio));
-            etCantidad.setText(String.valueOf(productoEditando.cantidadDisponible));
-            etUmbral.setText(String.valueOf(productoEditando.umbralStockBajo));
-            etTelefono.setText(productoEditando.telefonoProveedor);
-            etBarcode.setText(productoEditando.barcode);
-
-            if (productoEditando.unidadMedida != null) {
-                spUnidadMedida.setSelection(unidadAdapter.getPosition(productoEditando.unidadMedida));
+            if (productoEditando.nombre != null) {
+                etNombre.setText(productoEditando.nombre);
+            }
+            if (productoEditando.barcode != null) {
+                etBarcode.setText(productoEditando.barcode);
             }
 
-            fechaCaducidadMs = productoEditando.fechaCaducidadMs;
-            actualizarTextoFecha();
+            boolean esEdicionReal = productoEditando.id != 0;
+
+            if (esEdicionReal) {
+                etPrecio.setText(String.valueOf(productoEditando.precio));
+                etCantidad.setText(String.valueOf(productoEditando.cantidadDisponible));
+                etUmbral.setText(String.valueOf(productoEditando.umbralStockBajo));
+                etTelefono.setText(productoEditando.telefonoProveedor);
+
+                if (productoEditando.unidadMedida != null) {
+                    spUnidadMedida.setSelection(unidadAdapter.getPosition(productoEditando.unidadMedida));
+                }
+
+                fechaCaducidadMs = productoEditando.fechaCaducidadMs;
+                actualizarTextoFecha();
+            }
         }
 
         builder.setView(view);
         AlertDialog dialog = builder.create();
 
-        // Botón Guardar
         view.findViewById(R.id.btnGuardar).setOnClickListener(v -> {
             if (!validar()) return;
 
             ProductoEntity producto = new ProductoEntity();
-            if (productoEditando != null) {
+            if (productoEditando != null && productoEditando.id != 0) {
                 producto.id = productoEditando.id;
                 producto.timestampCreacionMs = productoEditando.timestampCreacionMs;
             }
@@ -117,7 +125,6 @@ public class ProductoDialogFragment extends DialogFragment {
             dialog.dismiss();
         });
 
-        // Botón Cancelar
         view.findViewById(R.id.btnCancelar).setOnClickListener(v -> dialog.dismiss());
 
         return dialog;
@@ -154,7 +161,6 @@ public class ProductoDialogFragment extends DialogFragment {
         }
     }
 
-    /** Convierte a double de forma segura; devuelve 0 si está vacío o mal escrito. */
     private double parseDouble(EditText campo) {
         String texto = campo.getText().toString().trim();
         if (texto.isEmpty()) return 0;

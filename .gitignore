@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+dump_*.csv.gz
+generar_catalogo.py

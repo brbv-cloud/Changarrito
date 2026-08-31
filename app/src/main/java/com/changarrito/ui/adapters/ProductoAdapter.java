@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.changarrito.R;
 import com.changarrito.database.entity.ProductoEntity;
-import com.changarrito.database.entity.UnidadMedida;
 
 import java.util.List;
 import java.util.Locale;
@@ -65,18 +64,23 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     }
 
     /**
-     * Formatea la cantidad según su unidad:
-     * PZA muestra entero ("12 PZA"), granel muestra decimales ("3.5 KG").
+     * Muestra decimales solo cuando existen:
+     * 10.0 → "10 LT", 0.750 → "0.75 KG", 12.0 → "12 PZA"
      */
     private String formatearCantidad(ProductoEntity producto) {
         String unidad = producto.unidadMedida != null
                 ? producto.unidadMedida.name()
                 : "";
+        double cantidad = producto.cantidadDisponible;
 
-        if (producto.unidadMedida == UnidadMedida.PZA) {
-            return String.format(Locale.getDefault(), "%.0f %s", producto.cantidadDisponible, unidad);
+        if (cantidad == Math.floor(cantidad)) {
+            return String.format(Locale.getDefault(), "%.0f %s", cantidad, unidad);
         }
-        return String.format(Locale.getDefault(), "%.3f %s", producto.cantidadDisponible, unidad);
+
+        String texto = String.format(Locale.getDefault(), "%.3f", cantidad)
+                .replaceAll("0+$", "")
+                .replaceAll("\\.$", "");
+        return texto + " " + unidad;
     }
 
     @Override
