@@ -15,35 +15,46 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.changarrito.R;
+import com.changarrito.database.CatalogoBarcodesHelper;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.scanner.OpenFoodFactsClient;
 import com.changarrito.scanner.ScannerActivity;
 import com.changarrito.ui.adapters.ProductoAdapter;
 import com.changarrito.ui.fragments.ProductoDialogFragment;
+import com.changarrito.utils.InsetsUtil;
 import com.changarrito.viewmodel.ProductoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProductosActivity extends AppCompatActivity implements ProductoDialogFragment.ProductoDialogListener {
 
     private RecyclerView rvProductos;
-    private FloatingActionButton fabAgregarProducto, fabEscanear;
+    private FloatingActionButton fabAgregarProducto, fabEscanear, fabVender;
     private ProductoAdapter adapter;
     private ProductoViewModel viewModel;
 
     private ActivityResultLauncher<Intent> scannerLauncher;
+    private ExecutorService catalogoExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
 
+        // Evita que la lista arranque debajo de la barra de notificaciones y que los
+        // FAB queden tapados por la barra de navegación en equipos edge-to-edge (Android 15+).
+        InsetsUtil.aplicarPaddingBarrasDelSistema(findViewById(R.id.rootProductos), true, true);
+
         rvProductos = findViewById(R.id.rvProductos);
         fabAgregarProducto = findViewById(R.id.fabAgregarProducto);
         fabEscanear = findViewById(R.id.fabEscanear);
+        fabVender = findViewById(R.id.fabVender);
 
         viewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        catalogoExecutor = Executors.newSingleThreadExecutor();
 
         scannerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -87,12 +98,18 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         fabEscanear.setOnClickListener(v ->
                 scannerLauncher.launch(new Intent(this, ScannerActivity.class))
         );
+
+        fabVender.setOnClickListener(v ->
+                startActivity(new Intent(this, VentaActivity.class))
+        );
     }
 
     /**
-     * 1. Busca el código en la BD local (offline, instantáneo).
-     * 2. Si no existe, intenta enriquecer el nombre desde Open Food Facts (si hay internet).
-     * 3. Si no hay internet o no lo encuentra, abre el formulario solo con el código.
+     * 1. Busca el código en la BD local de inventario (offline, instantáneo).
+     * 2. Si no existe ahí, busca en el catálogo offline precargado (offline, ~15,000 productos).
+     * 3. Si tampoco está ahí, intenta enriquecer el nombre desde Open Food Facts en línea
+     *    (único paso que requiere internet, y solo como último recurso).
+     * 4. Si nada de lo anterior lo identifica, abre el formulario solo con el código.
      */
     private void manejarCodigoEscaneado(String codigo) {
         LiveData<ProductoEntity> busqueda = viewModel.getProductoByBarcode(codigo);
@@ -109,14 +126,37 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
                             Toast.LENGTH_SHORT).show();
                     abrirDialogo(producto);
                 } else {
-                    buscarEnLineaYAbrir(codigo);
+                    buscarEnCatalogoOfflineYAbrir(codigo);
                 }
             }
         });
     }
 
+    private void buscarEnCatalogoOfflineYAbrir(String codigo) {
+        catalogoExecutor.execute(() -> {
+            String nombre = CatalogoBarcodesHelper
+                    .getInstance(getApplicationContext())
+                    .buscarNombre(codigo);
+
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+
+                if (nombre != null) {
+                    ProductoEntity nuevo = new ProductoEntity();
+                    nuevo.barcode = codigo;
+                    nuevo.nombre = nombre;
+                    Toast.makeText(this, "Identificado (catálogo offline): " + nombre,
+                            Toast.LENGTH_SHORT).show();
+                    abrirDialogo(nuevo);
+                } else {
+                    buscarEnLineaYAbrir(codigo);
+                }
+            });
+        });
+    }
+
     private void buscarEnLineaYAbrir(String codigo) {
-        Toast.makeText(this, "Buscando producto...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Buscando producto en línea...", Toast.LENGTH_SHORT).show();
 
         OpenFoodFactsClient.buscarNombre(codigo, nombre -> {
             ProductoEntity nuevo = new ProductoEntity();
@@ -133,6 +173,14 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
 
             abrirDialogo(nuevo);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (catalogoExecutor != null) {
+            catalogoExecutor.shutdown();
+        }
     }
 
     private void abrirDialogo(ProductoEntity producto) {

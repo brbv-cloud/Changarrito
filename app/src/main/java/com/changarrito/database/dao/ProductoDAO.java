@@ -32,6 +32,14 @@ public interface ProductoDAO {
     @Query("SELECT * FROM producto WHERE id = :id")
     LiveData<ProductoEntity> getProductoById(int id);
 
+    /**
+     * Versión síncrona (sin LiveData) para usar dentro de una transacción en
+     * un hilo de fondo, ej. VentaRepository.registrarVenta(). Nunca llamar
+     * desde el hilo principal.
+     */
+    @Query("SELECT * FROM producto WHERE id = :id")
+    ProductoEntity getProductoByIdSync(int id);
+
     @Query("SELECT * FROM producto WHERE nombre LIKE '%' || :nombre || '%'")
     LiveData<List<ProductoEntity>> searchProductoByName(String nombre);
 

@@ -36,6 +36,12 @@
             android:theme="@style/Theme.Changarrito" />
 
         <activity
+            android:name=".ui.activities.VentaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Changarrito" />
