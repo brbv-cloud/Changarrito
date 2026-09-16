@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.changarrito.R;
 import com.changarrito.database.entity.ProductoEntity;
+import com.changarrito.utils.EstadoStock;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,16 @@ public class ProductoVentaAdapter extends RecyclerView.Adapter<ProductoVentaAdap
         holder.tvNombre.setText(producto.nombre);
         holder.tvPrecio.setText(String.format(Locale.getDefault(), "$%.2f", producto.precio));
         holder.tvDisponible.setText("Disponible: " + formatearCantidad(producto));
+
+        int colorEstado = EstadoStock.color(holder.itemView.getContext(), producto);
+        holder.tvDisponible.setTextColor(colorEstado);
+        if (holder.itemView instanceof MaterialCardView) {
+            MaterialCardView card = (MaterialCardView) holder.itemView;
+            card.setStrokeColor(colorEstado);
+            boolean requiereAtencion = EstadoStock.calcular(producto) != EstadoStock.Nivel.NORMAL;
+            int strokeDimen = requiereAtencion ? R.dimen.card_stroke_width_alerta : R.dimen.card_stroke_width;
+            card.setStrokeWidth(holder.itemView.getResources().getDimensionPixelSize(strokeDimen));
+        }
 
         View.OnClickListener abrir = v -> {
             if (listener != null) listener.onAgregar(producto);

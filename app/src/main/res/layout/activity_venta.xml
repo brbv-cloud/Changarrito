@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootVenta"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_bg_alt"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="8dp"
         android:gravity="center_vertical">
 
         <EditText
@@ -16,17 +19,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_buscador"
             android:padding="12dp"
             android:hint="Buscar producto..."
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/color_slate_dark"
+            android:textColorHint="@color/color_slate_medium" />
 
         <ImageButton
             android:id="@+id/btnEscanearVenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Escanear código de barras"
+            android:contentDescription="Escanear codigo de barras"
+            android:tint="@color/color_primary"
             android:src="@android:drawable/ic_menu_camera" />
 
     </LinearLayout>
@@ -41,14 +48,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#CCCCCC" />
+        android:background="@color/color_card_stroke" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:background="@color/color_bg"
+        android:padding="10dp"
         android:text="Carrito"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/color_slate_dark" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCarrito"
@@ -60,24 +69,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:background="@color/color_bg"
+        android:elevation="8dp"
+        android:padding="@dimen/card_padding">
 
         <TextView
             android:id="@+id/tvTotal"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginBottom="8dp"
             android:text="Total: $0.00"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_slate_dark" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegistrarVenta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registrar Venta" />
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            app:backgroundTint="@color/color_primary"
+            android:text="Registrar Venta"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

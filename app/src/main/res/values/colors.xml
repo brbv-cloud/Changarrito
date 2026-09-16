@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
+    <!-- Paleta "La Tiendita Clasica" -->
+    <color name="color_primary">#FF0D9488</color>
+    <color name="color_primary_variant">#FF0F766E</color>
+    <color name="color_amber">#FFF59E0B</color>
+
+    <color name="color_slate_dark">#FF334155</color>
+    <color name="color_slate_medium">#FF475569</color>
+
+    <color name="color_bg">#FFFDFDFD</color>
+    <color name="color_bg_alt">#FFF4F4F5</color>
+    <color name="color_card_stroke">#FFE4E4E7</color>
+
+    <!-- Semaforo de estado de stock -->
+    <color name="status_verde">#FF10B981</color>
+    <color name="status_ambar">#FFF59E0B</color>
+    <color name="status_rojo">#FFEF4444</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
 </resources>
