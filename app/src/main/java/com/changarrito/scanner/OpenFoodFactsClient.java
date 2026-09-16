@@ -113,8 +113,13 @@ public class OpenFoodFactsClient {
     }
 
     /**
-     * Compara ignorando mayúsculas, espacios y acentos ligeros,
-     * para que "500ml" y "500 ml" cuenten como lo mismo.
+     * Compara ignorando mayúsculas, espacios, puntuación y guiones,
+     * para que "500ml"/"500 ml" y "Coca-Cola"/"Coca Cola" cuenten como lo mismo.
+     *
+     * FIX: antes el guion no se quitaba en normalizar(), asi que una marca como
+     * "Coca-Cola" (con guion, formato tipico de Open Food Facts) nunca hacia match
+     * contra un product_name como "Coca Cola 600ml" (sin guion), y el nombre quedaba
+     * duplicado: "Coca Cola Coca Cola 600ml".
      */
     private static boolean contieneTexto(String texto, String fragmento) {
         String a = normalizar(texto);
@@ -123,6 +128,6 @@ public class OpenFoodFactsClient {
     }
 
     private static String normalizar(String s) {
-        return s.toLowerCase(Locale.ROOT).replaceAll("[\\s.,]", "");
+        return s.toLowerCase(Locale.ROOT).replaceAll("[\\s.,\\-]", "");
     }
 }
