@@ -27,6 +27,32 @@
         android:src="@android:drawable/ic_menu_send" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAlertas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="232dp"
+        android:contentDescription="Alertas"
+        app:backgroundTint="@color/color_bg"
+        app:tint="@color/status_rojo"
+        android:src="@android:drawable/ic_dialog_alert" />
+
+    <TextView
+        android:id="@+id/tvBadgeAlertas"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="272dp"
+        android:background="@drawable/bg_badge"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEscanear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

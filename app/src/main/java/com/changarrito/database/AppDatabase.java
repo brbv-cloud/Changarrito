@@ -8,8 +8,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.changarrito.database.dao.AlertaDAO;
 import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.dao.VentaDAO;
+import com.changarrito.database.entity.AlertaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.VentaEntity;
 
@@ -17,13 +19,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * v2 (Sprint 2): se agregó VentaEntity. Se usa fallbackToDestructiveMigration()
+ * v3 (Sprint 3): se agregó AlertaEntity. Se usa fallbackToDestructiveMigration()
  * a propósito: el proyecto todavía no está lanzado (sin usuarios reales con datos
  * que proteger), así que no vale la pena escribir una Migration formal para cada
  * cambio de esquema durante el desarrollo activo. Antes del release final (Semana 6)
  * esto debe reemplazarse por una Migration real si ya hay datos de demo que conservar.
  */
-@Database(entities = {ProductoEntity.class, VentaEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {ProductoEntity.class, VentaEntity.class, AlertaEntity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -32,6 +34,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ProductoDAO productoDao();
 
     public abstract VentaDAO ventaDao();
+
+    public abstract AlertaDAO alertaDao();
 
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una

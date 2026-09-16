@@ -59,6 +59,9 @@ dependencies {
     // ML Kit - lectura de códigos de barras 100% on-device
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
 
+    // WorkManager (Sprint 3: revision periodica de alertas en segundo plano)
+    implementation 'androidx.work:work-runtime:2.8.1'
+
     // Testing unitario (JVM)
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'

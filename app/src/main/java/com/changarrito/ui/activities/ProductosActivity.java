@@ -1,18 +1,26 @@
 package com.changarrito.ui.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.changarrito.R;
 import com.changarrito.database.CatalogoBarcodesHelper;
@@ -22,21 +30,27 @@ import com.changarrito.scanner.ScannerActivity;
 import com.changarrito.ui.adapters.ProductoAdapter;
 import com.changarrito.ui.fragments.ProductoDialogFragment;
 import com.changarrito.utils.InsetsUtil;
+import com.changarrito.viewmodel.AlertaViewModel;
 import com.changarrito.viewmodel.ProductoViewModel;
+import com.changarrito.workers.AlertaCheckWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ProductosActivity extends AppCompatActivity implements ProductoDialogFragment.ProductoDialogListener {
 
     private RecyclerView rvProductos;
-    private FloatingActionButton fabAgregarProducto, fabEscanear, fabVender;
+    private FloatingActionButton fabAgregarProducto, fabEscanear, fabVender, fabAlertas;
+    private TextView tvBadgeAlertas;
     private ProductoAdapter adapter;
     private ProductoViewModel viewModel;
+    private AlertaViewModel alertaViewModel;
 
     private ActivityResultLauncher<Intent> scannerLauncher;
+    private ActivityResultLauncher<String> permisoNotificacionesLauncher;
     private ExecutorService catalogoExecutor;
 
     @Override
@@ -52,8 +66,11 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         fabAgregarProducto = findViewById(R.id.fabAgregarProducto);
         fabEscanear = findViewById(R.id.fabEscanear);
         fabVender = findViewById(R.id.fabVender);
+        fabAlertas = findViewById(R.id.fabAlertas);
+        tvBadgeAlertas = findViewById(R.id.tvBadgeAlertas);
 
         viewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        alertaViewModel = new ViewModelProvider(this).get(AlertaViewModel.class);
         catalogoExecutor = Executors.newSingleThreadExecutor();
 
         scannerLauncher = registerForActivityResult(
@@ -67,6 +84,16 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
                     }
                 }
         );
+
+        // Android 13+ requiere permiso en tiempo de ejecucion para mostrar notificaciones
+        // del sistema (las alertas de stock bajo/vencimiento). Si el usuario lo niega, la
+        // app sigue funcionando: las alertas se siguen viendo en la pantalla de Alertas,
+        // solo no llega la notificación (ver NotificacionUtil).
+        permisoNotificacionesLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                concedido -> { /* nada que hacer en ningún caso */ }
+        );
+        pedirPermisoNotificacionesSiHaceFalta();
 
         rvProductos.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ProductoAdapter(new ArrayList<>());
@@ -102,6 +129,48 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         fabVender.setOnClickListener(v ->
                 startActivity(new Intent(this, VentaActivity.class))
         );
+
+        fabAlertas.setOnClickListener(v ->
+                startActivity(new Intent(this, AlertasActivity.class))
+        );
+
+        alertaViewModel.getConteoAlertasActivas().observe(this, conteo -> {
+            int cantidad = conteo != null ? conteo : 0;
+            if (cantidad > 0) {
+                tvBadgeAlertas.setVisibility(android.view.View.VISIBLE);
+                tvBadgeAlertas.setText(cantidad > 99 ? "99+" : String.valueOf(cantidad));
+            } else {
+                tvBadgeAlertas.setVisibility(android.view.View.GONE);
+            }
+        });
+
+        // Revisa alertas cada vez que se abre la app, sin esperar a que corra la tarea
+        // periódica de WorkManager (que es cada 24h, ver programarRevisionPeriodicaDeAlertas()).
+        alertaViewModel.verificarAlertasAhora();
+        programarRevisionPeriodicaDeAlertas();
+    }
+
+    private void pedirPermisoNotificacionesSiHaceFalta() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                        != PackageManager.PERMISSION_GRANTED) {
+            permisoNotificacionesLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
+    }
+
+    /**
+     * Registra la revisión de alertas (stock bajo / próximo vencimiento) como trabajo
+     * periódico de WorkManager, para que corra aunque el usuario no abra la app en
+     * varios días. ExistingPeriodicWorkPolicy.KEEP: si ya estaba programado de una
+     * apertura anterior, no lo reprograma desde cero cada vez.
+     */
+    private void programarRevisionPeriodicaDeAlertas() {
+        PeriodicWorkRequest revision = new PeriodicWorkRequest.Builder(
+                AlertaCheckWorker.class, 24, TimeUnit.HOURS
+        ).build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "revision_alertas", ExistingPeriodicWorkPolicy.KEEP, revision);
     }
 
     /**

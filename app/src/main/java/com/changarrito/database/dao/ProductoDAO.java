@@ -29,6 +29,14 @@ public interface ProductoDAO {
     @Query("SELECT * FROM producto")
     LiveData<List<ProductoEntity>> getAllProductos();
 
+    /**
+     * Version sincrona (sin LiveData) para AlertaRepository.verificarAlertasSync(),
+     * que recorre todos los productos en un hilo de fondo (WorkManager o el
+     * ExecutorService del repository). Nunca llamar desde el hilo principal.
+     */
+    @Query("SELECT * FROM producto")
+    List<ProductoEntity> getAllProductosSync();
+
     @Query("SELECT * FROM producto WHERE id = :id")
     LiveData<ProductoEntity> getProductoById(int id);
 
