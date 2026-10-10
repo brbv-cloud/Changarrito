@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -61,6 +62,12 @@ dependencies {
 
     // WorkManager (Sprint 3: revision periodica de alertas en segundo plano)
     implementation 'androidx.work:work-runtime:2.8.1'
+
+    // Firebase (Sprint 5: login con Authentication + respaldo en Firestore)
+    // El BoM fija versiones compatibles entre si; por eso auth y firestore van sin version.
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+    implementation libs.firebase.firestore
 
     // Testing unitario (JVM)
     testImplementation 'junit:junit:4.13.2'

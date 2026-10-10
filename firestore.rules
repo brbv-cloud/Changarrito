@@ -1,0 +1,22 @@
+rules_version = '2';
+
+// Reglas de seguridad de Cloud Firestore para Changarrito.
+// Publicadas en la consola de Firebase (proyecto changarrito-a4552) el 10/10/2026.
+// Si se cambian aqui, hay que volver a publicarlas en la consola (o con `firebase deploy --only firestore:rules`).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Cada negocio vive en negocios/{uid}: solo su dueño, con sesión
+    // iniciada y correo verificado, puede leer o escribir ahí.
+    match /negocios/{uid}/{documento=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == uid
+                         && request.auth.token.email_verified == true;
+    }
+
+    // Todo lo demás queda cerrado.
+    match /{documento=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "692143922256",
+    "project_id": "changarrito-a4552",
+    "storage_bucket": "changarrito-a4552.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692143922256:android:0ef3a34f8107a1ad288555",
+        "android_client_info": {
+          "package_name": "com.changarrito"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692143922256-4d1agn363d0kt5ns6seagkld7kpqs5h0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.changarrito",
+            "certificate_hash": "10721b984d45429934a718923c7350f4367f1985"
+          }
+        },
+        {
+          "client_id": "692143922256-igkgkm43ocr4td2vkj0rrvqjq8fpq8rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeISx1gq_j7TdMZcC_ml27e1Ti1tvYYwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692143922256-igkgkm43ocr4td2vkj0rrvqjq8fpq8rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
