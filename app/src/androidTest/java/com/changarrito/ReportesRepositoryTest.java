@@ -86,7 +86,6 @@ public class ReportesRepositoryTest {
         v.precioUnitarioVenta = total;
         v.total = total;
         v.timestampVentaMs = timestampMs;
-        v.usuarioRegistro = "local";
         ventaDao.insert(v);
     }
 

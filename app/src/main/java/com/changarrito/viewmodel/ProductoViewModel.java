@@ -52,7 +52,7 @@ public class ProductoViewModel extends AndroidViewModel {
     }
 
     public void eliminarProducto(ProductoEntity producto) {
-        repository.delete(producto);
+        repository.desactivar(producto);
     }
 
     public LiveData<List<ProductoEntity>> buscar(String nombre) {
@@ -62,4 +62,4 @@ public class ProductoViewModel extends AndroidViewModel {
     public LiveData<ProductoEntity> getProductoByBarcode(String barcode) {
         return repository.getProductoByBarcode(barcode);
     }
-}
+}

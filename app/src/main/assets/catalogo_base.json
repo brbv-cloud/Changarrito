@@ -9,8 +9,8 @@
   { "nombre": "Detergente a granel", "precio": 35.00, "unidadMedida": "KG", "umbralStockBajo": 2 },
   { "nombre": "Chile en polvo", "precio": 90.00, "unidadMedida": "GR", "umbralStockBajo": 100 },
   { "nombre": "Canela", "precio": 120.00, "unidadMedida": "GR", "umbralStockBajo": 100 },
-  { "nombre": "Aceite a granel", "precio": 45.00, "unidadMedida": "LT", "umbralStockBajo": 3 },
-  { "nombre": "Cloro a granel", "precio": 26.00, "unidadMedida": "LT", "umbralStockBajo": 3 },
+  { "nombre": "Aceite a granel", "precio": 48.00, "unidadMedida": "KG", "umbralStockBajo": 3 },
+  { "nombre": "Cloro a granel", "precio": 26.00, "unidadMedida": "KG", "umbralStockBajo": 3 },
   { "nombre": "Leche entera 1L", "precio": 27.00, "unidadMedida": "PZA", "umbralStockBajo": 6 },
   { "nombre": "Leche entera 1.5L", "precio": 38.00, "unidadMedida": "PZA", "umbralStockBajo": 4 },
   { "nombre": "Leche deslactosada 1L", "precio": 32.00, "unidadMedida": "PZA", "umbralStockBajo": 4 },
@@ -29,4 +29,4 @@
   { "nombre": "Papel higiénico 4 rollos", "precio": 32.00, "unidadMedida": "PZA", "umbralStockBajo": 6 },
   { "nombre": "Servilletas 100 pzas", "precio": 20.00, "unidadMedida": "PZA", "umbralStockBajo": 5 },
   { "nombre": "Cerveza lata 355ml", "precio": 24.00, "unidadMedida": "PZA", "umbralStockBajo": 12 }
-]
+]

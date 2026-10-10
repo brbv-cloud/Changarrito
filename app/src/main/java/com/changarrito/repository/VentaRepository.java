@@ -56,7 +56,7 @@ public class VentaRepository {
     }
 
     /**
-     * $50 deseados / $precio por unidad = cuántas unidades (KG/LT/GR) le corresponden
+     * $50 deseados / $precio por unidad = cuántas unidades (KG/GR/M) le corresponden
      * al cliente. Usa el precio en memoria del producto ya cargado en la UI: no
      * necesita ir a la BD.
      */
@@ -94,6 +94,10 @@ public class VentaRepository {
                 resultado[0] = ResultadoVenta.error("El producto ya no existe.");
                 return;
             }
+            if (!producto.activo) {
+                resultado[0] = ResultadoVenta.error(producto.nombre + " ya no está en el inventario.");
+                return;
+            }
             if (cantidadVendida <= 0) {
                 resultado[0] = ResultadoVenta.error("La cantidad debe ser mayor a 0.");
                 return;
@@ -123,9 +127,10 @@ public class VentaRepository {
             venta.cantidadVendida = cantidadVendida;
             venta.unidadMedida = producto.unidadMedida;
             venta.precioUnitarioVenta = producto.precio;
+            venta.costoUnitarioVenta = producto.costoCompra; // v5: base para reportar ganancias
             venta.total = producto.precio * cantidadVendida;
             venta.timestampVentaMs = System.currentTimeMillis();
-            venta.usuarioRegistro = "local"; // sin multi-usuario todavía (roadmap v1.2)
+            venta.idUsuario = null; // TODO Sprint 6: id del usuario con el turno abierto
             ventaDAO.insert(venta);
 
             resultado[0] = ResultadoVenta.ok();

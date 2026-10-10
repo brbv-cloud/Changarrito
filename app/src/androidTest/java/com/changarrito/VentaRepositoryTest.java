@@ -228,6 +228,56 @@ public class VentaRepositoryTest {
         assertEquals(2, ventas.size());
     }
 
+    // ---------- v5: costo, borrado suave y llave foránea ----------
+
+    @Test
+    public void venta_guarda_el_costo_del_momento() throws Exception {
+        ProductoEntity p = nuevoProducto("Cuaderno", 37.5, 10, UnidadMedida.PZA);
+        p.costoCompra = 25.0;
+        int id = (int) productoDao.insert(p);
+
+        assertTrue(registrarYEsperar(id, 2).exito);
+
+        // Después sube el costo: la venta ya hecha debe conservar el costo viejo.
+        ProductoEntity actualizado = productoDao.getProductoByIdSync(id);
+        actualizado.costoCompra = 28.0;
+        productoDao.update(actualizado);
+
+        VentaEntity venta = getValor(db.ventaDao().getAllVentas()).get(0);
+        assertEquals(25.0, venta.costoUnitarioVenta, 0.001);
+        assertEquals(37.5, venta.precioUnitarioVenta, 0.001);
+    }
+
+    @Test
+    public void no_se_puede_vender_un_producto_desactivado() throws Exception {
+        int id = (int) productoDao.insert(nuevoProducto("Arroz", 20.0, 10, UnidadMedida.KG));
+        productoDao.desactivar(id, System.currentTimeMillis());
+
+        ResultadoVenta r = registrarYEsperar(id, 1);
+
+        assertFalse(r.exito);
+        assertTrue(getValor(db.ventaDao().getAllVentas()).isEmpty());
+        assertEquals(10, productoDao.getProductoByIdSync(id).cantidadDisponible, 0.0001);
+    }
+
+    @Test
+    public void desactivar_un_producto_con_ventas_conserva_sus_ventas() throws Exception {
+        int id = (int) productoDao.insert(nuevoProducto("Arroz", 20.0, 10, UnidadMedida.KG));
+        registrarYEsperar(id, 1);
+
+        productoDao.desactivar(id, System.currentTimeMillis());
+
+        assertEquals(1, getValor(db.ventaDao().getAllVentas()).size());
+    }
+
+    @Test(expected = android.database.sqlite.SQLiteConstraintException.class)
+    public void borrar_fisicamente_un_producto_con_ventas_lo_impide_la_llave_foranea() throws Exception {
+        int id = (int) productoDao.insert(nuevoProducto("Arroz", 20.0, 10, UnidadMedida.KG));
+        registrarYEsperar(id, 1);
+
+        productoDao.delete(productoDao.getProductoByIdSync(id));
+    }
+
     @Test
     public void calcular_cantidad_por_importe_da_resultado_correcto() {
         ProductoEntity producto = nuevoProducto("Jamón", 100.0, 5, UnidadMedida.KG);

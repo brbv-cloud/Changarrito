@@ -1,6 +1,7 @@
 package com.changarrito;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -114,10 +115,68 @@ public class ProductoDAOTest {
 
     @Test
     public void insertar_conserva_unidad_de_medida() throws Exception {
-        dao.insert(nuevoProducto("Aceite", 3.0, UnidadMedida.LT));
+        dao.insert(nuevoProducto("Cable calibre 12", 3.0, UnidadMedida.M));
 
         List<ProductoEntity> todos = getValor(dao.getAllProductos());
-        assertEquals(UnidadMedida.LT, todos.get(0).unidadMedida);
+        assertEquals(UnidadMedida.M, todos.get(0).unidadMedida);
+    }
+
+    // ---------- v5: borrado suave, costo y categorías ----------
+
+    @Test
+    public void desactivar_oculta_el_producto_pero_no_lo_borra() throws Exception {
+        long id = dao.insert(nuevoProducto("Sal", 4.0, UnidadMedida.KG));
+
+        int filas = dao.desactivar((int) id, System.currentTimeMillis());
+        assertEquals(1, filas);
+
+        assertTrue(getValor(dao.getAllProductos()).isEmpty());
+        assertTrue(dao.getAllProductosSync().isEmpty());
+        assertTrue(getValor(dao.searchProductoByName("Sal")).isEmpty());
+
+        ProductoEntity sigueAhi = dao.getProductoByIdSync((int) id);
+        assertNotNull(sigueAhi);
+        assertFalse(sigueAhi.activo);
+        assertEquals(1, dao.getTodosIncluyendoInactivosSync().size());
+    }
+
+    @Test
+    public void producto_nuevo_es_activo_por_defecto() throws Exception {
+        long id = dao.insert(nuevoProducto("Arroz", 5.0, UnidadMedida.KG));
+        assertTrue(dao.getProductoByIdSync((int) id).activo);
+    }
+
+    @Test
+    public void guarda_costo_margen_y_categoria() throws Exception {
+        ProductoEntity p = nuevoProducto("Cuaderno", 10, UnidadMedida.PZA);
+        p.costoCompra = 25.0;
+        p.margenPorcentaje = 50.0;
+        p.precio = 37.5;
+        p.categoria = "Cuadernos";
+        long id = dao.insert(p);
+
+        ProductoEntity leido = dao.getProductoByIdSync((int) id);
+        assertEquals(25.0, leido.costoCompra, 0.001);
+        assertEquals(50.0, leido.margenPorcentaje, 0.001);
+        assertEquals("Cuadernos", leido.categoria);
+    }
+
+    @Test
+    public void categorias_distintas_de_productos_activos() throws Exception {
+        ProductoEntity a = nuevoProducto("Lápiz", 10, UnidadMedida.PZA);
+        a.categoria = "Escritura";
+        ProductoEntity b = nuevoProducto("Pluma", 10, UnidadMedida.PZA);
+        b.categoria = "Escritura";
+        ProductoEntity c = nuevoProducto("Cuaderno", 10, UnidadMedida.PZA);
+        c.categoria = "Cuadernos";
+        dao.insert(a);
+        dao.insert(b);
+        long idC = dao.insert(c);
+        dao.desactivar((int) idC, System.currentTimeMillis());
+
+        List<String> categorias = getValor(dao.getCategorias());
+        assertEquals(1, categorias.size());
+        assertEquals("Escritura", categorias.get(0));
     }
 
     @Test
@@ -215,4 +274,4 @@ public class ProductoDAOTest {
         List<ProductoEntity> todos = getValor(dao.getAllProductos());
         assertTrue(todos.isEmpty());
     }
-}
+}

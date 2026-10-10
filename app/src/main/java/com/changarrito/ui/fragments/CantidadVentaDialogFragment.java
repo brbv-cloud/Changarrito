@@ -19,7 +19,7 @@ import com.changarrito.database.entity.UnidadMedida;
 import java.util.Locale;
 
 /**
- * Captura cuánto se vende de un producto. Para granel (KG/LT/GR) permite además
+ * Captura cuánto se vende de un producto. Para granel (KG/GR/M) permite además
  * capturar un importe fijo ("el cliente trae $50") y calcular la cantidad que le
  * corresponde, en vez de forzar al usuario a hacer la división a mano.
  */

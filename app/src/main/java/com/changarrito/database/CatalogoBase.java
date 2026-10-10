@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UnidadMedida;
+import com.changarrito.utils.CalculoPrecio;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +39,11 @@ public class CatalogoBase {
                 ProductoEntity producto = new ProductoEntity();
                 producto.nombre = obj.getString("nombre");
                 producto.precio = obj.getDouble("precio");
+                producto.costoCompra = obj.optDouble("costoCompra", 0);
+                producto.margenPorcentaje = producto.costoCompra > 0
+                        ? CalculoPrecio.margenSobreCosto(producto.costoCompra, producto.precio)
+                        : 0;
+                producto.categoria = obj.optString("categoria", "");
                 producto.unidadMedida = UnidadMedida.valueOf(obj.getString("unidadMedida"));
                 producto.umbralStockBajo = obj.getDouble("umbralStockBajo");
                 producto.cantidadDisponible = 0;      // el comerciante captura su stock real
@@ -46,6 +52,7 @@ public class CatalogoBase {
                 producto.barcode = "";
                 producto.timestampCreacionMs = ahora;
                 producto.timestampActualizacionMs = ahora;
+                producto.activo = true;
 
                 productos.add(producto);
             }
@@ -63,4 +70,4 @@ public class CatalogoBase {
         is.close();
         return new String(buffer, StandardCharsets.UTF_8);
     }
-}
+}

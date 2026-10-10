@@ -9,25 +9,46 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.changarrito.database.dao.AlertaDAO;
+import com.changarrito.database.dao.BitacoraDAO;
 import com.changarrito.database.dao.CierreCajaDAO;
+import com.changarrito.database.dao.ConfiguracionNegocioDAO;
 import com.changarrito.database.dao.ProductoDAO;
+import com.changarrito.database.dao.UsuarioDAO;
 import com.changarrito.database.dao.VentaDAO;
 import com.changarrito.database.entity.AlertaEntity;
+import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
+import com.changarrito.database.entity.ConfiguracionNegocioEntity;
 import com.changarrito.database.entity.ProductoEntity;
+import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * v5 (Sprint 5, modelo para login, giros, ganancias, roles y bitácora):
+ * - Producto: costoCompra, margenPorcentaje, categoria, activo (borrado suave).
+ * - Venta: costoUnitarioVenta, idUsuario y llave foránea a Producto.
+ * - CierreCaja: idUsuario.
+ * - Tablas nuevas: Usuario, Bitacora, ConfiguracionNegocio.
+ * - UnidadMedida: sale LT, entra M (metro).
+ *
  * v4 (Sprint 4): se agregó CierreCajaEntity. Se usa fallbackToDestructiveMigration()
  * a propósito: el proyecto todavía no está lanzado (sin usuarios reales con datos
  * que proteger), así que no vale la pena escribir una Migration formal para cada
  * cambio de esquema durante el desarrollo activo. Antes del release final (Semana 6)
  * esto debe reemplazarse por una Migration real si ya hay datos de demo que conservar.
  */
-@Database(entities = {ProductoEntity.class, VentaEntity.class, AlertaEntity.class, CierreCajaEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {
+        ProductoEntity.class,
+        VentaEntity.class,
+        AlertaEntity.class,
+        CierreCajaEntity.class,
+        UsuarioEntity.class,
+        BitacoraEntity.class,
+        ConfiguracionNegocioEntity.class
+}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -40,6 +61,12 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract AlertaDAO alertaDao();
 
     public abstract CierreCajaDAO cierreCajaDao();
+
+    public abstract UsuarioDAO usuarioDao();
+
+    public abstract BitacoraDAO bitacoraDao();
+
+    public abstract ConfiguracionNegocioDAO configuracionNegocioDao();
 
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una
@@ -68,6 +95,12 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /**
+     * TEMPORAL (hasta el Sprint 6): sigue precargando catalogo_base.json al crear la
+     * BD para que la app no arranque vacía. En el Sprint 6 esto se quita: el catálogo
+     * se importa solo si el dueño lo acepta en la pantalla de vista previa, según su
+     * giro (GiroNegocio.archivoCatalogo).
+     */
     private static RoomDatabase.Callback crearCallbackPrecarga(Context appContext) {
         return new RoomDatabase.Callback() {
             @Override
@@ -82,4 +115,4 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         };
     }
-}
+}

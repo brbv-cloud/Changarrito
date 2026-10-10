@@ -88,7 +88,6 @@ public class CierreCajaRepositoryTest {
         v.precioUnitarioVenta = total;
         v.total = total;
         v.timestampVentaMs = System.currentTimeMillis();
-        v.usuarioRegistro = "local";
         ventaDao.insert(v);
     }
 

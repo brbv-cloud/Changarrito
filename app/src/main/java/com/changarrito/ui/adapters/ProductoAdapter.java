@@ -79,7 +79,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     /**
      * Muestra decimales solo cuando existen:
-     * 10.0 → "10 LT", 0.750 → "0.75 KG", 12.0 → "12 PZA"
+     * 10.0 → "10 M", 0.750 → "0.75 KG", 12.0 → "12 PZA"
      */
     private String formatearCantidad(ProductoEntity producto) {
         String unidad = producto.unidadMedida != null
@@ -115,4 +115,4 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
         }
     }
-}
+}

@@ -125,7 +125,7 @@ public class AlertaRepositoryTest {
 
     @Test
     public void stock_por_encima_del_umbral_no_crea_alerta() throws Exception {
-        productoDao.insert(nuevoProducto("Aceite", 10.0, 2.0, UnidadMedida.LT));
+        productoDao.insert(nuevoProducto("Cable", 10.0, 2.0, UnidadMedida.M));
 
         verificarSync();
 

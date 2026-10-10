@@ -70,7 +70,7 @@ public class ProductoDialogFragment extends DialogFragment {
         spUnidadMedida.setAdapter(unidadAdapter);
 
         // Por defecto PZA: casi todo lo que trae código de barras se vende por pieza.
-        // El granel (KG/LT/GR) rara vez viene empaquetado con código.
+        // El granel (KG/GR/M) rara vez viene empaquetado con código.
         spUnidadMedida.setSelection(unidadAdapter.getPosition(UnidadMedida.PZA));
 
         tvFechaCaducidad.setOnClickListener(v -> mostrarDatePicker());
@@ -110,6 +110,12 @@ public class ProductoDialogFragment extends DialogFragment {
             if (productoEditando != null && productoEditando.id != 0) {
                 producto.id = productoEditando.id;
                 producto.timestampCreacionMs = productoEditando.timestampCreacionMs;
+                // v5: campos que este formulario todavía no muestra (llegan en el
+                // Sprint 7). Se copian del original para que editar no los borre.
+                producto.costoCompra = productoEditando.costoCompra;
+                producto.margenPorcentaje = productoEditando.margenPorcentaje;
+                producto.categoria = productoEditando.categoria;
+                producto.activo = productoEditando.activo;
             }
 
             producto.nombre = etNombre.getText().toString().trim();
@@ -193,4 +199,4 @@ public class ProductoDialogFragment extends DialogFragment {
         }
         return true;
     }
-}
+}

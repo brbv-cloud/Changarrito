@@ -33,6 +33,12 @@ android {
     buildFeatures {
         compose false
     }
+
+    // El modulo es 100% Java. AGP 9 trae Kotlin integrado y, aun sin archivos .kt,
+    // crea tareas de compilacion de Kotlin que leen las librerias. Las de Firebase
+    // estan compiladas con un Kotlin mas nuevo que el del proyecto y eso rompia
+    // compileDebugUnitTestKotlin. Apagarlo quita esas tareas (y compila un poco mas rapido).
+    enableKotlin = false
 }
 
 dependencies {

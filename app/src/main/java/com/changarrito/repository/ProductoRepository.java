@@ -45,8 +45,16 @@ public class ProductoRepository {
         executorService.execute(() -> productoDAO.update(producto));
     }
 
-    public void delete(ProductoEntity producto) {
-        executorService.execute(() -> productoDAO.delete(producto));
+    /**
+     * v5: "eliminar" desde la app = borrado suave. El producto desaparece de listas,
+     * búsquedas y alertas, pero sus ventas y su historial se conservan.
+     */
+    public void desactivar(ProductoEntity producto) {
+        executorService.execute(() -> productoDAO.desactivar(producto.id, System.currentTimeMillis()));
+    }
+
+    public LiveData<List<String>> getCategorias() {
+        return productoDAO.getCategorias();
     }
 
     public LiveData<List<ProductoEntity>> search(String nombre) {
@@ -60,4 +68,4 @@ public class ProductoRepository {
     public LiveData<List<ProductoEntity>> getProductosProximosAVencer(long ahora, long limite) {
         return productoDAO.getProductosProximosAVencer(ahora, limite);
     }
-}
+}
