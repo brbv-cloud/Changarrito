@@ -48,6 +48,12 @@
             android:theme="@style/Theme.Changarrito" />
 
         <activity
+            android:name=".ui.activities.ReportesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Changarrito" />

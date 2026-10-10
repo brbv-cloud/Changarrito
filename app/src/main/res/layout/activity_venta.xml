@@ -84,6 +84,25 @@
             android:textStyle="bold"
             android:textColor="@color/color_slate_dark" />
 
+        <EditText
+            android:id="@+id/etPagoCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="¿Con cuánto paga el cliente?"
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tvCambio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Cambio: $0.00"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/status_verde" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegistrarVenta"
             android:layout_width="match_parent"

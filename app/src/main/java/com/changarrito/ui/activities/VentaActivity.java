@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.core.content.ContextCompat;
+
 import com.changarrito.R;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.scanner.ScannerActivity;
@@ -37,6 +39,8 @@ public class VentaActivity extends AppCompatActivity implements CantidadVentaDia
     private ProductoVentaAdapter productoVentaAdapter;
     private CarritoAdapter carritoAdapter;
     private TextView tvTotal;
+    private EditText etPagoCliente;
+    private TextView tvCambio;
     private ActivityResultLauncher<Intent> scannerLauncher;
 
     @Override
@@ -57,6 +61,8 @@ public class VentaActivity extends AppCompatActivity implements CantidadVentaDia
         RecyclerView rvProductosDisponibles = findViewById(R.id.rvProductosDisponibles);
         RecyclerView rvCarrito = findViewById(R.id.rvCarrito);
         tvTotal = findViewById(R.id.tvTotal);
+        etPagoCliente = findViewById(R.id.etPagoCliente);
+        tvCambio = findViewById(R.id.tvCambio);
         Button btnRegistrarVenta = findViewById(R.id.btnRegistrarVenta);
 
         scannerLauncher = registerForActivityResult(
@@ -104,6 +110,20 @@ public class VentaActivity extends AppCompatActivity implements CantidadVentaDia
         viewModel.getCarrito().observe(this, items -> {
             carritoAdapter.setItems(items);
             actualizarTotal();
+            actualizarCambio();
+        });
+
+        etPagoCliente.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                actualizarCambio();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
         viewModel.getMensaje().observe(this, mensaje -> {
@@ -115,6 +135,7 @@ public class VentaActivity extends AppCompatActivity implements CantidadVentaDia
         viewModel.getVentaRegistrada().observe(this, registrada -> {
             if (registrada != null && registrada) {
                 Toast.makeText(this, "Venta registrada. Inventario actualizado.", Toast.LENGTH_SHORT).show();
+                etPagoCliente.setText("");
             }
         });
 
@@ -156,6 +177,40 @@ public class VentaActivity extends AppCompatActivity implements CantidadVentaDia
 
     private void actualizarTotal() {
         tvTotal.setText(String.format(Locale.getDefault(), "Total: $%.2f", carritoAdapter.getTotal()));
+    }
+
+    /**
+     * Con cuanto paga el cliente vs. el total del carrito: si alcanza, muestra el
+     * cambio a devolver; si no alcanza (o el campo esta vacio), avisa cuanto falta
+     * en vez de mostrar un "cambio" negativo, que no tendria sentido para el usuario.
+     */
+    private void actualizarCambio() {
+        double total = carritoAdapter.getTotal();
+        String texto = etPagoCliente.getText().toString().trim();
+
+        if (total <= 0) {
+            tvCambio.setText("Cambio: $0.00");
+            tvCambio.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+            return;
+        }
+
+        double pago;
+        try {
+            pago = texto.isEmpty() ? 0 : Double.parseDouble(texto);
+        } catch (NumberFormatException e) {
+            tvCambio.setText("Cantidad invalida");
+            tvCambio.setTextColor(ContextCompat.getColor(this, R.color.status_rojo));
+            return;
+        }
+
+        double diferencia = pago - total;
+        if (texto.isEmpty() || diferencia < 0) {
+            tvCambio.setText(String.format(Locale.getDefault(), "Falta: $%.2f", Math.abs(diferencia)));
+            tvCambio.setTextColor(ContextCompat.getColor(this, R.color.status_rojo));
+        } else {
+            tvCambio.setText(String.format(Locale.getDefault(), "Cambio: $%.2f", diferencia));
+            tvCambio.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+        }
     }
 
     @Override

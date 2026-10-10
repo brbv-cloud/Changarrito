@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 public class ProductosActivity extends AppCompatActivity implements ProductoDialogFragment.ProductoDialogListener {
 
     private RecyclerView rvProductos;
-    private FloatingActionButton fabAgregarProducto, fabEscanear, fabVender, fabAlertas;
+    private FloatingActionButton fabAgregarProducto, fabEscanear, fabVender, fabAlertas, fabReportes;
     private TextView tvBadgeAlertas;
     private ProductoAdapter adapter;
     private ProductoViewModel viewModel;
@@ -67,6 +67,7 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         fabEscanear = findViewById(R.id.fabEscanear);
         fabVender = findViewById(R.id.fabVender);
         fabAlertas = findViewById(R.id.fabAlertas);
+        fabReportes = findViewById(R.id.fabReportes);
         tvBadgeAlertas = findViewById(R.id.tvBadgeAlertas);
 
         viewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
@@ -132,6 +133,10 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
 
         fabAlertas.setOnClickListener(v ->
                 startActivity(new Intent(this, AlertasActivity.class))
+        );
+
+        fabReportes.setOnClickListener(v ->
+                startActivity(new Intent(this, ReportesActivity.class))
         );
 
         alertaViewModel.getConteoAlertasActivas().observe(this, conteo -> {

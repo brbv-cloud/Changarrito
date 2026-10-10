@@ -38,6 +38,18 @@
         app:tint="@color/status_rojo"
         android:src="@android:drawable/ic_dialog_alert" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabReportes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="304dp"
+        android:contentDescription="Reportes"
+        app:backgroundTint="@color/color_primary_variant"
+        app:tint="@color/white"
+        android:src="@android:drawable/ic_menu_sort_by_size" />
+
     <TextView
         android:id="@+id/tvBadgeAlertas"
         android:layout_width="20dp"

@@ -9,9 +9,11 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.changarrito.database.dao.AlertaDAO;
+import com.changarrito.database.dao.CierreCajaDAO;
 import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.dao.VentaDAO;
 import com.changarrito.database.entity.AlertaEntity;
+import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.VentaEntity;
 
@@ -19,13 +21,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * v3 (Sprint 3): se agregó AlertaEntity. Se usa fallbackToDestructiveMigration()
+ * v4 (Sprint 4): se agregó CierreCajaEntity. Se usa fallbackToDestructiveMigration()
  * a propósito: el proyecto todavía no está lanzado (sin usuarios reales con datos
  * que proteger), así que no vale la pena escribir una Migration formal para cada
  * cambio de esquema durante el desarrollo activo. Antes del release final (Semana 6)
  * esto debe reemplazarse por una Migration real si ya hay datos de demo que conservar.
  */
-@Database(entities = {ProductoEntity.class, VentaEntity.class, AlertaEntity.class}, version = 3, exportSchema = false)
+@Database(entities = {ProductoEntity.class, VentaEntity.class, AlertaEntity.class, CierreCajaEntity.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -36,6 +38,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract VentaDAO ventaDao();
 
     public abstract AlertaDAO alertaDao();
+
+    public abstract CierreCajaDAO cierreCajaDao();
 
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una

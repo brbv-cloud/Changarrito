@@ -24,6 +24,37 @@ public interface VentaDAO {
     @Query("SELECT COALESCE(SUM(total), 0) FROM venta WHERE timestampVentaMs BETWEEN :inicioMs AND :finMs")
     LiveData<Double> getTotalVentasPorDia(long inicioMs, long finMs);
 
+    /**
+     * Version sincrona de getTotalVentasPorDia, para usarse dentro de
+     * CierreCajaRepository.registrarCierre() en un hilo de fondo (dentro de la
+     * transaccion que calcula efectivoSistema). Nunca llamar desde el hilo principal.
+     */
+    @Query("SELECT COALESCE(SUM(total), 0) FROM venta WHERE timestampVentaMs BETWEEN :inicioMs AND :finMs")
+    double getTotalVentasPorDiaSync(long inicioMs, long finMs);
+
+    @Query("SELECT COUNT(*) FROM venta WHERE timestampVentaMs BETWEEN :inicioMs AND :finMs")
+    LiveData<Integer> getCountVentasEnRango(long inicioMs, long finMs);
+
+    /**
+     * Total de ventas estrictamente despues de un timestamp, sin limite superior.
+     * La usa CierreCajaRepository para calcular "efectivo pendiente de cierre":
+     * lo vendido desde el ultimo cierre (o desde el inicio del dia si todavia no
+     * se ha hecho ninguno), no el dia calendario completo. Asi, un segundo cierre
+     * el mismo dia no vuelve a contar lo que ya se cerro antes.
+     */
+    @Query("SELECT COALESCE(SUM(total), 0) FROM venta WHERE timestampVentaMs > :desdeMs")
+    double getTotalVentasDesdeSync(long desdeMs);
+
+    @Query("SELECT p.nombre AS nombre, " +
+            "SUM(v.cantidadVendida) AS cantidadVendida, " +
+            "v.unidadMedida AS unidadMedida, " +
+            "SUM(v.total) AS totalIngresos " +
+            "FROM venta v INNER JOIN producto p ON p.id = v.idProducto " +
+            "WHERE v.timestampVentaMs BETWEEN :inicioMs AND :finMs " +
+            "GROUP BY v.idProducto " +
+            "ORDER BY SUM(v.total) DESC LIMIT 1")
+    LiveData<ProductoConTotal> getProductoMasVendidoEnRango(long inicioMs, long finMs);
+
     @Query("SELECT p.nombre AS nombre, " +
             "SUM(v.cantidadVendida) AS cantidadVendida, " +
             "v.unidadMedida AS unidadMedida, " +
@@ -32,4 +63,15 @@ public interface VentaDAO {
             "GROUP BY v.idProducto " +
             "ORDER BY SUM(v.total) DESC LIMIT :top")
     LiveData<List<ProductoConTotal>> getProductosMasVendidos(int top);
+
+    /**
+     * Ingresos agrupados por dia (zona horaria local) dentro de un rango, para la
+     * grafica de "ultimos N dias". Solo trae dias CON al menos una venta: los dias
+     * sin ventas se rellenan con 0 en ReportesRepository/ReportesActivity, no aqui.
+     */
+    @Query("SELECT strftime('%Y-%m-%d', timestampVentaMs / 1000, 'unixepoch', 'localtime') AS fecha, " +
+            "COALESCE(SUM(total), 0) AS total " +
+            "FROM venta WHERE timestampVentaMs BETWEEN :inicioMs AND :finMs " +
+            "GROUP BY fecha ORDER BY fecha ASC")
+    LiveData<List<IngresoDia>> getIngresosPorDiaEnRango(long inicioMs, long finMs);
 }
