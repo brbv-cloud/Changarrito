@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.changarrito.database.AppDatabase;
+import com.changarrito.negocio.SesionTurno;
 import com.changarrito.database.dao.ProductoConTotal;
 import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.dao.VentaDAO;
@@ -31,12 +32,26 @@ public class VentaRepository {
     private final LiveData<List<VentaEntity>> allVentas;
     private final ExecutorService executorService;
 
+    private final Application application;
+
     public VentaRepository(Application application) {
+        this.application = application;
         db = AppDatabase.getInstance(application);
         ventaDAO = db.ventaDao();
         productoDAO = db.productoDao();
         allVentas = ventaDAO.getAllVentas();
         executorService = Executors.newFixedThreadPool(4);
+    }
+
+    /**
+     * Id de quien tiene el turno abierto, o null. Se confirma que el perfil exista en
+     * la BD para no romper la llave foránea (p. ej. en tests con una BD en memoria).
+     * Llamar dentro de la transacción, en el hilo de fondo.
+     */
+    private Integer usuarioDelTurno() {
+        Integer id = SesionTurno.getIdUsuario(application);
+        if (id == null || db.usuarioDao().getUsuarioByIdSync(id) == null) return null;
+        return id;
     }
 
     public LiveData<List<VentaEntity>> getAllVentas() {
@@ -130,7 +145,7 @@ public class VentaRepository {
             venta.costoUnitarioVenta = producto.costoCompra; // v5: base para reportar ganancias
             venta.total = producto.precio * cantidadVendida;
             venta.timestampVentaMs = System.currentTimeMillis();
-            venta.idUsuario = null; // TODO Sprint 6: id del usuario con el turno abierto
+            venta.idUsuario = usuarioDelTurno(); // quién vendió (dueño o trabajador)
             ventaDAO.insert(venta);
 
             resultado[0] = ResultadoVenta.ok();

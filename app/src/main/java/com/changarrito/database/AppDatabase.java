@@ -2,11 +2,9 @@ package com.changarrito.database;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.changarrito.database.dao.AlertaDAO;
 import com.changarrito.database.dao.BitacoraDAO;
@@ -23,10 +21,10 @@ import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
+ * Sprint 6: ya no se precarga un catálogo fijo al crear la BD. El dueño elige su
+ * giro y decide qué importar en la vista previa (negocio.CatalogoGiro).
+ *
  * v5 (Sprint 5, modelo para login, giros, ganancias, roles y bitácora):
  * - Producto: costoCompra, margenPorcentaje, categoria, activo (borrado suave).
  * - Venta: costoUnitarioVenta, idUsuario y llave foránea a Producto.
@@ -52,7 +50,6 @@ import java.util.concurrent.Executors;
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
-    private static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
 
     public abstract ProductoDAO productoDao();
 
@@ -86,33 +83,11 @@ public abstract class AppDatabase extends RoomDatabase {
                             appContext,
                             AppDatabase.class,
                             "changarrito_db"
-                    ).addCallback(crearCallbackPrecarga(appContext))
-                            .fallbackToDestructiveMigration()
+                    ).fallbackToDestructiveMigration()
                             .build();
                 }
             }
         }
         return INSTANCE;
     }
-
-    /**
-     * TEMPORAL (hasta el Sprint 6): sigue precargando catalogo_base.json al crear la
-     * BD para que la app no arranque vacía. En el Sprint 6 esto se quita: el catálogo
-     * se importa solo si el dueño lo acepta en la pantalla de vista previa, según su
-     * giro (GiroNegocio.archivoCatalogo).
-     */
-    private static RoomDatabase.Callback crearCallbackPrecarga(Context appContext) {
-        return new RoomDatabase.Callback() {
-            @Override
-            public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                super.onCreate(db);
-                databaseWriteExecutor.execute(() -> {
-                    if (INSTANCE != null) {
-                        INSTANCE.productoDao()
-                                .insertAll(CatalogoBase.getProductosIniciales(appContext));
-                    }
-                });
-            }
-        };
-    }
-}
+}

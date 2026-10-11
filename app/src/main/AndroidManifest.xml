@@ -48,6 +48,31 @@
             android:theme="@style/Theme.Changarrito.Acceso"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Sprint 6: giro, catálogo, turnos y ajustes -->
+        <activity
+            android:name=".ui.activities.negocio.ElegirGiroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.VistaPreviaCatalogoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.SeleccionarTurnoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.AjustesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".ui.activities.ProductosActivity"
             android:exported="false"

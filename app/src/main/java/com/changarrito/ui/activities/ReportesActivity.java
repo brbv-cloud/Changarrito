@@ -46,6 +46,14 @@ import java.util.Map;
  */
 public class ReportesActivity extends AppCompatActivity {
 
+    /**
+     * true = el que abre la pantalla es un trabajador: solo ve el cierre de caja y
+     * cuenta "a ciegas", sin ver cuánto efectivo dice el sistema ni el resultado.
+     */
+    public static final String EXTRA_CIERRE_CIEGO = "cierre_ciego";
+
+    private boolean cierreCiego;
+
     private MaterialButtonToggleGroup toggleTabs;
     private View seccionHoy, seccionSieteDias, seccionTop, seccionCaja;
     private TextView tvIngresosHoy, tvTransaccionesHoy, tvProductoTopHoy;
@@ -76,6 +84,8 @@ public class ReportesActivity extends AppCompatActivity {
         cierreCajaViewModel = new ViewModelProvider(this).get(CierreCajaViewModel.class);
 
         configurarTabs();
+        cierreCiego = getIntent().getBooleanExtra(EXTRA_CIERRE_CIEGO, false);
+        if (cierreCiego) aplicarModoCierreCiego();
         observarReportes();
         observarCierreCaja();
 
@@ -195,8 +205,23 @@ public class ReportesActivity extends AppCompatActivity {
         cierreCajaViewModel.hacerCierre(contado, notas);
     }
 
+    private void aplicarModoCierreCiego() {
+        toggleTabs.check(R.id.btnTabCaja);
+        findViewById(R.id.scrollTabs).setVisibility(View.GONE);
+        ((TextView) findViewById(R.id.tvTituloReportes)).setText(R.string.cierre_ciego_titulo);
+        ((TextView) findViewById(R.id.tvEtiquetaEfectivo)).setText(R.string.cierre_ciego_ayuda);
+        tvEfectivoSistema.setVisibility(View.GONE);
+        findViewById(R.id.tvTituloHistorial).setVisibility(View.GONE);
+        findViewById(R.id.cardHistorial).setVisibility(View.GONE);
+    }
+
     private void mostrarResultadoCierre(double diferencia) {
         tvResultadoCierre.setVisibility(View.VISIBLE);
+        if (cierreCiego) {
+            tvResultadoCierre.setText(R.string.cierre_ciego_registrado);
+            tvResultadoCierre.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+            return;
+        }
         double epsilon = 0.01;
 
         if (Math.abs(diferencia) < epsilon) {

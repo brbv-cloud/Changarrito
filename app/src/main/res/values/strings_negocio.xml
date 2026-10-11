@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Elegir giro -->
+    <string name="giro_titulo">¿Qué tipo de negocio tienes?</string>
+    <string name="giro_subtitulo">Así te mostramos las unidades, categorías y productos que te sirven. Lo puedes cambiar después.</string>
+    <string name="giro_nombre_negocio">Nombre de tu negocio</string>
+    <string name="giro_nombre_negocio_pista">Abarrotes Doña Lupe</string>
+    <string name="giro_continuar">Continuar</string>
+    <string name="giro_guardando">Guardando…</string>
+    <string name="giro_elige_uno">Elige el tipo de negocio para continuar.</string>
+    <string name="giro_desc_abarrotes">Granos, bebidas, lácteos, limpieza. Venta por pieza, kilo o gramo.</string>
+    <string name="giro_desc_papeleria">Escritura, cuadernos, papel, arte y servicios como copias.</string>
+    <string name="giro_desc_ferreteria">Tornillería, eléctrico, plomería. Venta por pieza, kilo o metro.</string>
+    <string name="giro_desc_farmacia">Medicamentos de venta libre, curación e higiene. Con caducidad.</string>
+    <string name="giro_desc_independiente">Arma tu inventario desde cero, con todas las unidades.</string>
+
+    <!-- Vista previa del catálogo -->
+    <string name="catalogo_titulo">¿Empezamos con productos típicos?</string>
+    <string name="catalogo_subtitulo">Tenemos %1$d productos comunes de %2$s. Elige las categorías que vendes; podrás editar precios y borrar lo que no uses.</string>
+    <string name="catalogo_nota">Costos y precios son de referencia. Las existencias inician en 0.</string>
+    <string name="catalogo_productos">%1$d productos</string>
+    <string name="catalogo_importar">Importar %1$d productos</string>
+    <string name="catalogo_importando">Importando…</string>
+    <string name="catalogo_vacio">Empezar vacío</string>
+    <string name="catalogo_ver">Ver productos de %1$s</string>
+    <string name="catalogo_todas">Todas</string>
+    <string name="catalogo_ninguna">Ninguna</string>
+    <string name="catalogo_importados">Se agregaron %1$d productos a tu inventario.</string>
+
+    <!-- Elegir turno -->
+    <string name="turno_titulo">¿Quién atiende?</string>
+    <string name="turno_subtitulo">Elige tu perfil para empezar tu turno.</string>
+    <string name="turno_clave_titulo">Clave de %1$s</string>
+    <string name="turno_clave_pista">4 dígitos</string>
+    <string name="turno_entrar">Entrar</string>
+    <string name="turno_incorrecta">Clave incorrecta. Te quedan %1$d intentos.</string>
+    <string name="turno_bloqueado">Demasiados intentos. Espera %1$d minutos o pide ayuda al dueño.</string>
+    <string name="rol_dueno">Dueño</string>
+    <string name="rol_trabajador">Trabajador</string>
+
+    <!-- Ajustes -->
+    <string name="ajustes_titulo">Ajustes</string>
+    <string name="ajustes_abrir">Abrir ajustes</string>
+    <string name="ajustes_turno_actual">Atiende: %1$s</string>
+    <string name="ajustes_cambiar_turno">Cambiar de turno</string>
+    <string name="ajustes_seccion_negocio">Tu negocio</string>
+    <string name="ajustes_seccion_equipo">Tu equipo</string>
+    <string name="ajustes_equipo_ayuda">Cada quien entra con su clave de 4 dígitos. Así sabes quién hizo cada venta y cada cierre de caja.</string>
+    <string name="ajustes_agregar_trabajador">Agregar trabajador</string>
+    <string name="ajustes_mi_clave">Cambiar mi clave de dueño</string>
+    <string name="ajustes_seccion_cuenta">Cuenta</string>
+    <string name="ajustes_cerrar_sesion">Cerrar sesión</string>
+    <string name="ajustes_cerrar_sesion_confirmar">Se cerrará la sesión en este celular. Tus datos se quedan guardados aquí y vuelven al entrar con la misma cuenta.</string>
+    <string name="ajustes_acerca">Acerca de Changarrito</string>
+    <string name="ajustes_acerca_texto">Changarrito v%1$s\nProyecto del CETI Tonalá.\n\nEl catálogo de códigos de barras usa datos de Open Food Facts y Open Beauty Facts (openfoodfacts.org), disponibles bajo la licencia Open Database License (ODbL).</string>
+    <string name="ajustes_dar_de_baja">Dar de baja</string>
+    <string name="ajustes_dar_de_baja_confirmar">%1$s ya no podrá entrar. Sus ventas pasadas se conservan.</string>
+    <string name="ajustes_sin_trabajadores">Todavía no agregas trabajadores.</string>
+
+    <string name="trabajador_nuevo_titulo">Nuevo trabajador</string>
+    <string name="trabajador_nombre">Nombre</string>
+    <string name="trabajador_nombre_pista">Ana</string>
+    <string name="trabajador_nombre_error">Escribe su nombre.</string>
+    <string name="trabajador_clave">Clave de 4 dígitos</string>
+    <string name="trabajador_confirmar_clave">Repite la clave</string>
+    <string name="clave_dueno_titulo">Crea tu clave de dueño</string>
+    <string name="clave_dueno_ayuda">Con más de una persona en el negocio, cada quien entra con su clave. Crea primero la tuya.</string>
+    <string name="clave_guardar">Guardar</string>
+    <string name="clave_cancelar">Cancelar</string>
+    <string name="clave_invalida">Deben ser 4 dígitos.</string>
+    <string name="clave_no_coincide">Las claves no coinciden.</string>
+    <string name="clave_guardada">Clave guardada.</string>
+    <string name="trabajador_agregado">%1$s ya puede entrar con su clave.</string>
+
+    <!-- Otra cuenta / cierre a ciegas -->
+    <string name="acceso_otra_cuenta">Este celular ya está ligado a otro negocio. Entra con la cuenta de ese negocio.</string>
+    <string name="cierre_ciego_titulo">Cierre de caja</string>
+    <string name="cierre_ciego_ayuda">Cuenta el efectivo de la caja y escríbelo. El dueño verá si sobra o falta.</string>
+    <string name="cierre_ciego_registrado">Cierre registrado. Gracias.</string>
+</resources>

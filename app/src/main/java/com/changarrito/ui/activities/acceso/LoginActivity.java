@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class LoginActivity extends BaseAccesoActivity {
 
     public static final String EXTRA_CORREO = "correo";
+    public static final String EXTRA_ERROR = "error";
 
     private AuthRepository auth;
     private GoogleSignInHelper google;
@@ -56,6 +57,7 @@ public class LoginActivity extends BaseAccesoActivity {
 
         String correoPrevio = getIntent().getStringExtra(EXTRA_CORREO);
         if (correoPrevio != null) etCorreo.setText(correoPrevio);
+        mostrarError(tvError, getIntent().getStringExtra(EXTRA_ERROR));
 
         btnIniciarSesion.setOnClickListener(v -> iniciarSesion());
         btnGoogle.setOnClickListener(v -> entrarConGoogle());

@@ -1,6 +1,7 @@
 package com.changarrito.auth;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
@@ -10,10 +11,12 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 import androidx.credentials.Credential;
 import androidx.credentials.CredentialManager;
+import androidx.credentials.ClearCredentialStateRequest;
 import androidx.credentials.CredentialManagerCallback;
 import androidx.credentials.CustomCredential;
 import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
+import androidx.credentials.exceptions.ClearCredentialException;
 import androidx.credentials.exceptions.GetCredentialCancellationException;
 import androidx.credentials.exceptions.GetCredentialException;
 import androidx.credentials.exceptions.NoCredentialException;
@@ -126,6 +129,27 @@ public class GoogleSignInHelper {
                         } else {
                             callback.onError("No se pudo entrar con Google (" + e.getType() + ").");
                         }
+                    }
+                });
+    }
+
+    /**
+     * Al cerrar sesión: le dice a Credential Manager que olvide la cuenta de Google
+     * elegida, para que la próxima vez vuelva a mostrar el selector de cuentas.
+     */
+    public static void olvidarCuentaElegida(Context context) {
+        CredentialManager.create(context).clearCredentialStateAsync(
+                new ClearCredentialStateRequest(),
+                new CancellationSignal(),
+                ContextCompat.getMainExecutor(context),
+                new CredentialManagerCallback<Void, ClearCredentialException>() {
+                    @Override
+                    public void onResult(Void resultado) {
+                    }
+
+                    @Override
+                    public void onError(ClearCredentialException e) {
+                        Log.w(TAG, "No se pudo limpiar la cuenta elegida", e);
                     }
                 });
     }

@@ -25,8 +25,11 @@ import androidx.work.WorkManager;
 import com.changarrito.R;
 import com.changarrito.database.CatalogoBarcodesHelper;
 import com.changarrito.database.entity.ProductoEntity;
+import com.changarrito.negocio.NegocioRepository;
+import com.changarrito.negocio.SesionTurno;
 import com.changarrito.scanner.OpenFoodFactsClient;
 import com.changarrito.scanner.ScannerActivity;
+import com.changarrito.ui.activities.negocio.AjustesActivity;
 import com.changarrito.ui.adapters.ProductoAdapter;
 import com.changarrito.ui.fragments.ProductoDialogFragment;
 import com.changarrito.utils.InsetsUtil;
@@ -135,9 +138,22 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
                 startActivity(new Intent(this, AlertasActivity.class))
         );
 
-        fabReportes.setOnClickListener(v ->
-                startActivity(new Intent(this, ReportesActivity.class))
+        // El trabajador no ve reportes ni ganancias: el mismo botón le abre solo el
+        // cierre de caja "a ciegas" (cuenta el efectivo sin ver cuánto debería haber).
+        fabReportes.setOnClickListener(v -> {
+            Intent i = new Intent(this, ReportesActivity.class);
+            i.putExtra(ReportesActivity.EXTRA_CIERRE_CIEGO, !SesionTurno.esDueno(this));
+            startActivity(i);
+        });
+
+        findViewById(R.id.btnAjustes).setOnClickListener(v ->
+                startActivity(new Intent(this, AjustesActivity.class))
         );
+        new NegocioRepository(getApplication()).getConfiguracion().observe(this, config -> {
+            if (config != null && config.nombreNegocio != null) {
+                ((TextView) findViewById(R.id.tvNegocio)).setText(config.nombreNegocio);
+            }
+        });
 
         alertaViewModel.getConteoAlertasActivas().observe(this, conteo -> {
             int cantidad = conteo != null ? conteo : 0;
@@ -265,5 +281,13 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
     @Override
     public void onProductoGuardado(ProductoEntity producto) {
         viewModel.guardarProducto(producto);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // El turno puede cambiar en Ajustes: se refresca cada vez que se vuelve aquí.
+        ((TextView) findViewById(R.id.tvTurno)).setText(
+                getString(R.string.ajustes_turno_actual, SesionTurno.getNombre(this)));
     }
 }

@@ -1,0 +1,599 @@
+{
+ "giro": "ABARROTES",
+ "margenSugerido": 30,
+ "nota": "Precios y costos de referencia (México, 2026). El comerciante los ajusta a su proveedor.",
+ "productos": [
+  {
+   "nombre": "Arroz",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "KG",
+   "costoCompra": 26,
+   "precio": 34.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Frijol negro",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "KG",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Frijol pinto",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "KG",
+   "costoCompra": 32,
+   "precio": 42.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Lenteja",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "KG",
+   "costoCompra": 34,
+   "precio": 44.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Azúcar estándar",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "KG",
+   "costoCompra": 24,
+   "precio": 31.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Sal de mesa 1 kg",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 11,
+   "precio": 14.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Harina de maíz 1 kg",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 19,
+   "precio": 25.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Avena 400 g",
+   "categoria": "Granos y semillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 22.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Aceite vegetal 1 L",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 34,
+   "precio": 44.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Atún en agua 140 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 22.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Sopa de pasta 200 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 7,
+   "precio": 9.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Spaghetti 200 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 10.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Puré de tomate 210 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 10.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Chiles jalapeños lata 220 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 17.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Mayonesa 390 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 36,
+   "precio": 47.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Café soluble 120 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 62,
+   "precio": 81.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Consomé de pollo en cubos",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Galletas Marías 170 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 18.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Chocolate en tableta 180 g",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Huevo blanco",
+   "categoria": "Abarrotes básicos",
+   "unidadMedida": "KG",
+   "costoCompra": 38,
+   "precio": 49.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Leche entera 1 L",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 24,
+   "precio": 31.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Leche deslactosada 1 L",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 26,
+   "precio": 34.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Yogurt bebible 250 g",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Queso fresco",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "KG",
+   "costoCompra": 110,
+   "precio": 143.0,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Jamón de pavo",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "KG",
+   "costoCompra": 120,
+   "precio": 156.0,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Crema 200 ml",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 22.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Mantequilla 90 g",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 19,
+   "precio": 25.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Salchicha de pavo 500 g",
+   "categoria": "Lácteos y refrigerados",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 49.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pan de caja blanco",
+   "categoria": "Panadería y tortillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 55.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Pan dulce (concha)",
+   "categoria": "Panadería y tortillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 7,
+   "precio": 9.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Tortilla de maíz",
+   "categoria": "Panadería y tortillas",
+   "unidadMedida": "KG",
+   "costoCompra": 21,
+   "precio": 27.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Tostadas 300 g",
+   "categoria": "Panadería y tortillas",
+   "unidadMedida": "PZA",
+   "costoCompra": 21,
+   "precio": 27.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Refresco de cola 600 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 19.5,
+   "umbralStockBajo": 12
+  },
+  {
+   "nombre": "Refresco de cola 2 L",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Refresco de sabor 600 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 17.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Agua natural 600 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 7,
+   "precio": 9.5,
+   "umbralStockBajo": 12
+  },
+  {
+   "nombre": "Agua natural 1.5 L",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 16.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Garrafón de agua 20 L (recarga)",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 25,
+   "precio": 32.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Jugo de fruta 1 L",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Bebida rehidratante 600 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 22.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Cerveza lata 355 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 22.5,
+   "umbralStockBajo": 12
+  },
+  {
+   "nombre": "Café frío lata 281 ml",
+   "categoria": "Bebidas",
+   "unidadMedida": "PZA",
+   "costoCompra": 18,
+   "precio": 23.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Papas fritas 45 g",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 19.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Frituras de maíz 60 g",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 17.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Cacahuates japoneses 100 g",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 17.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Galletas con relleno 90 g",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 19.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Pastelito empaquetado",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 18.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Paleta de caramelo",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 2.5,
+   "precio": 3.5,
+   "umbralStockBajo": 30
+  },
+  {
+   "nombre": "Chicles (paquete)",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 10.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Chocolate de barra 40 g",
+   "categoria": "Botanas y dulces",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 18.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Detergente en polvo 1 kg",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 49.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Detergente a granel",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "KG",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Jabón de barra para ropa",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 19.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Cloro 1 L",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 17.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Limpiador multiusos 1 L",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Lavatrastes líquido 750 ml",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 29,
+   "precio": 38.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Fibra para trastes",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 10.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Bolsas para basura (10 pzas)",
+   "categoria": "Limpieza del hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Papel higiénico 4 rollos",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Jabón de tocador 150 g",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 19.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Shampoo 400 ml",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 46,
+   "precio": 60.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pasta dental 100 ml",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 26,
+   "precio": 34.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Desodorante en aerosol",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 48,
+   "precio": 62.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Toallas femeninas (10 pzas)",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 29,
+   "precio": 38.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Pañales etapa 3 (14 pzas)",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 123.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Rastrillo desechable",
+   "categoria": "Higiene personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 16.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Croquetas para perro",
+   "categoria": "Mascotas",
+   "unidadMedida": "KG",
+   "costoCompra": 36,
+   "precio": 47.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Croquetas para gato",
+   "categoria": "Mascotas",
+   "unidadMedida": "KG",
+   "costoCompra": 45,
+   "precio": 58.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Arena para gato 5 kg",
+   "categoria": "Mascotas",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 84.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Pilas AA (par)",
+   "categoria": "Varios",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Encendedor",
+   "categoria": "Varios",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Cerillos (caja)",
+   "categoria": "Varios",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Veladora de vaso",
+   "categoria": "Varios",
+   "unidadMedida": "PZA",
+   "costoCompra": 18,
+   "precio": 23.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Recarga de gas butano",
+   "categoria": "Varios",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 3
+  }
+ ]
+}

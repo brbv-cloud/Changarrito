@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.changarrito.database.AppDatabase;
+import com.changarrito.negocio.SesionTurno;
 import com.changarrito.database.dao.CierreCajaDAO;
 import com.changarrito.database.dao.VentaDAO;
 import com.changarrito.database.entity.CierreCajaEntity;
@@ -27,8 +28,12 @@ public class CierreCajaRepository {
     private final VentaDAO ventaDAO;
     private final ExecutorService executorService;
 
+    private final Application application;
+    private final AppDatabase db;
+
     public CierreCajaRepository(Application application) {
-        AppDatabase db = AppDatabase.getInstance(application);
+        this.application = application;
+        db = AppDatabase.getInstance(application);
         cierreCajaDAO = db.cierreCajaDao();
         ventaDAO = db.ventaDao();
         executorService = Executors.newSingleThreadExecutor();
@@ -90,6 +95,8 @@ public class CierreCajaRepository {
             cierre.diferencia = efectivoFisicoContado - efectivoSistema;
             cierre.notas = notas;
             cierre.timestampCreacionMs = ahora;
+            Integer idTurno = SesionTurno.getIdUsuario(application);
+            cierre.idUsuario = idTurno != null && db.usuarioDao().getUsuarioByIdSync(idTurno) != null ? idTurno : null;
 
             cierreCajaDAO.insert(cierre);
             callback.onResultado(cierre);

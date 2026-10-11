@@ -3,34 +3,64 @@ package com.changarrito.ui.activities.acceso;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.changarrito.R;
 import com.changarrito.auth.AuthRepository;
+import com.changarrito.negocio.NegocioRepository;
 import com.changarrito.ui.activities.ProductosActivity;
+import com.changarrito.ui.activities.negocio.ElegirGiroActivity;
+import com.changarrito.ui.activities.negocio.SeleccionarTurnoActivity;
+import com.changarrito.ui.activities.negocio.VistaPreviaCatalogoActivity;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Decide a qué pantalla va el usuario según su sesión:
+ * Decide a qué pantalla va el usuario:
  *  - sin sesión → Login
- *  - con sesión de correo sin verificar → Verificar correo
- *  - con sesión lista → la app (por ahora Productos).
- *
- * TODO Sprint 6: si todavía no hay ConfiguracionNegocio, ir a "Elige tu giro"
- * antes de entrar a la app.
+ *  - correo sin verificar → Verificar correo
+ *  - primera vez → Elige tu giro → (vista previa del catálogo)
+ *  - varias personas en el negocio y nadie con turno → ¿Quién atiende?
+ *  - todo listo → la app.
+ * Siempre borra el historial, para que "atrás" no regrese a pantallas de acceso.
  */
 public final class NavegacionAcceso {
 
     private NavegacionAcceso() {
     }
 
-    /** Lleva a la pantalla que toca y borra el historial, para que "atrás" no regrese al login. */
     public static void irAlDestino(Activity desde, AuthRepository auth) {
-        Class<?> destino;
-        if (auth.getUsuarioActual() == null) {
-            destino = LoginActivity.class;
-        } else if (auth.necesitaVerificarCorreo()) {
-            destino = VerificarCorreoActivity.class;
-        } else {
-            destino = ProductosActivity.class;
+        FirebaseUser usuario = auth.getUsuarioActual();
+        if (usuario == null) {
+            abrir(desde, LoginActivity.class, null);
+            return;
         }
+        if (auth.necesitaVerificarCorreo()) {
+            abrir(desde, VerificarCorreoActivity.class, null);
+            return;
+        }
+        new NegocioRepository(desde.getApplication()).resolverInicio(
+                usuario.getUid(), usuario.getDisplayName(), destino -> {
+                    switch (destino) {
+                        case ELEGIR_GIRO:
+                            abrir(desde, ElegirGiroActivity.class, null);
+                            break;
+                        case CATALOGO:
+                            abrir(desde, VistaPreviaCatalogoActivity.class, null);
+                            break;
+                        case ELEGIR_TURNO:
+                            abrir(desde, SeleccionarTurnoActivity.class, null);
+                            break;
+                        case OTRA_CUENTA:
+                            auth.cerrarSesion();
+                            abrir(desde, LoginActivity.class, desde.getString(R.string.acceso_otra_cuenta));
+                            break;
+                        default:
+                            abrir(desde, ProductosActivity.class, null);
+                    }
+                });
+    }
+
+    private static void abrir(Activity desde, Class<?> destino, String error) {
         Intent intent = new Intent(desde, destino);
+        if (error != null) intent.putExtra(LoginActivity.EXTRA_ERROR, error);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         desde.startActivity(intent);
         desde.finish();

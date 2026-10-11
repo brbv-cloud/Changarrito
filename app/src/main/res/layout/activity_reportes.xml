@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvTituloReportes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bg"
@@ -18,6 +19,7 @@
         android:textStyle="bold" />
 
     <HorizontalScrollView
+        android:id="@+id/scrollTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_bg"
@@ -289,6 +291,7 @@
                         android:padding="@dimen/card_padding">
 
                         <TextView
+                            android:id="@+id/tvEtiquetaEfectivo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Efectivo pendiente de cierre"
@@ -349,6 +352,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
+                    android:id="@+id/tvTituloHistorial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
@@ -357,6 +361,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardHistorial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/color_bg"
