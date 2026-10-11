@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acceso_lema">Tu tiendita, bajo control.</string>
+    <string name="acceso_logo_descripcion">Changarrito. Tu tiendita, bajo control.</string>
+    <string name="acceso_correo">Correo electrónico</string>
+    <string name="acceso_correo_pista">tucorreo@ejemplo.com</string>
+    <string name="acceso_contrasena">Contraseña</string>
+    <string name="acceso_contrasena_pista">Tu contraseña</string>
+    <string name="acceso_olvidaste">¿Olvidaste tu contraseña?</string>
+    <string name="acceso_iniciar_sesion">Iniciar sesión</string>
+    <string name="acceso_entrando">Entrando…</string>
+    <string name="acceso_o">o</string>
+    <string name="acceso_continuar_google">Continuar con Google</string>
+    <string name="acceso_sin_cuenta">¿No tienes cuenta?</string>
+    <string name="acceso_registrate">Regístrate</string>
+    <string name="acceso_volver">Volver</string>
+
+    <string name="registro_titulo">Crea tu cuenta</string>
+    <string name="registro_subtitulo">Empieza a llevar tus ventas e inventario.</string>
+    <string name="registro_nombre">Nombre</string>
+    <string name="registro_nombre_pista">Tu nombre</string>
+    <string name="registro_contrasena_pista">Crea una contraseña</string>
+    <string name="registro_contrasena_ayuda">Mínimo 8 caracteres.</string>
+    <string name="registro_confirmar">Confirmar contraseña</string>
+    <string name="registro_confirmar_pista">Repite tu contraseña</string>
+    <string name="registro_crear">Crear cuenta</string>
+    <string name="registro_creando">Creando cuenta…</string>
+    <string name="registro_google">Registrarse con Google</string>
+    <string name="registro_ya_tienes">¿Ya tienes cuenta?</string>
+    <string name="registro_inicia_sesion">Inicia sesión</string>
+    <string name="registro_acepto_terminos">Acepto los <a href="terminos">términos</a> y el <a href="privacidad">aviso de privacidad</a>.</string>
+
+    <string name="recuperar_titulo">¿Olvidaste tu contraseña?</string>
+    <string name="recuperar_subtitulo">Escribe el correo de tu cuenta y te enviaremos un enlace para crear una nueva.</string>
+    <string name="recuperar_enviar">Enviar enlace</string>
+    <string name="recuperar_enviando">Enviando…</string>
+    <string name="recuperar_ayuda">¿No te llega? Revisa tu carpeta de spam. Si entraste con Google, usa “Continuar con Google”.</string>
+    <string name="recuperar_ya_la_recordaste">¿Ya la recordaste?</string>
+    <string name="recuperar_enviado">Si hay una cuenta con ese correo, te llegará un enlace en unos minutos.</string>
+
+    <string name="verificar_titulo">Revisa tu correo</string>
+    <string name="verificar_subtitulo">Te enviamos un enlace a %1$s. Ábrelo para activar tu cuenta y luego vuelve aquí.</string>
+    <string name="verificar_ya_verifique">Ya verifiqué mi correo</string>
+    <string name="verificar_comprobando">Comprobando…</string>
+    <string name="verificar_reenviar">Reenviar correo</string>
+    <string name="verificar_reenviar_en">Reenviar en %1$d s</string>
+    <string name="verificar_reenviado">Te enviamos otro correo.</string>
+    <string name="verificar_aun_no">Todavía no aparece verificado. Abre el enlace del correo y vuelve a intentar.</string>
+    <string name="verificar_ayuda">¿No te llega? Revisa tu carpeta de spam o de promociones.</string>
+    <string name="verificar_otra_cuenta">Usar otra cuenta</string>
+
+    <string name="legal_terminos_titulo">Términos de uso</string>
+    <string name="legal_privacidad_titulo">Aviso de privacidad</string>
+    <!-- BORRADOR: revisar con la asesora antes de la entrega. -->
+    <string name="legal_terminos_texto">Changarrito es un proyecto escolar del CETI Tonalá para llevar inventario, ventas y cortes de caja de pequeños negocios. Se ofrece tal cual, sin garantía. El usuario es responsable de la información que captura y de revisar sus cuentas. Puedes dejar de usar la app y borrar tu cuenta en cualquier momento.</string>
+    <string name="legal_privacidad_texto">Para crear tu cuenta guardamos tu nombre y tu correo en Firebase Authentication (Google). Tu inventario, ventas y cortes viven en tu celular y, solo si haces un respaldo, en un espacio de Firestore al que únicamente tu cuenta tiene acceso. No vendemos ni compartimos tus datos con nadie. Tu contraseña nunca se guarda en la app: la administra Firebase de forma cifrada. Puedes pedir que borremos tu cuenta y tus respaldos escribiendo al correo de asistencia del proyecto.</string>
+    <string name="legal_entendido">Entendido</string>
+</resources>

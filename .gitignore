@@ -16,3 +16,4 @@ local.properties
 
 dump_*.csv.gz
 generar_catalogo.py
+/_to_delete/

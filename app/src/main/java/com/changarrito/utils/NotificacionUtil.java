@@ -1,5 +1,7 @@
 package com.changarrito.utils;
 
+import com.changarrito.R;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -52,7 +54,7 @@ public class NotificacionUtil {
         String titulo = tipo == TipoAlerta.STOCK_BAJO ? "Stock bajo" : "Proximo a vencer";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CANAL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setSmallIcon(R.drawable.ic_stat_changarrito)
                 .setContentTitle(titulo + ": " + nombreProducto)
                 .setContentText(mensaje)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

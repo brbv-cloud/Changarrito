@@ -18,17 +18,42 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Changarrito">
 
+        <!-- Pantalla de arranque: si ya hay sesión guardada, salta directo a la app. -->
         <activity
-            android:name=".ui.activities.ProductosActivity"
+            android:name=".ui.activities.acceso.LoginActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Changarrito"
+            android:theme="@style/Theme.Changarrito.Acceso"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activities.acceso.RegistroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.acceso.RecuperarContrasenaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.acceso.VerificarCorreoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.ProductosActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Changarrito"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".scanner.ScannerActivity"

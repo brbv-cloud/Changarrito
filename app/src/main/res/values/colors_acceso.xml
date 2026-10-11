@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores tomados del logo (turquesa #0B8478, petróleo #02414A, naranja #F7A21E).
+         Los nombres "verde" se conservan para no tocar todos los layouts.
+         Paleta del diseño de acceso (login, registro, recuperar contraseña).
+         Es la nueva identidad de la app: el resto de pantallas se migra a ella
+         en el pase de interfaz del Sprint 9. -->
+    <color name="marca_verde">#FF0B8478</color>
+    <color name="marca_verde_oscuro">#FF02414A</color>
+    <color name="marca_ambar">#FFF7A21E</color>
+    <color name="acceso_fondo">#FFF6F4EE</color>
+    <color name="acceso_superficie">#FFFFFFFF</color>
+    <color name="acceso_texto">#FF1B1F1C</color>
+    <color name="acceso_texto_secundario">#FF5F635E</color>
+    <color name="acceso_texto_pista">#FF8E918C</color>
+    <color name="acceso_borde">#FFD9D5CA</color>
+    <color name="acceso_tinte_verde">#FFD6EDEA</color>
+    <color name="acceso_error">#FFB3261E</color>
+</resources>

@@ -75,6 +75,11 @@ dependencies {
     implementation libs.firebase.auth
     implementation libs.firebase.firestore
 
+    // "Continuar con Google" con Credential Manager (reemplaza a la vieja GoogleSignIn)
+    implementation libs.androidx.credentials
+    implementation libs.androidx.credentials.play.services
+    implementation libs.googleid
+
     // Testing unitario (JVM)
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
