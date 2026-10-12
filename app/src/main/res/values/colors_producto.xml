@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semáforo de ganancia del formulario de producto (fondo claro + texto oscuro del mismo tono). -->
+    <color name="semaforo_verde_fondo">#FFE3F4EA</color>
+    <color name="semaforo_verde_texto">#FF1B6E3C</color>
+    <color name="semaforo_amarillo_fondo">#FFFFF4D6</color>
+    <color name="semaforo_amarillo_texto">#FF8A5A00</color>
+    <color name="semaforo_rojo_fondo">#FFFDE7E7</color>
+    <color name="semaforo_rojo_texto">#FFB3261E</color>
+</resources>

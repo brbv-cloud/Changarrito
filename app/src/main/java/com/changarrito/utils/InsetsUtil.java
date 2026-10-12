@@ -16,6 +16,13 @@ import androidx.core.view.WindowInsetsCompat;
  * Este helper le pide a la vista raíz de una pantalla que reserve ese espacio como
  * padding, calculado en tiempo real por el propio sistema (no un número fijo como
  * "48dp" que se ve distinto en cada equipo).
+ *
+ * Tambien maneja el TECLADO: con edge-to-edge, windowSoftInputMode="adjustResize"
+ * ya no empuja el contenido hacia arriba y el teclado tapa lo que esta abajo (el
+ * total y el "pago del cliente" en Venta, por ejemplo). Por eso, en las vistas que
+ * reservan espacio abajo, el padding inferior es el mayor entre la barra de
+ * navegacion y el teclado: cuando el teclado aparece, la pantalla se encoge y lo
+ * que estas escribiendo queda visible justo encima de el.
  */
 public class InsetsUtil {
 
@@ -33,11 +40,13 @@ public class InsetsUtil {
 
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
             Insets barras = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets teclado = insets.getInsets(WindowInsetsCompat.Type.ime());
+            int espacioAbajo = Math.max(barras.bottom, teclado.bottom);
             v.setPadding(
                     paddingIzq,
                     arriba ? paddingArribaBase + barras.top : paddingArribaBase,
                     paddingDer,
-                    abajo ? paddingAbajoBase + barras.bottom : paddingAbajoBase
+                    abajo ? paddingAbajoBase + espacioAbajo : paddingAbajoBase
             );
             return insets;
         });

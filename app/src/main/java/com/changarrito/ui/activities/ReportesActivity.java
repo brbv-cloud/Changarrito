@@ -18,10 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.changarrito.R;
 import com.changarrito.database.dao.IngresoDia;
+import com.changarrito.database.dao.ResumenGanancia;
+import com.changarrito.reportes.CalculoGanancias;
+import com.changarrito.reportes.RangoReporte;
 import com.changarrito.ui.adapters.CierreHistorialAdapter;
+import com.changarrito.ui.adapters.GananciaProductoAdapter;
+import com.changarrito.ui.adapters.PersonaReporteAdapter;
 import com.changarrito.ui.adapters.ProductoTopAdapter;
 import com.changarrito.utils.InsetsUtil;
 import com.changarrito.viewmodel.CierreCajaViewModel;
+import com.changarrito.viewmodel.GananciasViewModel;
 import com.changarrito.viewmodel.ReportesViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -37,7 +43,8 @@ import java.util.Map;
 /**
  * Pantalla de Reportes: 4 secciones que se muestran/ocultan con un toggle de
  * botones (en vez de TabLayout+ViewPager2, para no sumar otra dependencia):
- * Resumen de hoy, grafica de ingresos de 7 dias, top 5 productos y Cierre de Caja.
+ * Resumen de hoy, Ganancias (solo dueno), grafica de ingresos de 7 dias,
+ * top 5 productos y Cierre de Caja.
  *
  * La "grafica" de barras (ingresos por dia y top productos) se arma con Views
  * planos coloreados en vez de una libreria de graficas o Canvas: mas simple y
@@ -52,6 +59,9 @@ public class ReportesActivity extends AppCompatActivity {
      */
     public static final String EXTRA_CIERRE_CIEGO = "cierre_ciego";
 
+    /** Cuantos productos mostrar en "Ganancia por producto" (ya vienen ordenados). */
+    private static final int MAX_PRODUCTOS_GANANCIA = 20;
+
     private boolean cierreCiego;
 
     private MaterialButtonToggleGroup toggleTabs;
@@ -63,6 +73,13 @@ public class ReportesActivity extends AppCompatActivity {
     private TextView tvEfectivoSistema, tvResultadoCierre;
     private EditText etEfectivoContado, etNotasCierre;
     private MaterialButton btnHacerCierre;
+
+    // Ganancias
+    private View seccionGanancias;
+    private MaterialButtonToggleGroup toggleRango;
+    private TextView tvGananciaTotal, tvPctCosto, tvPctPrecio, tvGananciaVendido, tvGananciaCosto;
+    private TextView tvAvisoSinCosto, tvGananciaSinVentas, tvMenosRentablesVacio, tvPorPersonaVacio;
+    private RecyclerView rvGananciaProductos, rvMenosRentables, rvPorPersona;
 
     private ProductoTopAdapter productoTopAdapter;
     private CierreHistorialAdapter cierreHistorialAdapter;
@@ -88,6 +105,8 @@ public class ReportesActivity extends AppCompatActivity {
         if (cierreCiego) aplicarModoCierreCiego();
         observarReportes();
         observarCierreCaja();
+        // El trabajador entra en modo cierre ciego: nunca se consultan ganancias.
+        if (!cierreCiego) observarGanancias();
 
         cierreCajaViewModel.actualizarEfectivoPendiente();
 
@@ -114,6 +133,21 @@ public class ReportesActivity extends AppCompatActivity {
         etNotasCierre = findViewById(R.id.etNotasCierre);
         btnHacerCierre = findViewById(R.id.btnHacerCierre);
         tvResultadoCierre = findViewById(R.id.tvResultadoCierre);
+
+        seccionGanancias = findViewById(R.id.seccionGanancias);
+        toggleRango = findViewById(R.id.toggleRango);
+        tvGananciaTotal = findViewById(R.id.tvGananciaTotal);
+        tvPctCosto = findViewById(R.id.tvPctCosto);
+        tvPctPrecio = findViewById(R.id.tvPctPrecio);
+        tvGananciaVendido = findViewById(R.id.tvGananciaVendido);
+        tvGananciaCosto = findViewById(R.id.tvGananciaCosto);
+        tvAvisoSinCosto = findViewById(R.id.tvAvisoSinCosto);
+        tvGananciaSinVentas = findViewById(R.id.tvGananciaSinVentas);
+        tvMenosRentablesVacio = findViewById(R.id.tvMenosRentablesVacio);
+        tvPorPersonaVacio = findViewById(R.id.tvPorPersonaVacio);
+        rvGananciaProductos = findViewById(R.id.rvGananciaProductos);
+        rvMenosRentables = findViewById(R.id.rvMenosRentables);
+        rvPorPersona = findViewById(R.id.rvPorPersona);
     }
 
     private void configurarTabs() {
@@ -121,6 +155,7 @@ public class ReportesActivity extends AppCompatActivity {
             if (!isChecked) return;
 
             seccionHoy.setVisibility(checkedId == R.id.btnTabHoy ? View.VISIBLE : View.GONE);
+            seccionGanancias.setVisibility(checkedId == R.id.btnTabGanancias ? View.VISIBLE : View.GONE);
             seccionSieteDias.setVisibility(checkedId == R.id.btnTab7Dias ? View.VISIBLE : View.GONE);
             seccionTop.setVisibility(checkedId == R.id.btnTabTop ? View.VISIBLE : View.GONE);
             seccionCaja.setVisibility(checkedId == R.id.btnTabCaja ? View.VISIBLE : View.GONE);
@@ -179,6 +214,90 @@ public class ReportesActivity extends AppCompatActivity {
             etEfectivoContado.setText("");
             etNotasCierre.setText("");
         });
+    }
+
+    private void observarGanancias() {
+        GananciasViewModel gananciasViewModel = new ViewModelProvider(this).get(GananciasViewModel.class);
+
+        GananciaProductoAdapter adapterProductos = new GananciaProductoAdapter(MAX_PRODUCTOS_GANANCIA);
+        rvGananciaProductos.setLayoutManager(new LinearLayoutManager(this));
+        rvGananciaProductos.setAdapter(adapterProductos);
+
+        GananciaProductoAdapter adapterBajos = new GananciaProductoAdapter(GananciasViewModel.MAX_MENOS_RENTABLES);
+        rvMenosRentables.setLayoutManager(new LinearLayoutManager(this));
+        rvMenosRentables.setAdapter(adapterBajos);
+
+        PersonaReporteAdapter adapterPersonas = new PersonaReporteAdapter();
+        rvPorPersona.setLayoutManager(new LinearLayoutManager(this));
+        rvPorPersona.setAdapter(adapterPersonas);
+
+        toggleRango.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (!isChecked) return;
+            if (checkedId == R.id.btnRango7) {
+                gananciasViewModel.setRango(RangoReporte.SIETE_DIAS);
+            } else if (checkedId == R.id.btnRango30) {
+                gananciasViewModel.setRango(RangoReporte.TREINTA_DIAS);
+            } else {
+                gananciasViewModel.setRango(RangoReporte.HOY);
+            }
+        });
+
+        gananciasViewModel.getResumen().observe(this, this::mostrarResumenGanancia);
+
+        gananciasViewModel.getPorProducto().observe(this, lista -> {
+            adapterProductos.setProductos(lista);
+            boolean vacio = lista == null || lista.isEmpty();
+            tvGananciaSinVentas.setVisibility(vacio ? View.VISIBLE : View.GONE);
+            rvGananciaProductos.setVisibility(vacio ? View.GONE : View.VISIBLE);
+        });
+
+        gananciasViewModel.getMenosRentables().observe(this, lista -> {
+            adapterBajos.setProductos(lista);
+            boolean vacio = lista == null || lista.isEmpty();
+            List<?> vendidos = gananciasViewModel.getPorProducto().getValue();
+            boolean sinVentas = vendidos == null || vendidos.isEmpty();
+            tvMenosRentablesVacio.setText(sinVentas ? R.string.ganancia_sin_ventas : R.string.ganancia_menos_rentables_vacio);
+            tvMenosRentablesVacio.setTextColor(ContextCompat.getColor(this,
+                    sinVentas ? R.color.color_slate_medium : R.color.status_verde));
+            tvMenosRentablesVacio.setVisibility(vacio ? View.VISIBLE : View.GONE);
+            rvMenosRentables.setVisibility(vacio ? View.GONE : View.VISIBLE);
+        });
+
+        gananciasViewModel.getPorPersona().observe(this, filas -> {
+            adapterPersonas.setFilas(filas);
+            boolean vacio = filas == null || filas.isEmpty();
+            tvPorPersonaVacio.setVisibility(vacio ? View.VISIBLE : View.GONE);
+            rvPorPersona.setVisibility(vacio ? View.GONE : View.VISIBLE);
+        });
+    }
+
+    private void mostrarResumenGanancia(ResumenGanancia r) {
+        double ganancia = CalculoGanancias.ganancia(r);
+        tvGananciaTotal.setText(CalculoGanancias.dinero(ganancia));
+        tvGananciaTotal.setTextColor(ContextCompat.getColor(this,
+                ganancia < 0 ? R.color.status_rojo : R.color.color_primary_variant));
+        tvGananciaVendido.setText(CalculoGanancias.dinero(r != null ? r.ventas : 0));
+        tvGananciaCosto.setText(CalculoGanancias.dinero(r != null ? r.costo : 0));
+
+        boolean hayCosto = r != null && r.costo > 0;
+        tvPctCosto.setVisibility(hayCosto ? View.VISIBLE : View.GONE);
+        tvPctPrecio.setVisibility(hayCosto ? View.VISIBLE : View.GONE);
+        if (hayCosto) {
+            tvPctCosto.setText(getString(R.string.ganancia_pct_costo,
+                    CalculoGanancias.porcentaje(CalculoGanancias.pctSobreCosto(r))));
+            tvPctPrecio.setText(getString(R.string.ganancia_pct_precio,
+                    CalculoGanancias.porcentaje(CalculoGanancias.pctDelPrecio(r))));
+        }
+
+        if (r != null && r.ventasSinCosto > 0) {
+            String cuantas = getResources().getQuantityString(
+                    R.plurals.ganancia_ventas, r.ventasSinCosto, r.ventasSinCosto);
+            tvAvisoSinCosto.setText(getString(R.string.ganancia_aviso_sin_costo,
+                    cuantas, CalculoGanancias.dinero(r.importeSinCosto)));
+            tvAvisoSinCosto.setVisibility(View.VISIBLE);
+        } else {
+            tvAvisoSinCosto.setVisibility(View.GONE);
+        }
     }
 
     private void intentarHacerCierre() {

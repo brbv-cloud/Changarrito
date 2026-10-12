@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ganancia_tab">Ganancias</string>
+    <string name="ganancia_rango_hoy">Hoy</string>
+    <string name="ganancia_rango_7">7 días</string>
+    <string name="ganancia_rango_30">30 días</string>
+
+    <string name="ganancia_titulo">Lo que te quedó</string>
+    <string name="ganancia_vendido">Vendiste</string>
+    <string name="ganancia_costo">Te costó</string>
+    <string name="ganancia_pct_costo">%1$s sobre el costo</string>
+    <string name="ganancia_pct_precio">%1$s del precio de venta</string>
+    <string name="ganancia_aviso_sin_costo">%1$s (%2$s) no tienen costo registrado y no se cuentan en la ganancia. Captura el costo en el producto para verlas.</string>
+
+    <string name="ganancia_por_producto">Ganancia por producto</string>
+    <string name="ganancia_menos_rentables">Los que menos te dejan</string>
+    <string name="ganancia_menos_rentables_ayuda">Ganan menos del 10% sobre el costo o se vendieron por debajo del costo.</string>
+    <string name="ganancia_menos_rentables_vacio">Ningún producto vendido está en amarillo ni en rojo.</string>
+    <string name="ganancia_por_persona">Por persona</string>
+    <string name="ganancia_sin_ventas">No hay ventas en este periodo.</string>
+
+    <string name="ganancia_vendiste">%1$s · %2$s</string>
+    <string name="ganancia_porcentajes_corto">%1$s costo · %2$s precio</string>
+    <string name="ganancia_sin_costo">Sin costo</string>
+    <string name="ganancia_sin_costo_ayuda">Captura su costo</string>
+
+    <string name="ganancia_persona_sin_nombre">Sin turno</string>
+    <string name="ganancia_persona_sin_cierres">Sin cierres de caja</string>
+    <string name="ganancia_persona_falto">faltó %1$s</string>
+    <string name="ganancia_persona_sobro">sobró %1$s</string>
+    <string name="ganancia_persona_cuadro">cuadró</string>
+
+    <plurals name="ganancia_ventas">
+        <item quantity="one">%d venta</item>
+        <item quantity="other">%d ventas</item>
+    </plurals>
+    <plurals name="ganancia_cierres">
+        <item quantity="one">%d cierre</item>
+        <item quantity="other">%d cierres</item>
+    </plurals>
+</resources>

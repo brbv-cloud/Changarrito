@@ -68,6 +68,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".ui.activities.negocio.BitacoraActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso" />
+
+        <activity
             android:name=".ui.activities.negocio.AjustesActivity"
             android:exported="false"
             android:theme="@style/Theme.Changarrito.Acceso"

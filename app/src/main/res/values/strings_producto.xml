@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="producto_nuevo">Nuevo producto</string>
+    <string name="producto_editar">Editar producto</string>
+    <string name="producto_nombre">Nombre</string>
+    <string name="producto_nombre_pista">Coca-Cola 600 ml</string>
+    <string name="producto_categoria">Categoría</string>
+    <string name="producto_categoria_pista">Bebidas</string>
+    <string name="producto_unidad">Se vende por</string>
+    <string name="producto_costo">Costo de compra (lo que te costó)</string>
+    <string name="producto_costo_por">Costo por %1$s</string>
+    <string name="producto_margen">¿Cuánto le quieres ganar?</string>
+    <string name="producto_margen_valor">%1$d%%</string>
+    <string name="producto_precio">Precio de venta</string>
+    <string name="producto_precio_ayuda">Se sugiere solo; puedes cambiarlo.</string>
+    <string name="producto_redondear">Redondear a $0.50</string>
+    <string name="producto_ganas">Ganas %1$s por %2$s</string>
+    <string name="producto_pierdes">Pierdes %1$s por %2$s</string>
+    <string name="producto_porcentajes">%1$s%% sobre el costo · %2$s%% del precio de venta</string>
+    <string name="producto_semaforo_verde">Buen margen</string>
+    <string name="producto_semaforo_amarillo">Le ganas muy poco a este producto</string>
+    <string name="producto_semaforo_rojo">Lo estás vendiendo por debajo de lo que te costó</string>
+    <string name="producto_sin_costo">Captura el costo para ver cuánto le ganas.</string>
+    <string name="producto_existencia">Existencia</string>
+    <string name="producto_umbral">Avisar cuando queden</string>
+    <string name="producto_caducidad">Fecha de caducidad</string>
+    <string name="producto_caducidad_obligatoria">Fecha de caducidad (obligatoria)</string>
+    <string name="producto_caducidad_vacia">Sin fecha · toca para elegir</string>
+    <string name="producto_quitar_fecha">Quitar fecha</string>
+    <string name="producto_telefono">Teléfono del proveedor</string>
+    <string name="producto_telefono_pista">33 1234 5678</string>
+    <string name="producto_barcode">Código de barras</string>
+    <string name="producto_barcode_pista">Opcional</string>
+    <string name="producto_guardar">Guardar producto</string>
+    <string name="producto_cancelar">Cancelar</string>
+    <string name="producto_error_nombre">Escribe el nombre.</string>
+    <string name="producto_error_precio">Escribe el precio de venta.</string>
+    <string name="producto_error_numero">Escribe un número válido.</string>
+    <string name="producto_error_pza">Si se vende por pieza, la existencia va sin decimales.</string>
+    <string name="producto_error_caducidad">Este giro necesita la fecha de caducidad.</string>
+    <string name="unidad_pza">Pieza</string>
+    <string name="unidad_kg">Kilo</string>
+    <string name="unidad_gr">Gramo</string>
+    <string name="unidad_m">Metro</string>
+
+    <!-- Bitácora -->
+    <string name="bitacora_titulo">Bitácora de cambios</string>
+    <string name="bitacora_subtitulo">Quién cambió precios, costos o existencias, y cuándo. Solo la ves tú.</string>
+    <string name="bitacora_vacia">Todavía no hay cambios registrados.</string>
+    <string name="bitacora_abrir">Bitácora de cambios</string>
+    <string name="bitacora_hoy">Hoy</string>
+    <string name="bitacora_ayer">Ayer</string>
+</resources>

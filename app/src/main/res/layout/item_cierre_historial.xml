@@ -30,6 +30,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvMontos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/color_slate_medium"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/tvNotas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

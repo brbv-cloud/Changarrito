@@ -23,7 +23,7 @@ public class CierreHistorialAdapter extends RecyclerView.Adapter<CierreHistorial
     private static final double EPSILON = 0.01;
 
     private List<CierreCajaEntity> cierres = new ArrayList<>();
-    private final SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private final SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy · HH:mm", Locale.getDefault());
 
     public void setCierres(List<CierreCajaEntity> cierres) {
         this.cierres = cierres != null ? cierres : new ArrayList<>();
@@ -41,7 +41,11 @@ public class CierreHistorialAdapter extends RecyclerView.Adapter<CierreHistorial
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CierreCajaEntity cierre = cierres.get(position);
-        holder.tvFecha.setText(formatoFecha.format(new Date(cierre.fechaMs)));
+        // Hora real del cierre (puede haber varios el mismo dia, ej. uno por turno).
+        long cuando = cierre.timestampCreacionMs > 0 ? cierre.timestampCreacionMs : cierre.fechaMs;
+        holder.tvFecha.setText(formatoFecha.format(new Date(cuando)));
+        holder.tvMontos.setText(String.format(Locale.getDefault(), "Sistema $%.2f · Contado $%.2f",
+                cierre.efectivoSistema, cierre.efectivoFisicoContado));
 
         int color;
         String texto;
@@ -72,12 +76,13 @@ public class CierreHistorialAdapter extends RecyclerView.Adapter<CierreHistorial
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvFecha, tvDiferencia, tvNotas;
+        TextView tvFecha, tvDiferencia, tvMontos, tvNotas;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvFecha = itemView.findViewById(R.id.tvFecha);
             tvDiferencia = itemView.findViewById(R.id.tvDiferencia);
+            tvMontos = itemView.findViewById(R.id.tvMontos);
             tvNotas = itemView.findViewById(R.id.tvNotas);
         }
     }

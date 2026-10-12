@@ -22,10 +22,19 @@ public interface CierreCajaDAO {
     @Query("SELECT * FROM cierre_caja WHERE fechaMs = :fechaMs LIMIT 1")
     CierreCajaEntity getCierreByFechaSync(long fechaMs);
 
-    @Query("SELECT * FROM cierre_caja ORDER BY fechaMs DESC")
+    @Query("SELECT * FROM cierre_caja ORDER BY timestampCreacionMs DESC")
     LiveData<List<CierreCajaEntity>> getHistorialCierres();
 
     /** El cierre mas reciente (de cualquier dia): marca desde donde contar el "efectivo pendiente". */
     @Query("SELECT * FROM cierre_caja ORDER BY timestampCreacionMs DESC LIMIT 1")
     CierreCajaEntity getUltimoCierreSync();
+
+    /** Cierres por persona en un rango: cuantos hizo y cuanto falto/sobro en total. */
+    @Query("SELECT c.idUsuario AS idUsuario, u.nombre AS nombre, COUNT(*) AS cierres, " +
+            "COALESCE(SUM(CASE WHEN c.diferencia < -0.005 THEN c.diferencia ELSE 0 END), 0) AS faltante, " +
+            "COALESCE(SUM(CASE WHEN c.diferencia > 0.005 THEN c.diferencia ELSE 0 END), 0) AS sobrante " +
+            "FROM cierre_caja c LEFT JOIN usuario u ON u.id = c.idUsuario " +
+            "WHERE c.timestampCreacionMs BETWEEN :inicioMs AND :finMs " +
+            "GROUP BY c.idUsuario")
+    LiveData<List<CierresPorUsuario>> getCierresPorUsuario(long inicioMs, long finMs);
 }

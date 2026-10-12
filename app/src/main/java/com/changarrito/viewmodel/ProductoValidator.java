@@ -13,6 +13,9 @@ public class ProductoValidator {
         if (producto.precio < 0) {
             return "El precio no puede ser negativo";
         }
+        if (producto.costoCompra < 0) {
+            return "El costo no puede ser negativo";
+        }
         if (producto.cantidadDisponible < 0) {
             return "La cantidad no puede ser negativa";
         }

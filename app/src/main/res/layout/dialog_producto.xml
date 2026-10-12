@@ -1,109 +1,428 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Formulario de producto (Sprint 7). Pantalla completa con el estilo de acceso.
+     Las secciones de costo, margen y ganancia se ocultan según el rol (ver ProductoDialogFragment). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootProducto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/acceso_fondo"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="24dp">
 
-        <EditText
-            android:id="@+id/etNombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre producto"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/etPrecio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Precio (por unidad de medida)"
-            android:inputType="numberDecimal" />
+        <ImageButton
+            android:id="@+id/btnCancelar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/producto_cancelar"
+            android:src="@drawable/ic_atras" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Unidad de medida"
-            android:textSize="12sp" />
+            android:layout_marginStart="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/acceso_texto"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spUnidadMedida"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/etCantidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Cantidad disponible"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/etUmbral"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Umbral stock bajo"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Fecha de caducidad"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvFechaCaducidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Sin fecha de caducidad (tocar para elegir)" />
-
-        <EditText
-            android:id="@+id/etTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Teléfono proveedor"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/etBarcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Código de barras (opcional)"
-            android:inputType="text" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="24dp">
 
-            <Button
-                android:id="@+id/btnGuardar"
-                android:layout_width="0dp"
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Guardar"
-                android:layout_marginEnd="8dp" />
+                android:text="@string/producto_nombre" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombre"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btnCancelar"
-                android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNombre"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/producto_nombre_pista"
+                    android:inputType="textCapSentences" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancelar" />
+                android:text="@string/producto_categoria" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCategoria"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/etCategoria"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="0"
+                    android:hint="@string/producto_categoria_pista"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_unidad" />
+            <!-- Botones de unidad: solo las que habilita el giro (los agrega el fragment). -->
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/grupoUnidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:selectionRequired="true"
+                app:singleSelection="true" />
+
+            <LinearLayout
+                android:id="@+id/seccionCosto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvEtiquetaCosto"
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_costo" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCosto"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:prefixText="$ ">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCosto"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="0.00"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seccionMargen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/producto_margen"
+                        android:textColor="@color/acceso_texto"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvMargenValor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/marca_verde"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderMargen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/producto_margen"
+                    android:stepSize="1"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    app:labelBehavior="gone"
+                    app:thumbColor="@color/marca_verde"
+                    app:trackColorActive="@color/marca_verde"
+                    app:trackColorInactive="@color/acceso_borde" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMargen20"
+                        style="@style/Producto.Chip"
+                        android:layout_width="wrap_content"
+                        android:text="20%" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMargen30"
+                        style="@style/Producto.Chip"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="30%" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMargen50"
+                        style="@style/Producto.Chip"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="50%" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvEtiquetaPrecio"
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_precio" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPrecio"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:helperText="@string/producto_precio_ayuda"
+                app:helperTextTextColor="@color/acceso_texto_secundario"
+                app:prefixText="$ ">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPrecio"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="0.00"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbRedondear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-8dp"
+                android:checked="true"
+                android:text="@string/producto_redondear"
+                android:textColor="@color/acceso_texto_secundario"
+                app:buttonTint="@color/marca_verde" />
+
+            <!-- Semáforo de ganancia (solo dueño). -->
+            <LinearLayout
+                android:id="@+id/tarjetaGanancia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_semaforo_verde"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvGanancia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvPorcentajes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvSemaforo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvEtiquetaCantidad"
+                    style="@style/Acceso.Etiqueta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/producto_existencia" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCantidad"
+                    style="@style/Acceso.Campo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+    
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCantidad"
+                        style="@style/Acceso.CampoTexto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="0"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                <TextView
+                    style="@style/Acceso.Etiqueta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/producto_umbral" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilUmbral"
+                    style="@style/Acceso.Campo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+    
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUmbral"
+                        style="@style/Acceso.CampoTexto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="0"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seccionCaducidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvEtiquetaCaducidad"
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_caducidad" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvFechaCaducidad"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_campo_fecha"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textColor="@color/acceso_texto"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tvQuitarFecha"
+                        style="@style/Acceso.Enlace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/producto_quitar_fecha"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_telefono" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilTelefono"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTelefono"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/producto_telefono_pista"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/producto_barcode" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilBarcode"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBarcode"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/producto_barcode_pista"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/acceso_error"
+                android:textSize="15sp"
+                android:visibility="gone" />
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-
-</ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardar"
+        style="@style/Acceso.BotonPrincipal"
+        android:layout_width="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/producto_guardar" />
+</LinearLayout>

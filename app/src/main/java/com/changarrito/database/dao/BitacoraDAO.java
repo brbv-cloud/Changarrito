@@ -22,6 +22,12 @@ public interface BitacoraDAO {
     @Query("SELECT * FROM bitacora ORDER BY timestampMs DESC LIMIT :limite")
     LiveData<List<BitacoraEntity>> getRecientes(int limite);
 
+    /** Para la pantalla de bitácora: cada entrada con el nombre de quien hizo el cambio. */
+    @Query("SELECT b.*, u.nombre AS nombreUsuario FROM bitacora b "
+            + "LEFT JOIN usuario u ON u.id = b.idUsuario "
+            + "ORDER BY b.timestampMs DESC LIMIT :limite")
+    LiveData<List<BitacoraConUsuario>> getRecientesConUsuario(int limite);
+
     @Query("SELECT * FROM bitacora WHERE idProducto = :idProducto ORDER BY timestampMs DESC")
     LiveData<List<BitacoraEntity>> getPorProducto(int idProducto);
 

@@ -69,6 +69,8 @@ public class AjustesActivity extends AppCompatActivity {
         });
         repo.getUsuariosActivos().observe(this, this::mostrarEquipo);
 
+        findViewById(R.id.btnBitacora).setOnClickListener(v ->
+                startActivity(new Intent(this, BitacoraActivity.class)));
         findViewById(R.id.btnAgregarTrabajador).setOnClickListener(v -> agregarTrabajador());
         findViewById(R.id.btnMiClave).setOnClickListener(v -> crearClaveDueno(null));
         findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> confirmarCerrarSesion());

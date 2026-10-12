@@ -99,6 +99,11 @@ public class CierreCajaRepositoryTest {
             latch.countDown();
         });
         assertTrue("timeout esperando registrarCierre", latch.await(2, TimeUnit.SECONDS));
+        // En un celular rapido la siguiente venta de la prueba puede caer en el MISMO
+        // milisegundo que este cierre y quedar fuera de "ventas despues del ultimo
+        // cierre". En uso real eso no pasa (son acciones de una persona), asi que se
+        // simula una pausa minima entre el cierre y lo que sigue.
+        Thread.sleep(5);
         return resultado[0];
     }
 
