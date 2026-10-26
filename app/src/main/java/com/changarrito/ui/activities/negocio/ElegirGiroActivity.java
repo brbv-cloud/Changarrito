@@ -15,6 +15,8 @@ import com.changarrito.auth.AuthRepository;
 import com.changarrito.database.entity.GiroNegocio;
 import com.changarrito.negocio.CatalogoGiro;
 import com.changarrito.negocio.NegocioRepository;
+import com.changarrito.respaldo.RespaldoNube;
+import com.changarrito.respaldo.RespaldoRepository;
 import com.changarrito.ui.activities.acceso.NavegacionAcceso;
 import com.changarrito.utils.InsetsUtil;
 import com.google.android.material.button.MaterialButton;
@@ -60,6 +62,28 @@ public class ElegirGiroActivity extends AppCompatActivity {
         }
 
         btnContinuar.setOnClickListener(v -> continuar());
+        if (savedInstanceState == null) buscarRespaldoEnLaNube();
+    }
+
+    /**
+     * Celular nuevo o app reinstalada: si esta cuenta ya tiene un negocio respaldado,
+     * se ofrece recuperarlo en vez de configurar todo de cero. Sin internet o sin
+     * respaldo no se muestra nada y se sigue normal.
+     */
+    private void buscarRespaldoEnLaNube() {
+        new RespaldoRepository(getApplication()).consultar(new RespaldoRepository.Callback<RespaldoNube.InfoRespaldo>() {
+            @Override
+            public void onExito(RespaldoNube.InfoRespaldo info) {
+                // Si ya le dio "Continuar", no lo interrumpimos.
+                if (info == null || !btnContinuar.isEnabled()) return;
+                DialogosRespaldo.ofrecerRecuperar(ElegirGiroActivity.this, info);
+            }
+
+            @Override
+            public void onError(String mensaje) {
+                // Sin internet o sin sesion: se configura normal.
+            }
+        });
     }
 
     private void elegir(GiroNegocio giro) {

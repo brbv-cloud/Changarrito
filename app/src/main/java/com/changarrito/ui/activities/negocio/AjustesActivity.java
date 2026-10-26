@@ -17,9 +17,13 @@ import com.changarrito.auth.GoogleSignInHelper;
 import com.changarrito.database.entity.Rol;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.negocio.NegocioRepository;
+import com.changarrito.respaldo.RespaldoNube;
+import com.changarrito.respaldo.RespaldoRepository;
+import com.changarrito.workers.RespaldoWorker;
 import com.changarrito.negocio.SesionTurno;
 import com.changarrito.ui.activities.acceso.LoginActivity;
 import com.changarrito.utils.InsetsUtil;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,6 +40,7 @@ public class AjustesActivity extends AppCompatActivity {
     private LinearLayout contenedorEquipo;
     private UsuarioEntity dueno;
     private int trabajadoresActivos;
+    private RespaldoRepository respaldo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,80 @@ public class AjustesActivity extends AppCompatActivity {
 
         findViewById(R.id.btnBitacora).setOnClickListener(v ->
                 startActivity(new Intent(this, BitacoraActivity.class)));
+
+        respaldo = new RespaldoRepository(getApplication());
+        mostrarEstadoRespaldo();
+        findViewById(R.id.btnRespaldarAhora).setOnClickListener(v -> respaldarAhora());
+        findViewById(R.id.btnRestaurar).setOnClickListener(v -> buscarParaRestaurar());
         findViewById(R.id.btnAgregarTrabajador).setOnClickListener(v -> agregarTrabajador());
         findViewById(R.id.btnMiClave).setOnClickListener(v -> crearClaveDueno(null));
         findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> confirmarCerrarSesion());
+    }
+
+    // ---------- Respaldo en la nube ----------
+
+    private void mostrarEstadoRespaldo() {
+        TextView tv = findViewById(R.id.tvEstadoRespaldo);
+        long ms = respaldo.getUltimoRespaldoMs();
+        if (ms == 0) {
+            tv.setText(R.string.respaldo_nunca);
+            return;
+        }
+        String resumen = respaldo.getUltimoResumen();
+        tv.setText(getString(R.string.respaldo_ultimo, DialogosRespaldo.cuando(this, ms),
+                resumen != null ? resumen : ""));
+    }
+
+    private void botonesRespaldo(boolean activos, int textoRespaldar, int textoRestaurar) {
+        MaterialButton respaldar = findViewById(R.id.btnRespaldarAhora);
+        MaterialButton restaurar = findViewById(R.id.btnRestaurar);
+        respaldar.setEnabled(activos);
+        restaurar.setEnabled(activos);
+        respaldar.setText(textoRespaldar);
+        restaurar.setText(textoRestaurar);
+    }
+
+    private void respaldarAhora() {
+        botonesRespaldo(false, R.string.respaldo_en_proceso, R.string.respaldo_restaurar);
+        respaldo.respaldar(new RespaldoRepository.Callback<RespaldoNube.InfoRespaldo>() {
+            @Override
+            public void onExito(RespaldoNube.InfoRespaldo info) {
+                if (isFinishing() || isDestroyed()) return;
+                botonesRespaldo(true, R.string.respaldo_ahora, R.string.respaldo_restaurar);
+                mostrarEstadoRespaldo();
+                Toast.makeText(AjustesActivity.this, R.string.respaldo_listo, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(String mensaje) {
+                if (isFinishing() || isDestroyed()) return;
+                botonesRespaldo(true, R.string.respaldo_ahora, R.string.respaldo_restaurar);
+                DialogosRespaldo.mostrarError(AjustesActivity.this, mensaje);
+            }
+        });
+    }
+
+    private void buscarParaRestaurar() {
+        botonesRespaldo(false, R.string.respaldo_ahora, R.string.respaldo_buscando);
+        respaldo.consultar(new RespaldoRepository.Callback<RespaldoNube.InfoRespaldo>() {
+            @Override
+            public void onExito(RespaldoNube.InfoRespaldo info) {
+                if (isFinishing() || isDestroyed()) return;
+                botonesRespaldo(true, R.string.respaldo_ahora, R.string.respaldo_restaurar);
+                if (info == null) {
+                    DialogosRespaldo.mostrarError(AjustesActivity.this, getString(R.string.respaldo_error_sin_respaldo));
+                } else {
+                    DialogosRespaldo.confirmarReemplazo(AjustesActivity.this, info);
+                }
+            }
+
+            @Override
+            public void onError(String mensaje) {
+                if (isFinishing() || isDestroyed()) return;
+                botonesRespaldo(true, R.string.respaldo_ahora, R.string.respaldo_restaurar);
+                DialogosRespaldo.mostrarError(AjustesActivity.this, mensaje);
+            }
+        });
     }
 
     private void mostrarEquipo(List<UsuarioEntity> usuarios) {
@@ -157,6 +233,7 @@ public class AjustesActivity extends AppCompatActivity {
     }
 
     private void cerrarSesion() {
+        RespaldoWorker.cancelar(this);
         SesionTurno.cerrar(this);
         auth.cerrarSesion();
         GoogleSignInHelper.olvidarCuentaElegida(this);

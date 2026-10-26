@@ -36,6 +36,7 @@ import com.changarrito.utils.InsetsUtil;
 import com.changarrito.viewmodel.AlertaViewModel;
 import com.changarrito.viewmodel.ProductoViewModel;
 import com.changarrito.workers.AlertaCheckWorker;
+import com.changarrito.workers.RespaldoWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -169,6 +170,8 @@ public class ProductosActivity extends AppCompatActivity implements ProductoDial
         // periódica de WorkManager (que es cada 24h, ver programarRevisionPeriodicaDeAlertas()).
         alertaViewModel.verificarAlertasAhora();
         programarRevisionPeriodicaDeAlertas();
+        // Respaldo automatico en la nube una vez al dia, cuando haya internet.
+        RespaldoWorker.programarDiario(this);
     }
 
     private void pedirPermisoNotificacionesSiHaceFalta() {

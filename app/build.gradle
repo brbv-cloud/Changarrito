@@ -41,6 +41,20 @@ android {
     enableKotlin = false
 }
 
+// Como el modulo no usa el plugin de Kotlin, Gradle no sabe elegir la variante
+// "Android" de las librerias multiplataforma de androidx.datastore (que Firebase
+// usa por dentro) y se queda con la de escritorio (-jvm). A esa le faltan clases
+// solo de Android (PreferenceDataStoreDelegateKt) y Firestore tronaba con
+// NoClassDefFoundError al primer envio. Aqui se fuerza la variante Android.
+def versionDatastore = '1.1.7'
+configurations.configureEach {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('androidx.datastore:datastore-jvm') using module("androidx.datastore:datastore-android:${versionDatastore}")
+        substitute module('androidx.datastore:datastore-core-jvm') using module("androidx.datastore:datastore-core-android:${versionDatastore}")
+        substitute module('androidx.datastore:datastore-preferences-jvm') using module("androidx.datastore:datastore-preferences-android:${versionDatastore}")
+    }
+}
+
 dependencies {
     // AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'

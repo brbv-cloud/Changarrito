@@ -11,6 +11,7 @@ import com.changarrito.database.dao.BitacoraDAO;
 import com.changarrito.database.dao.CierreCajaDAO;
 import com.changarrito.database.dao.ConfiguracionNegocioDAO;
 import com.changarrito.database.dao.ProductoDAO;
+import com.changarrito.database.dao.RespaldoDAO;
 import com.changarrito.database.dao.UsuarioDAO;
 import com.changarrito.database.dao.VentaDAO;
 import com.changarrito.database.entity.AlertaEntity;
@@ -64,6 +65,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract BitacoraDAO bitacoraDao();
 
     public abstract ConfiguracionNegocioDAO configuracionNegocioDao();
+
+    /** Respaldo en la nube: leer y reemplazar todo (no agrega tablas, no cambia la version). */
+    public abstract RespaldoDAO respaldoDao();
 
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una

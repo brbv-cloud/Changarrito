@@ -146,6 +146,48 @@
                 android:text="@string/bitacora_abrir"
                 app:icon="@drawable/ic_reloj" />
 
+            <!-- Respaldo en la nube -->
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/respaldo_seccion" />
+
+            <TextView
+                android:id="@+id/tvEstadoRespaldo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.15"
+                android:text="@string/respaldo_nunca"
+                android:textColor="@color/acceso_texto"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:lineSpacingMultiplier="1.15"
+                android:text="@string/respaldo_ayuda"
+                android:textColor="@color/acceso_texto_secundario"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRespaldarAhora"
+                style="@style/Acceso.BotonGoogle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:text="@string/respaldo_ahora"
+                app:icon="@drawable/ic_nube_subir" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRestaurar"
+                style="@style/Acceso.BotonGoogle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="@string/respaldo_restaurar"
+                app:icon="@drawable/ic_nube_bajar" />
+
             <!-- Equipo -->
             <TextView
                 style="@style/Acceso.Etiqueta"

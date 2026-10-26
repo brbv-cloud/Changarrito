@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="respaldo_seccion">Respaldo en la nube</string>
+    <string name="respaldo_ayuda">Se respalda solo una vez al día y después de cada cierre de caja, cuando hay internet. Si cambias o pierdes el celular, inicia sesión con esta misma cuenta y recupera todo.</string>
+    <string name="respaldo_nunca">Todavía no hay respaldo de este celular.</string>
+    <string name="respaldo_ultimo">Último respaldo: %1$s\n%2$s</string>
+    <string name="respaldo_hoy">hoy a las %1$s</string>
+    <string name="respaldo_ayer">ayer a las %1$s</string>
+    <string name="respaldo_fecha">%1$s a las %2$s</string>
+
+    <string name="respaldo_ahora">Respaldar ahora</string>
+    <string name="respaldo_restaurar">Recuperar desde la nube</string>
+    <string name="respaldo_en_proceso">Respaldando…</string>
+    <string name="respaldo_buscando">Buscando respaldo…</string>
+    <string name="respaldo_restaurando">Recuperando tu negocio…</string>
+    <string name="respaldo_listo">Respaldo guardado en la nube</string>
+    <string name="respaldo_restaurado">Listo, se recuperó tu negocio</string>
+
+    <string name="respaldo_confirmar_titulo">¿Recuperar desde la nube?</string>
+    <string name="respaldo_confirmar_texto">Respaldo de %1$s del %2$s (%3$s):\n%4$s\n\nSe va a REEMPLAZAR todo lo que hay en este celular por ese respaldo. Lo que no se haya respaldado se pierde.</string>
+    <string name="respaldo_confirmar_si">Recuperar</string>
+    <string name="respaldo_cancelar">Cancelar</string>
+
+    <string name="respaldo_encontrado_titulo">Encontramos un respaldo</string>
+    <string name="respaldo_encontrado_texto">Tu cuenta tiene un respaldo de \"%1$s\" del %2$s:\n%3$s\n\n¿Quieres recuperarlo en este celular?</string>
+    <string name="respaldo_empezar_cero">Empezar de cero</string>
+    <string name="respaldo_empezar_cero_aviso">Si empiezas de cero, el próximo respaldo reemplazará el que está en la nube.</string>
+
+    <string name="respaldo_error_internet">No hay internet o la conexión está muy lenta. Inténtalo de nuevo cuando tengas señal.</string>
+    <string name="respaldo_error_sesion">Inicia sesión con una cuenta verificada para usar el respaldo.</string>
+    <string name="respaldo_error_permiso">La nube rechazó el acceso. Cierra sesión, vuelve a entrar e inténtalo de nuevo.</string>
+    <string name="respaldo_error_sin_respaldo">Esta cuenta todavía no tiene respaldo en la nube.</string>
+    <string name="respaldo_error_incompleto">El respaldo no se descargó completo. No se cambió nada; inténtalo de nuevo.</string>
+    <string name="respaldo_error_desconocido">No se pudo completar el respaldo. Inténtalo de nuevo.</string>
+
+    <plurals name="respaldo_productos">
+        <item quantity="one">%d producto</item>
+        <item quantity="other">%d productos</item>
+    </plurals>
+    <plurals name="respaldo_ventas">
+        <item quantity="one">%d venta</item>
+        <item quantity="other">%d ventas</item>
+    </plurals>
+</resources>

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.repository.CierreCajaRepository;
+import com.changarrito.workers.RespaldoWorker;
 
 import java.util.List;
 
@@ -54,6 +55,8 @@ public class CierreCajaViewModel extends AndroidViewModel {
         repository.registrarCierre(efectivoContado, notas, cierre -> {
             ultimoResultado.postValue(cierre);
             actualizarEfectivoPendiente();
+            // El cierre es el final natural del dia: se respalda en cuanto haya internet.
+            RespaldoWorker.respaldarPronto(getApplication());
         });
     }
 }
