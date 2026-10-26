@@ -98,7 +98,11 @@ public class ProductoDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, R.style.Theme_Changarrito_Acceso_PantallaCompleta);
-        if (listener == null && getActivity() instanceof ProductoDialogListener) {
+        // Si Android recrea el formulario (p. ej. al girar), se recupera a quien avisar:
+        // primero la seccion que lo abrio, luego la Activity.
+        if (listener == null && getParentFragment() instanceof ProductoDialogListener) {
+            listener = (ProductoDialogListener) getParentFragment();
+        } else if (listener == null && getActivity() instanceof ProductoDialogListener) {
             listener = (ProductoDialogListener) getActivity();
         }
     }

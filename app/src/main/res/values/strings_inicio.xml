@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_inventario">Inventario</string>
+    <string name="nav_vender">Vender</string>
+    <string name="nav_alertas">Alertas</string>
+    <string name="nav_reportes">Reportes</string>
+    <string name="nav_caja">Caja</string>
+
+    <string name="inicio_hola">Hola, %1$s</string>
+    <string name="inicio_atiende">Atiende: %1$s</string>
+    <string name="inicio_productos">Productos</string>
+    <string name="inicio_ventas_hoy">Ventas de hoy</string>
+    <string name="inicio_compras_hoy">Compras de hoy</string>
+    <string name="inicio_alertas">Alertas</string>
+    <string name="inicio_acceso_rapido">¿Qué quieres hacer?</string>
+    <string name="inicio_ver_inventario">Ver inventario</string>
+    <string name="inicio_registrar_venta">Registrar venta</string>
+    <string name="inicio_ver_alertas">Revisar alertas</string>
+    <string name="inicio_ver_reportes">Ver reportes</string>
+    <string name="inicio_cerrar_caja">Cerrar caja</string>
+    <string name="inicio_ajustes">Ajustes</string>
+    <string name="inicio_sin_alertas">Todo en orden</string>
+    <string name="inicio_con_alertas">Por atender</string>
+</resources>

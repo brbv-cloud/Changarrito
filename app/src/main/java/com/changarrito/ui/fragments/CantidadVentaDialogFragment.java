@@ -53,6 +53,17 @@ public class CantidadVentaDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Si Android recrea el dialogo, se recupera a quien avisar: la seccion que lo abrio.
+        if (listener == null && getParentFragment() instanceof Listener) {
+            listener = (Listener) getParentFragment();
+        } else if (listener == null && getActivity() instanceof Listener) {
+            listener = (Listener) getActivity();
+        }
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

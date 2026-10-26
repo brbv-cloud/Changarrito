@@ -79,9 +79,8 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.activities.ProductosActivity"
+            android:name=".ui.activities.PrincipalActivity"
             android:exported="false"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Changarrito"
             android:windowSoftInputMode="adjustResize" />
 
@@ -90,23 +89,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Changarrito" />
-
-        <activity
-            android:name=".ui.activities.VentaActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Changarrito"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".ui.activities.AlertasActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Changarrito" />
-
-        <activity
-            android:name=".ui.activities.ReportesActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Changarrito"
-            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".MainActivity"

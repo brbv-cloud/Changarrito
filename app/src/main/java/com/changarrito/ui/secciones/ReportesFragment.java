@@ -1,4 +1,4 @@
-package com.changarrito.ui.activities;
+package com.changarrito.ui.secciones;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,7 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.changarrito.database.dao.ResumenGanancia;
 import com.changarrito.database.dao.VentasPorCategoria;
 import com.changarrito.database.dao.VentasPorHora;
 import com.changarrito.database.entity.MotivoMerma;
+import com.changarrito.negocio.SesionTurno;
 import com.changarrito.pdf.CompartirArchivo;
 import com.changarrito.reportes.CalculoGanancias;
 import com.changarrito.reportes.DiaReporte;
@@ -37,7 +39,6 @@ import com.changarrito.ui.adapters.PersonaReporteAdapter;
 import com.changarrito.ui.graficas.BarraCienView;
 import com.changarrito.ui.graficas.DonaView;
 import com.changarrito.ui.graficas.GraficaBarrasView;
-import com.changarrito.utils.InsetsUtil;
 import com.changarrito.viewmodel.CierreCajaViewModel;
 import com.changarrito.viewmodel.GananciasViewModel;
 import com.google.android.material.button.MaterialButton;
@@ -57,12 +58,10 @@ import java.util.Locale;
  * el detalle completo va en el PDF del estado de cuenta.
  *
  * Un trabajador entra solo a la pestana Caja y en modo "cierre a ciegas": cuenta
- * el efectivo sin ver cuanto dice el sistema (EXTRA_CIERRE_CIEGO). En ese modo
- * no se consulta ningun reporte.
+ * el efectivo sin ver cuanto dice el sistema. En ese modo no se consulta ningun reporte.
  */
-public class ReportesActivity extends AppCompatActivity {
+public class ReportesFragment extends SeccionFragment {
 
-    public static final String EXTRA_CIERRE_CIEGO = "cierre_ciego";
     private static final Locale MX = Locale.forLanguageTag("es-MX");
     private static final int MAX_CATEGORIAS = 6;
     private static final int MAX_MERMAS_LISTA = 20;
@@ -115,18 +114,20 @@ public class ReportesActivity extends AppCompatActivity {
     private int[] porHora = new int[24];
     private int primeraHora;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reportes);
-        InsetsUtil.aplicarPaddingBarrasDelSistema(findViewById(R.id.rootReportes), true, true);
+    public ReportesFragment() {
+        super(R.layout.fragment_reportes);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         vincularVistas();
         cierreCajaViewModel = new ViewModelProvider(this).get(CierreCajaViewModel.class);
         configurarCaja();
         configurarTabs();
 
-        cierreCiego = getIntent().getBooleanExtra(EXTRA_CIERRE_CIEGO, false);
+        // El trabajador no ve reportes ni ganancias: solo el cierre de caja "a ciegas".
+        cierreCiego = !SesionTurno.esDueno(requireContext());
         if (cierreCiego) {
             aplicarModoCierreCiego();
         } else {
@@ -136,59 +137,59 @@ public class ReportesActivity extends AppCompatActivity {
     }
 
     private void vincularVistas() {
-        toggleTabs = findViewById(R.id.toggleTabs);
-        toggleRango = findViewById(R.id.toggleRango);
-        toggleTop = findViewById(R.id.toggleTop);
-        toggleHuesos = findViewById(R.id.toggleHuesos);
-        seccionResumen = findViewById(R.id.seccionResumen);
-        seccionProductos = findViewById(R.id.seccionProductos);
-        seccionHorarios = findViewById(R.id.seccionHorarios);
-        seccionMermas = findViewById(R.id.seccionMermas);
-        seccionCaja = findViewById(R.id.seccionCaja);
+        toggleTabs = vista(R.id.toggleTabs);
+        toggleRango = vista(R.id.toggleRango);
+        toggleTop = vista(R.id.toggleTop);
+        toggleHuesos = vista(R.id.toggleHuesos);
+        seccionResumen = vista(R.id.seccionResumen);
+        seccionProductos = vista(R.id.seccionProductos);
+        seccionHorarios = vista(R.id.seccionHorarios);
+        seccionMermas = vista(R.id.seccionMermas);
+        seccionCaja = vista(R.id.seccionCaja);
 
-        tvVendiste = findViewById(R.id.tvVendiste);
-        tvTeQuedo = findViewById(R.id.tvTeQuedo);
-        tvPctQuedo = findViewById(R.id.tvPctQuedo);
-        tvTicket = findViewById(R.id.tvTicket);
-        tvTicketAyuda = findViewById(R.id.tvTicketAyuda);
-        tvCompras = findViewById(R.id.tvCompras);
-        tvComprasAyuda = findViewById(R.id.tvComprasAyuda);
-        tvExplicaCien = findViewById(R.id.tvExplicaCien);
-        tvDetalleVentasDia = findViewById(R.id.tvDetalleVentasDia);
-        tvAvisoSinCosto = findViewById(R.id.tvAvisoSinCosto);
-        cardCien = findViewById(R.id.cardCien);
-        cardVentasDia = findViewById(R.id.cardVentasDia);
-        barraCien = findViewById(R.id.barraCien);
-        graficaVentasDia = findViewById(R.id.graficaVentasDia);
-        btnEstadoCuenta = findViewById(R.id.btnEstadoCuenta);
+        tvVendiste = vista(R.id.tvVendiste);
+        tvTeQuedo = vista(R.id.tvTeQuedo);
+        tvPctQuedo = vista(R.id.tvPctQuedo);
+        tvTicket = vista(R.id.tvTicket);
+        tvTicketAyuda = vista(R.id.tvTicketAyuda);
+        tvCompras = vista(R.id.tvCompras);
+        tvComprasAyuda = vista(R.id.tvComprasAyuda);
+        tvExplicaCien = vista(R.id.tvExplicaCien);
+        tvDetalleVentasDia = vista(R.id.tvDetalleVentasDia);
+        tvAvisoSinCosto = vista(R.id.tvAvisoSinCosto);
+        cardCien = vista(R.id.cardCien);
+        cardVentasDia = vista(R.id.cardVentasDia);
+        barraCien = vista(R.id.barraCien);
+        graficaVentasDia = vista(R.id.graficaVentasDia);
+        btnEstadoCuenta = vista(R.id.btnEstadoCuenta);
 
-        tvTopAyuda = findViewById(R.id.tvTopAyuda);
-        tvTopVacio = findViewById(R.id.tvTopVacio);
-        tvCategoriasVacio = findViewById(R.id.tvCategoriasVacio);
-        tvHuesosVacio = findViewById(R.id.tvHuesosVacio);
-        donaCategorias = findViewById(R.id.donaCategorias);
-        rvTop = findViewById(R.id.rvTop);
-        rvCategorias = findViewById(R.id.rvCategorias);
-        rvHuesos = findViewById(R.id.rvHuesos);
+        tvTopAyuda = vista(R.id.tvTopAyuda);
+        tvTopVacio = vista(R.id.tvTopVacio);
+        tvCategoriasVacio = vista(R.id.tvCategoriasVacio);
+        tvHuesosVacio = vista(R.id.tvHuesosVacio);
+        donaCategorias = vista(R.id.donaCategorias);
+        rvTop = vista(R.id.rvTop);
+        rvCategorias = vista(R.id.rvCategorias);
+        rvHuesos = vista(R.id.rvHuesos);
 
-        tvHoraPico = findViewById(R.id.tvHoraPico);
-        tvDetalleHora = findViewById(R.id.tvDetalleHora);
-        tvPorPersonaVacio = findViewById(R.id.tvPorPersonaVacio);
-        graficaHoras = findViewById(R.id.graficaHoras);
-        rvPorPersona = findViewById(R.id.rvPorPersona);
+        tvHoraPico = vista(R.id.tvHoraPico);
+        tvDetalleHora = vista(R.id.tvDetalleHora);
+        tvPorPersonaVacio = vista(R.id.tvPorPersonaVacio);
+        graficaHoras = vista(R.id.graficaHoras);
+        rvPorPersona = vista(R.id.rvPorPersona);
 
-        tvMermaTotal = findViewById(R.id.tvMermaTotal);
-        tvMermaResumen = findViewById(R.id.tvMermaResumen);
-        tvMermasVacio = findViewById(R.id.tvMermasVacio);
-        rvMermaMotivos = findViewById(R.id.rvMermaMotivos);
-        rvMermas = findViewById(R.id.rvMermas);
+        tvMermaTotal = vista(R.id.tvMermaTotal);
+        tvMermaResumen = vista(R.id.tvMermaResumen);
+        tvMermasVacio = vista(R.id.tvMermasVacio);
+        rvMermaMotivos = vista(R.id.rvMermaMotivos);
+        rvMermas = vista(R.id.rvMermas);
 
-        tvEfectivoSistema = findViewById(R.id.tvEfectivoSistema);
-        tvResultadoCierre = findViewById(R.id.tvResultadoCierre);
-        etEfectivoContado = findViewById(R.id.etEfectivoContado);
-        etNotasCierre = findViewById(R.id.etNotasCierre);
-        btnHacerCierre = findViewById(R.id.btnHacerCierre);
-        rvHistorialCierres = findViewById(R.id.rvHistorialCierres);
+        tvEfectivoSistema = vista(R.id.tvEfectivoSistema);
+        tvResultadoCierre = vista(R.id.tvResultadoCierre);
+        etEfectivoContado = vista(R.id.etEfectivoContado);
+        etNotasCierre = vista(R.id.etNotasCierre);
+        btnHacerCierre = vista(R.id.btnHacerCierre);
+        rvHistorialCierres = vista(R.id.rvHistorialCierres);
     }
 
     private void configurarTabs() {
@@ -229,8 +230,8 @@ public class ReportesActivity extends AppCompatActivity {
         lista(rvMermaMotivos, motivosAdapter);
         lista(rvMermas, mermasAdapter);
 
-        vm.getResumen().observe(this, this::mostrarResumen);
-        vm.getPorDia().observe(this, d -> {
+        vm.getResumen().observe(getViewLifecycleOwner(), this::mostrarResumen);
+        vm.getPorDia().observe(getViewLifecycleOwner(), d -> {
             dias = d != null ? d : new ArrayList<>();
             mostrarVentasPorDia();
         });
@@ -241,20 +242,20 @@ public class ReportesActivity extends AppCompatActivity {
             }
         });
 
-        vm.getPorProducto().observe(this, p -> {
+        vm.getPorProducto().observe(getViewLifecycleOwner(), p -> {
             productos = p != null ? p : new ArrayList<>();
             mostrarTop();
         });
         toggleTop.addOnButtonCheckedListener((g, id, checked) -> {
             if (checked) mostrarTop();
         });
-        vm.getPorCategoria().observe(this, this::mostrarCategorias);
+        vm.getPorCategoria().observe(getViewLifecycleOwner(), this::mostrarCategorias);
         toggleHuesos.addOnButtonCheckedListener((g, id, checked) -> {
             if (checked) vm.setDiasHueso(id == R.id.btnHuesos60 ? 60 : 30);
         });
-        vm.getHuesos().observe(this, this::mostrarHuesos);
+        vm.getHuesos().observe(getViewLifecycleOwner(), this::mostrarHuesos);
 
-        vm.getPorHora().observe(this, this::mostrarHoras);
+        vm.getPorHora().observe(getViewLifecycleOwner(), this::mostrarHoras);
         graficaHoras.setOnBarraTocada(i -> {
             int h = primeraHora + i;
             if (h >= 0 && h < 24) {
@@ -263,15 +264,15 @@ public class ReportesActivity extends AppCompatActivity {
                         getResources().getQuantityString(R.plurals.rep_compras_n, porHora[h], porHora[h])));
             }
         });
-        vm.getPorPersona().observe(this, filas -> {
+        vm.getPorPersona().observe(getViewLifecycleOwner(), filas -> {
             personasAdapter.setFilas(filas);
             boolean vacio = filas == null || filas.isEmpty();
             tvPorPersonaVacio.setVisibility(vacio ? View.VISIBLE : View.GONE);
             rvPorPersona.setVisibility(vacio ? View.GONE : View.VISIBLE);
         });
 
-        vm.getMermasPorMotivo().observe(this, this::mostrarMermasPorMotivo);
-        vm.getMermas().observe(this, this::mostrarMermas);
+        vm.getMermasPorMotivo().observe(getViewLifecycleOwner(), this::mostrarMermasPorMotivo);
+        vm.getMermas().observe(getViewLifecycleOwner(), this::mostrarMermas);
 
         btnEstadoCuenta.setOnClickListener(v -> generarEstadoCuenta(vm.getRangoActual()));
     }
@@ -282,7 +283,7 @@ public class ReportesActivity extends AppCompatActivity {
         tvVendiste.setText(CalculoGanancias.dinero(r != null ? r.ventas : 0));
         double ganancia = CalculoGanancias.ganancia(r);
         tvTeQuedo.setText(CalculoGanancias.dinero(ganancia));
-        tvTeQuedo.setTextColor(ContextCompat.getColor(this,
+        tvTeQuedo.setTextColor(ContextCompat.getColor(requireContext(),
                 ganancia < 0 ? R.color.status_rojo : R.color.color_primary_variant));
         // En la app la ganancia se explica solo en pesos ("de cada $100..."); los dos
         // porcentajes (sobre costo y del precio) van en el PDF, con su explicacion.
@@ -326,7 +327,7 @@ public class ReportesActivity extends AppCompatActivity {
             if (valores[i] > 0 && (mejor < 0 || valores[i] > valores[mejor])) mejor = i;
         }
         graficaVentasDia.setDatos(etiquetas, valores, mejor,
-                ContextCompat.getColor(this, R.color.marca_verde), EscalaGrafica::dineroCorto);
+                ContextCompat.getColor(requireContext(), R.color.marca_verde), EscalaGrafica::dineroCorto);
         tvDetalleVentasDia.setText(mejor < 0 ? getString(R.string.ganancia_sin_ventas)
                 : getString(R.string.rep_mejor_dia, fechaLarga(dias.get(mejor).diaMs),
                 CalculoGanancias.dinero(valores[mejor])));
@@ -341,7 +342,7 @@ public class ReportesActivity extends AppCompatActivity {
                 : Rankings.masVendidos(productos, Rankings.TOP);
         double max = 0;
         for (GananciaProducto p : top) max = Math.max(max, rentables ? p.ganancia() : p.cantidad);
-        int color = ContextCompat.getColor(this, rentables ? R.color.marca_verde : R.color.categoria_2);
+        int color = ContextCompat.getColor(requireContext(), rentables ? R.color.marca_verde : R.color.categoria_2);
         List<BarraHorizontalAdapter.Fila> filas = new ArrayList<>();
         for (int i = 0; i < top.size(); i++) {
             GananciaProducto p = top.get(i);
@@ -358,12 +359,12 @@ public class ReportesActivity extends AppCompatActivity {
 
     private int[] coloresCategorias(List<VentasPorCategoria> cats) {
         int[] paleta = {
-                ContextCompat.getColor(this, R.color.categoria_1),
-                ContextCompat.getColor(this, R.color.categoria_2),
-                ContextCompat.getColor(this, R.color.categoria_3),
-                ContextCompat.getColor(this, R.color.categoria_4),
-                ContextCompat.getColor(this, R.color.categoria_5)};
-        int otras = ContextCompat.getColor(this, R.color.categoria_otras);
+                ContextCompat.getColor(requireContext(), R.color.categoria_1),
+                ContextCompat.getColor(requireContext(), R.color.categoria_2),
+                ContextCompat.getColor(requireContext(), R.color.categoria_3),
+                ContextCompat.getColor(requireContext(), R.color.categoria_4),
+                ContextCompat.getColor(requireContext(), R.color.categoria_5)};
+        int otras = ContextCompat.getColor(requireContext(), R.color.categoria_otras);
         int[] colores = new int[cats.size()];
         for (int i = 0; i < cats.size(); i++) {
             colores[i] = Rankings.OTRAS.equals(cats.get(i).categoria) ? otras : paleta[i % paleta.length];
@@ -441,7 +442,7 @@ public class ReportesActivity extends AppCompatActivity {
             valores[i] = porHora[primeraHora + i];
         }
         graficaHoras.setDatos(etiquetas, valores, pico - primeraHora,
-                ContextCompat.getColor(this, R.color.marca_ambar), v -> String.valueOf((long) v));
+                ContextCompat.getColor(requireContext(), R.color.marca_ambar), v -> String.valueOf((long) v));
     }
 
     // ---------------------------------------------------------------- Mermas
@@ -459,7 +460,7 @@ public class ReportesActivity extends AppCompatActivity {
         }
         tvMermaTotal.setText(CalculoGanancias.dinero(total));
         tvMermaResumen.setText(getString(R.string.rep_mermas_resumen, registros));
-        int rojo = ContextCompat.getColor(this, R.color.status_rojo);
+        int rojo = ContextCompat.getColor(requireContext(), R.color.status_rojo);
         List<BarraHorizontalAdapter.Fila> filas = new ArrayList<>();
         if (datos != null) {
             for (MermaPorMotivo m : datos) {
@@ -497,10 +498,10 @@ public class ReportesActivity extends AppCompatActivity {
     private void generarEstadoCuenta(RangoReporte rango) {
         btnEstadoCuenta.setEnabled(false);
         btnEstadoCuenta.setText(R.string.pdf_generando);
-        new EstadoCuentaRepository(getApplication()).generar(rango, new EstadoCuentaRepository.Callback() {
+        new EstadoCuentaRepository(requireActivity().getApplication()).generar(rango, new EstadoCuentaRepository.Callback() {
             @Override
             public void onListo(File pdf, int paginas) {
-                if (isFinishing() || isDestroyed()) return;
+                if (!isAdded()) return;
                 btnEstadoCuenta.setEnabled(true);
                 btnEstadoCuenta.setText(R.string.pdf_boton);
                 ofrecerPdf(pdf, paginas, rango);
@@ -508,10 +509,10 @@ public class ReportesActivity extends AppCompatActivity {
 
             @Override
             public void onError(String mensaje) {
-                if (isFinishing() || isDestroyed()) return;
+                if (!isAdded()) return;
                 btnEstadoCuenta.setEnabled(true);
                 btnEstadoCuenta.setText(R.string.pdf_boton);
-                Toast.makeText(ReportesActivity.this, getString(R.string.pdf_error, mensaje), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), getString(R.string.pdf_error, mensaje), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -522,18 +523,18 @@ public class ReportesActivity extends AppCompatActivity {
         String ini = f.format(new Date(r[0]));
         String fin = f.format(new Date(r[1]));
         String periodo = ini.equals(fin) ? ini : ini + " – " + fin;
-        new MaterialAlertDialogBuilder(this)
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.pdf_listo_titulo)
                 .setMessage(getString(R.string.pdf_listo_texto, periodo, paginas))
                 .setPositiveButton(R.string.pdf_compartir, (d, w) ->
-                        CompartirArchivo.compartir(this, pdf, getString(R.string.pdf_asunto, periodo)))
+                        CompartirArchivo.compartir(requireActivity(), pdf, getString(R.string.pdf_asunto, periodo)))
                 .setNegativeButton(R.string.pdf_ver, (d, w) -> {
-                    if (!CompartirArchivo.ver(this, pdf)) {
-                        Toast.makeText(this, R.string.pdf_sin_visor, Toast.LENGTH_LONG).show();
+                    if (!CompartirArchivo.ver(requireActivity(), pdf)) {
+                        Toast.makeText(requireContext(), R.string.pdf_sin_visor, Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNeutralButton(R.string.pdf_guardar, (d, w) -> Toast.makeText(this,
-                        CompartirArchivo.guardarEnDescargas(this, pdf) ? R.string.pdf_guardado : R.string.pdf_no_guardado,
+                .setNeutralButton(R.string.pdf_guardar, (d, w) -> Toast.makeText(requireContext(),
+                        CompartirArchivo.guardarEnDescargas(requireActivity(), pdf) ? R.string.pdf_guardado : R.string.pdf_no_guardado,
                         Toast.LENGTH_LONG).show())
                 .show();
     }
@@ -555,12 +556,12 @@ public class ReportesActivity extends AppCompatActivity {
         cierreHistorialAdapter = new CierreHistorialAdapter();
         lista(rvHistorialCierres, cierreHistorialAdapter);
 
-        cierreCajaViewModel.getHistorial().observe(this, cierreHistorialAdapter::setCierres);
-        cierreCajaViewModel.getEfectivoPendienteDeCierre().observe(this, efectivo -> {
+        cierreCajaViewModel.getHistorial().observe(getViewLifecycleOwner(), cierreHistorialAdapter::setCierres);
+        cierreCajaViewModel.getEfectivoPendienteDeCierre().observe(getViewLifecycleOwner(), efectivo -> {
             double valor = efectivo != null ? efectivo : 0;
             tvEfectivoSistema.setText(String.format(Locale.getDefault(), "$%.2f", valor));
         });
-        cierreCajaViewModel.getUltimoResultado().observe(this, cierre -> {
+        cierreCajaViewModel.getUltimoResultado().observe(getViewLifecycleOwner(), cierre -> {
             if (cierre == null) return;
             mostrarResultadoCierre(cierre.diferencia);
             etEfectivoContado.setText("");
@@ -572,18 +573,18 @@ public class ReportesActivity extends AppCompatActivity {
     private void intentarHacerCierre() {
         String textoContado = etEfectivoContado.getText().toString().trim().replace(',', '.');
         if (TextUtils.isEmpty(textoContado)) {
-            Toast.makeText(this, "Captura el efectivo contado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Captura el efectivo contado", Toast.LENGTH_SHORT).show();
             return;
         }
         double contado;
         try {
             contado = Double.parseDouble(textoContado);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Cantidad invalida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Cantidad invalida", Toast.LENGTH_SHORT).show();
             return;
         }
         if (contado < 0) {
-            Toast.makeText(this, "La cantidad no puede ser negativa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "La cantidad no puede ser negativa", Toast.LENGTH_SHORT).show();
             return;
         }
         cierreCajaViewModel.hacerCierre(contado, etNotasCierre.getText().toString().trim());
@@ -591,32 +592,39 @@ public class ReportesActivity extends AppCompatActivity {
 
     private void aplicarModoCierreCiego() {
         toggleTabs.check(R.id.btnTabCaja);
-        findViewById(R.id.scrollTabs).setVisibility(View.GONE);
+        vista(R.id.scrollTabs).setVisibility(View.GONE);
         toggleRango.setVisibility(View.GONE);
-        ((TextView) findViewById(R.id.tvTituloReportes)).setText(R.string.cierre_ciego_titulo);
-        ((TextView) findViewById(R.id.tvEtiquetaEfectivo)).setText(R.string.cierre_ciego_ayuda);
+        ((TextView) vista(R.id.tvTituloReportes)).setText(R.string.cierre_ciego_titulo);
+        ((TextView) vista(R.id.tvEtiquetaEfectivo)).setText(R.string.cierre_ciego_ayuda);
         tvEfectivoSistema.setVisibility(View.GONE);
-        findViewById(R.id.tvTituloHistorial).setVisibility(View.GONE);
-        findViewById(R.id.cardHistorial).setVisibility(View.GONE);
+        vista(R.id.tvTituloHistorial).setVisibility(View.GONE);
+        vista(R.id.cardHistorial).setVisibility(View.GONE);
     }
 
     private void mostrarResultadoCierre(double diferencia) {
         tvResultadoCierre.setVisibility(View.VISIBLE);
         if (cierreCiego) {
             tvResultadoCierre.setText(R.string.cierre_ciego_registrado);
-            tvResultadoCierre.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+            tvResultadoCierre.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_verde));
             return;
         }
         double epsilon = 0.01;
         if (Math.abs(diferencia) < epsilon) {
             tvResultadoCierre.setText("Cuadre exacto");
-            tvResultadoCierre.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+            tvResultadoCierre.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_verde));
         } else if (diferencia > 0) {
             tvResultadoCierre.setText(String.format(Locale.getDefault(), "Sobrante: $%.2f", diferencia));
-            tvResultadoCierre.setTextColor(ContextCompat.getColor(this, R.color.status_verde));
+            tvResultadoCierre.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_verde));
         } else {
             tvResultadoCierre.setText(String.format(Locale.getDefault(), "Faltante: $%.2f", Math.abs(diferencia)));
-            tvResultadoCierre.setTextColor(ContextCompat.getColor(this, R.color.status_rojo));
+            tvResultadoCierre.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_rojo));
         }
+    }
+
+    @Override
+    protected void alMostrar() {
+        // Pudo haber ventas mientras se estaba en otra pestana: el efectivo de la caja
+        // se recalcula cada vez que se ve esta seccion.
+        if (cierreCajaViewModel != null) cierreCajaViewModel.actualizarEfectivoPendiente();
     }
 }

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootProductos"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg_alt">
+    android:background="@color/color_bg_alt"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProductos"
@@ -66,55 +72,9 @@
             android:src="@drawable/ic_ajustes" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabVender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="160dp"
-        android:contentDescription="Vender"
-        app:backgroundTint="@color/status_verde"
-        app:tint="@color/white"
-        android:src="@android:drawable/ic_menu_send" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAlertas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="232dp"
-        android:contentDescription="Alertas"
-        app:backgroundTint="@color/color_bg"
-        app:tint="@color/status_rojo"
-        android:src="@android:drawable/ic_dialog_alert" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabReportes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="304dp"
-        android:contentDescription="Reportes"
-        app:backgroundTint="@color/color_primary_variant"
-        app:tint="@color/white"
-        android:src="@android:drawable/ic_menu_sort_by_size" />
 
-    <TextView
-        android:id="@+id/tvBadgeAlertas"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="272dp"
-        android:background="@drawable/bg_badge"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabEscanear"
@@ -140,3 +100,6 @@
         android:src="@android:drawable/ic_menu_add" />
 
 </FrameLayout>
+
+
+</LinearLayout>

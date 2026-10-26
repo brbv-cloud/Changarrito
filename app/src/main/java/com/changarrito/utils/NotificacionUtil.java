@@ -13,14 +13,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.changarrito.database.entity.TipoAlerta;
-import com.changarrito.ui.activities.AlertasActivity;
+import com.changarrito.ui.activities.PrincipalActivity;
 
 /**
  * Muestra las notificaciones del sistema para las alertas de stock bajo / proximo
  * vencimiento. En Android 13+ requiere el permiso POST_NOTIFICATIONS: si el usuario
  * no lo concedio, notify() lanza SecurityException, que se captura silenciosamente
  * (la app sigue funcionando, solo no se ve la notificacion del sistema; la alerta
- * de todas formas queda visible en AlertasActivity).
+ * de todas formas queda visible en la pestana Alertas).
  */
 public class NotificacionUtil {
 
@@ -46,7 +46,11 @@ public class NotificacionUtil {
                                                   String nombreProducto, String mensaje) {
         crearCanal(context);
 
-        Intent intent = new Intent(context, AlertasActivity.class);
+        // Abre la app directo en la pestana Alertas (si ya estaba abierta, la reutiliza).
+        Intent intent = new Intent(context, PrincipalActivity.class)
+                .putExtra(PrincipalActivity.EXTRA_SECCION, PrincipalActivity.SECCION_ALERTAS)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, idNotificacion, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);

@@ -92,4 +92,8 @@ public interface ProductoDAO {
 
     @Query(SQL_HUESOS)
     List<ProductoHueso> getHuesosSync(long limiteMs);
+
+    /** Para Inicio: cuantos productos hay en el inventario. */
+    @Query("SELECT COUNT(*) FROM producto WHERE activo = 1")
+    LiveData<Integer> contarActivos();
 }

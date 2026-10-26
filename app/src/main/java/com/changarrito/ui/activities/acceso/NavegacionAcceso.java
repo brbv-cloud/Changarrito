@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.changarrito.R;
 import com.changarrito.auth.AuthRepository;
 import com.changarrito.negocio.NegocioRepository;
-import com.changarrito.ui.activities.ProductosActivity;
+import com.changarrito.ui.activities.PrincipalActivity;
 import com.changarrito.ui.activities.negocio.ElegirGiroActivity;
 import com.changarrito.ui.activities.negocio.SeleccionarTurnoActivity;
 import com.changarrito.ui.activities.negocio.VistaPreviaCatalogoActivity;
@@ -53,7 +53,7 @@ public final class NavegacionAcceso {
                             abrir(desde, LoginActivity.class, desde.getString(R.string.acceso_otra_cuenta));
                             break;
                         default:
-                            abrir(desde, ProductosActivity.class, null);
+                            abrir(desde, PrincipalActivity.class, null);
                     }
                 });
     }
