@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cuadro verde clarito con la inicial del producto. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/acceso_tinte_verde" />
+    <corners android:radius="12dp" />
+</shape>

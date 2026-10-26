@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Etiqueta neutra de cantidad cuando el stock esta bien (las de aviso usan semaforo_*). -->
+    <color name="chip_gris_fondo">#FFEEF1F4</color>
+    <color name="chip_gris_texto">#FF475569</color>
+</resources>

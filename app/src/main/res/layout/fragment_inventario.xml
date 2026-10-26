@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Inventario: titulo con resumen, buscador (con boton de escanear), filtros por estado
+     y la lista de productos en tarjetas. El boton "Agregar" queda flotando abajo. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootProductos"
@@ -7,99 +9,163 @@
     android:background="@color/color_bg_alt"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/inv_titulo"
+        android:textColor="@color/color_slate_dark"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvResumen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/color_slate_medium"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_buscador"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_buscar"
+            app:tint="@color/color_slate_medium" />
+
+        <EditText
+            android:id="@+id/etBuscar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/inv_buscar_hint"
+            android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/color_slate_dark"
+            android:textColorHint="@color/acceso_texto_pista"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/btnLimpiarBusqueda"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/inv_limpiar"
+            android:src="@drawable/ic_cerrar"
+            android:visibility="gone"
+            app:tint="@color/color_slate_medium" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="@color/color_card_stroke" />
+
+        <ImageButton
+            android:id="@+id/btnEscanear"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/inv_escanear"
+            android:src="@drawable/ic_escanear"
+            app:tint="@color/marca_verde" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipsFiltro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:checkedChip="@+id/chipTodos"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTodos"
+                style="@style/Inventario.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBajo"
+                style="@style/Inventario.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAgotados"
+                style="@style/Inventario.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCaducar"
+                style="@style/Inventario.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProductos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="84dp"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProductos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="2dp"
+            android:paddingBottom="88dp" />
 
-    <!-- Barra superior: negocio, quién atiende y botón de Ajustes (Sprint 6). -->
-    <LinearLayout
-        android:id="@+id/barraSuperior"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="top"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/bg_barra_superior"
-        android:elevation="2dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="4dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvVacio"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:textColor="@color/color_slate_medium"
+            android:textSize="15sp"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tvNegocio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:maxLines="1"
-                android:text="@string/app_name"
-                android:textColor="@color/acceso_texto"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvTurno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/acceso_texto_secundario"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/btnAjustes"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/ajustes_abrir"
-            android:src="@drawable/ic_ajustes" />
-    </LinearLayout>
-
-
-
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabEscanear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="88dp"
-        android:contentDescription="Escanear codigo de barras"
-        app:backgroundTint="@color/color_amber"
-        app:tint="@color/color_slate_dark"
-        android:src="@android:drawable/ic_menu_camera" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAgregarProducto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Agregar producto"
-        app:backgroundTint="@color/color_primary"
-        app:tint="@color/white"
-        android:src="@android:drawable/ic_menu_add" />
-
-</FrameLayout>
-
-
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fabAgregarProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:text="@string/inv_agregar"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/marca_verde"
+            app:icon="@drawable/ic_mas"
+            app:iconTint="@color/white" />
+    </FrameLayout>
 </LinearLayout>

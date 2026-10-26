@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="inv_titulo">Inventario</string>
+    <plurals name="inv_productos_n">
+        <item quantity="one">%d producto</item>
+        <item quantity="other">%d productos</item>
+    </plurals>
+    <string name="inv_por_atender">%1$s · %2$d por atender</string>
+    <string name="inv_buscar_hint">Buscar por nombre, categoría o código</string>
+    <string name="inv_escanear">Escanear código de barras</string>
+    <string name="inv_limpiar">Borrar búsqueda</string>
+
+    <string name="inv_filtro_todos">Todos (%d)</string>
+    <string name="inv_filtro_bajo">Stock bajo (%d)</string>
+    <string name="inv_filtro_agotados">Agotados (%d)</string>
+    <string name="inv_filtro_caducar">Por caducar (%d)</string>
+
+    <string name="inv_agregar">Agregar</string>
+    <string name="inv_vacio_sin_productos">Todavía no hay productos.\nToca «Agregar» para dar de alta el primero, o escanea su código con el botón del buscador.</string>
+    <string name="inv_vacio_busqueda">Ningún producto coincide con «%s».</string>
+    <string name="inv_vacio_filtro">Ningún producto está en este estado. ¡Todo en orden!</string>
+
+    <string name="inv_precio_unidad">%1$s / %2$s</string>
+    <string name="inv_chip_agotado">Agotado</string>
+    <string name="inv_chip_bajo">Stock bajo · %s</string>
+    <string name="inv_chip_caducado">Caducado</string>
+    <string name="inv_chip_vence_hoy">Vence hoy</string>
+    <string name="inv_chip_vence_manana">Vence mañana</string>
+    <string name="inv_chip_vence_en">Vence en %d días</string>
+
+    <string name="inv_editar">Editar producto</string>
+    <string name="inv_quitar">Quitar del inventario</string>
+    <string name="inv_quitar_titulo">¿Quitar «%s»?</string>
+    <string name="inv_quitar_texto">Ya no aparecerá para vender. Lo que ya se vendió se queda en tus reportes.</string>
+    <string name="inv_quitar_si">Quitar</string>
+    <string name="inv_cancelar">Cancelar</string>
+</resources>

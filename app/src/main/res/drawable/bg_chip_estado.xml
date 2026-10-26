@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Etiqueta de estado de un producto ("Stock bajo", "Vence en 3 dias"). El color se pone desde el adapter. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/white" />
+    <corners android:radius="999dp" />
+</shape>
