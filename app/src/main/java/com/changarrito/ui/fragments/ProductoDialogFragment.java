@@ -145,6 +145,11 @@ public class ProductoDialogFragment extends DialogFragment {
         v.findViewById(R.id.btnCancelar).setOnClickListener(x -> dismiss());
         v.findViewById(R.id.btnGuardar).setOnClickListener(x -> guardar());
 
+        // Merma (danado, caducado, robo): dueno y trabajadores, solo en productos ya guardados.
+        View btnMerma = v.findViewById(R.id.btnMerma);
+        btnMerma.setVisibility(esNuevo ? View.GONE : View.VISIBLE);
+        btnMerma.setOnClickListener(x -> MermaDialog.mostrar(requireActivity(), productoEditando, this::dismiss));
+
         // Lo que el trabajador no ve: el % de ganancia y el semáforo siempre; el costo,
         // salvo al dar de alta (lo necesita para que se sugiera el precio).
         v.findViewById(R.id.seccionMargen).setVisibility(esDueno ? View.VISIBLE : View.GONE);

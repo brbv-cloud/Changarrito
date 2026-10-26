@@ -1,5 +1,6 @@
 package com.changarrito.database.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -27,7 +28,7 @@ import androidx.room.PrimaryKey;
                         childColumns = "idUsuario",
                         onDelete = ForeignKey.SET_NULL)
         },
-        indices = {@Index("idProducto"), @Index("idUsuario"), @Index("timestampVentaMs")})
+        indices = {@Index("idProducto"), @Index("idUsuario"), @Index("timestampVentaMs"), @Index("idTicket")})
 public class VentaEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -40,6 +41,9 @@ public class VentaEntity {
     public double costoUnitarioVenta;
     public double total;
     public long timestampVentaMs;
+    /** Compra a la que pertenece: todas las lineas de un mismo carrito llevan el mismo numero (v6). */
+    @ColumnInfo(defaultValue = "0")
+    public long idTicket;
     /** v5: quién vendió (dueño o trabajador). Null en ventas anteriores a los roles. */
     public Integer idUsuario;
 }

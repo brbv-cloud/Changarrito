@@ -24,6 +24,7 @@ public final class RespaldoLocal {
             r.ventas = dao.leerVentas();
             r.cierres = dao.leerCierres();
             r.bitacora = dao.leerBitacora();
+            r.mermas = dao.leerMermas();
         });
         return r;
     }
@@ -42,6 +43,7 @@ public final class RespaldoLocal {
         RespaldoDAO dao = db.respaldoDao();
         db.runInTransaction(() -> {
             dao.borrarAlertas();
+            dao.borrarMermas();
             dao.borrarBitacora();
             dao.borrarVentas();
             dao.borrarCierres();
@@ -53,9 +55,14 @@ public final class RespaldoLocal {
             dao.insertarConfiguracion(r.configuracion);
             if (!r.usuarios.isEmpty()) dao.insertarUsuarios(r.usuarios);
             if (!r.productos.isEmpty()) dao.insertarProductos(r.productos);
+            // Respaldos de antes de v6 no traen ticket: cada venta queda como su propio ticket.
+            for (com.changarrito.database.entity.VentaEntity v : r.ventas) {
+                if (v.idTicket == 0) v.idTicket = v.timestampVentaMs;
+            }
             if (!r.ventas.isEmpty()) dao.insertarVentas(r.ventas);
             if (!r.cierres.isEmpty()) dao.insertarCierres(r.cierres);
             if (!r.bitacora.isEmpty()) dao.insertarBitacora(r.bitacora);
+            if (r.mermas != null && !r.mermas.isEmpty()) dao.insertarMermas(r.mermas);
         });
     }
 }

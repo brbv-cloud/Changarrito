@@ -7,6 +7,7 @@ import androidx.room.Query;
 import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.MermaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
@@ -42,10 +43,16 @@ public interface RespaldoDAO {
     @Query("SELECT * FROM bitacora ORDER BY id")
     List<BitacoraEntity> leerBitacora();
 
+    @Query("SELECT * FROM merma ORDER BY id")
+    List<MermaEntity> leerMermas();
+
     // ---------- Borrar todo (en orden: primero lo que depende de otras tablas) ----------
 
     @Query("DELETE FROM alerta")
     void borrarAlertas();
+
+    @Query("DELETE FROM merma")
+    void borrarMermas();
 
     @Query("DELETE FROM bitacora")
     void borrarBitacora();
@@ -84,4 +91,7 @@ public interface RespaldoDAO {
 
     @Insert
     void insertarBitacora(List<BitacoraEntity> bitacora);
+
+    @Insert
+    void insertarMermas(List<MermaEntity> mermas);
 }

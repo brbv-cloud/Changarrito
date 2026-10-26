@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rep_titulo">Reportes</string>
+    <string name="rep_tab_resumen">Resumen</string>
+    <string name="rep_tab_productos">Productos</string>
+    <string name="rep_tab_horarios">Horarios</string>
+    <string name="rep_tab_mermas">Mermas</string>
+    <string name="rep_tab_caja">Caja</string>
+
+    <!-- Resumen -->
+    <string name="rep_vendiste">Vendiste</string>
+    <string name="rep_te_quedo">Te quedó</string>
+    <string name="rep_ticket">Ticket promedio</string>
+    <string name="rep_compras">Compras</string>
+    <string name="rep_ticket_ayuda">lo que gasta cada cliente</string>
+    <string name="rep_compras_ayuda">clientes atendidos</string>
+    <string name="rep_mejor_dia">Tu mejor día: %1$s (%2$s)</string>
+    <string name="rep_pct_quedo">%1$s sobre el costo</string>
+    <string name="rep_ventas_dia">Ventas por día</string>
+    <string name="rep_ventas_dia_ayuda">La barra más alta es tu mejor día. Toca una barra para ver cuánto vendiste.</string>
+    <string name="rep_detalle_dia">%1$s: vendiste %2$s</string>
+    <string name="rep_pdf_titulo">¿Quieres todo el detalle?</string>
+    <string name="rep_pdf_ayuda">El reporte en PDF trae las ganancias día por día, cada producto, cada persona, las mermas y los cierres de caja. Listo para imprimir o mandar por WhatsApp.</string>
+    <plurals name="rep_productos_vendidos">
+        <item quantity="one">%d producto vendido</item>
+        <item quantity="other">%d productos vendidos</item>
+    </plurals>
+
+    <!-- Productos -->
+    <string name="rep_top_titulo">Top 10</string>
+    <string name="rep_top_vendidos">Más vendidos</string>
+    <string name="rep_top_rentables">Más rentables</string>
+    <string name="rep_top_vendidos_ayuda">Los que más se mueven (por cantidad vendida).</string>
+    <string name="rep_top_rentables_ayuda">Los que más dinero te dejan, aunque no sean los que más se venden.</string>
+    <string name="rep_categorias_titulo">Ventas por categoría</string>
+    <string name="rep_categorias_ayuda">De dónde viene tu dinero.</string>
+    <string name="rep_categorias_centro">vendido</string>
+    <string name="rep_huesos_titulo">Productos sin moverse</string>
+    <string name="rep_huesos_ayuda">Tienen existencia pero no se han vendido. Considera ponerlos en oferta o no volver a surtirlos.</string>
+    <string name="rep_huesos_30">Más de 30 días</string>
+    <string name="rep_huesos_60">Más de 60 días</string>
+    <string name="rep_huesos_vacio">¡Bien! Todo tu inventario se está moviendo.</string>
+    <string name="rep_hueso_sub_venta">Última venta hace %1$d días · quedan %2$s</string>
+    <string name="rep_hueso_sub_nunca">Nunca se ha vendido · quedan %1$s</string>
+    <string name="rep_hueso_detenido">%1$s detenidos</string>
+
+    <!-- Horarios -->
+    <string name="rep_hora_pico_titulo">Hora pico</string>
+    <string name="rep_hora_pico">Tu hora más fuerte: de %1$s a %2$s</string>
+    <string name="rep_hora_pico_sin">Todavía no hay ventas en este periodo.</string>
+    <string name="rep_hora_pico_ayuda">Compras por hora. Te dice cuándo necesitas más ayuda en el mostrador.</string>
+    <string name="rep_detalle_hora">De %1$s a %2$s: %3$s</string>
+    <plurals name="rep_compras_n">
+        <item quantity="one">%d compra</item>
+        <item quantity="other">%d compras</item>
+    </plurals>
+    <string name="rep_personas_ayuda">Lo que vendió cada quien en su turno y cómo le fue en sus cierres.</string>
+
+    <!-- Mermas -->
+    <string name="rep_mermas_titulo">Perdiste por mermas</string>
+    <string name="rep_mermas_resumen">%1$d registros · calculado a precio de costo</string>
+    <string name="rep_mermas_lista">Últimas mermas</string>
+    <string name="rep_mermas_vacio">No hay mermas en este periodo.</string>
+    <string name="rep_mermas_como">Para registrar una merma: Inventario → Editar el producto → Registrar merma.</string>
+    <string name="rep_merma_sub">%1$s · %2$s · %3$s</string>
+    <string name="rep_sin_turno">Sin turno</string>
+</resources>

@@ -17,4 +17,6 @@ public class ResumenGanancia {
     /** Importe de las ventas sin costo registrado. */
     public double importeSinCosto;
     public int transacciones;
+    /** Compras distintas (un carrito = 1 ticket aunque lleve varios productos). */
+    public int tickets;
 }

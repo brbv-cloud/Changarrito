@@ -134,10 +134,11 @@ public class VentaViewModel extends AndroidViewModel {
             mensaje.setValue("El carrito está vacío.");
             return;
         }
-        registrarSiguiente(new ArrayList<>(items), 0);
+        // Un solo numero de ticket para todo el carrito (sirve para el ticket promedio).
+        registrarSiguiente(new ArrayList<>(items), 0, System.currentTimeMillis());
     }
 
-    private void registrarSiguiente(List<ItemCarrito> items, int indice) {
+    private void registrarSiguiente(List<ItemCarrito> items, int indice, long idTicket) {
         if (indice >= items.size()) {
             limpiarCarrito();
             ventaRegistrada.postValue(true);
@@ -145,7 +146,7 @@ public class VentaViewModel extends AndroidViewModel {
         }
 
         ItemCarrito item = items.get(indice);
-        ventaRepository.registrarVenta(item.producto.id, item.cantidad, resultado -> {
+        ventaRepository.registrarVenta(item.producto.id, item.cantidad, idTicket, resultado -> {
             if (resultado.exito) {
                 if (indice + 1 >= items.size()) {
                     limpiarCarrito();
@@ -154,7 +155,7 @@ public class VentaViewModel extends AndroidViewModel {
                     // Quitar del carrito lo ya vendido antes de seguir con la siguiente línea
                     List<ItemCarrito> restantes = new ArrayList<>(items.subList(indice + 1, items.size()));
                     carrito.postValue(restantes);
-                    registrarSiguiente(items, indice + 1);
+                    registrarSiguiente(items, indice + 1, idTicket);
                 }
             } else {
                 mensaje.postValue("Venta parcial registrada. Falló " + item.producto.nombre

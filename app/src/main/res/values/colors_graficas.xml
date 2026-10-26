@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Parte de la venta que se usa para volver a surtir -->
+    <color name="grafica_repones">#FFCFC8B8</color>
+    <!-- Ventas de productos sin costo capturado -->
+    <color name="grafica_sin_costo">#FFF7C873</color>
+</resources>

@@ -90,7 +90,12 @@ public class VentaRepository {
      * saltar al hilo principal para tocar UI).
      */
     public void registrarVenta(int idProducto, double cantidadVendida, RegistrarVentaCallback callback) {
-        executorService.execute(() -> callback.onResultado(registrarVentaSync(idProducto, cantidadVendida)));
+        registrarVenta(idProducto, cantidadVendida, System.currentTimeMillis(), callback);
+    }
+
+    /** @param idTicket numero de la compra: todas las lineas de un mismo carrito llevan el mismo. */
+    public void registrarVenta(int idProducto, double cantidadVendida, long idTicket, RegistrarVentaCallback callback) {
+        executorService.execute(() -> callback.onResultado(registrarVentaSync(idProducto, cantidadVendida, idTicket)));
     }
 
     /**
@@ -99,7 +104,7 @@ public class VentaRepository {
      * aplican los dos cambios juntos, o ninguno. Evita que una venta quede
      * registrada sin descontar inventario (o viceversa) si algo falla a la mitad.
      */
-    private ResultadoVenta registrarVentaSync(int idProducto, double cantidadVendida) {
+    private ResultadoVenta registrarVentaSync(int idProducto, double cantidadVendida, long idTicket) {
         final ResultadoVenta[] resultado = new ResultadoVenta[1];
 
         db.runInTransaction(() -> {
@@ -145,6 +150,7 @@ public class VentaRepository {
             venta.costoUnitarioVenta = producto.costoCompra; // v5: base para reportar ganancias
             venta.total = producto.precio * cantidadVendida;
             venta.timestampVentaMs = System.currentTimeMillis();
+            venta.idTicket = idTicket;
             venta.idUsuario = usuarioDelTurno(); // quién vendió (dueño o trabajador)
             ventaDAO.insert(venta);
 

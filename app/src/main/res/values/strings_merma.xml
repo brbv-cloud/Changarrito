@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="merma_boton">Registrar merma (dañado, caducado, robo)</string>
+    <string name="merma_titulo">Registrar merma</string>
+    <string name="merma_producto">%1$s · hay %2$s</string>
+    <string name="merma_cantidad">¿Cuánto se perdió?</string>
+    <string name="merma_motivo">¿Por qué?</string>
+    <string name="merma_danado">Dañado</string>
+    <string name="merma_caducado">Caducado</string>
+    <string name="merma_robo">Robo o faltante</string>
+    <string name="merma_otro">Otro</string>
+    <string name="merma_nota">Nota (opcional)</string>
+    <string name="merma_registrar">Registrar</string>
+    <string name="merma_listo">Merma registrada. Quedan %1$s.</string>
+    <string name="merma_error_cantidad">Escribe cuánto se perdió.</string>
+    <string name="merma_error_motivo">Elige el motivo.</string>
+</resources>

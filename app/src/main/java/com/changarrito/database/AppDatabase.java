@@ -10,6 +10,7 @@ import com.changarrito.database.dao.AlertaDAO;
 import com.changarrito.database.dao.BitacoraDAO;
 import com.changarrito.database.dao.CierreCajaDAO;
 import com.changarrito.database.dao.ConfiguracionNegocioDAO;
+import com.changarrito.database.dao.MermaDAO;
 import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.dao.RespaldoDAO;
 import com.changarrito.database.dao.UsuarioDAO;
@@ -18,11 +19,16 @@ import com.changarrito.database.entity.AlertaEntity;
 import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.MermaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
 
 /**
+ * v6 (Sprint 10): numero de ticket en Venta (para el ticket promedio) y tabla
+ * Merma. Desde aqui los cambios de esquema llevan Migration real (Migraciones),
+ * para no borrar los datos de los negocios al actualizar la app.
+ *
  * Sprint 6: ya no se precarga un catálogo fijo al crear la BD. El dueño elige su
  * giro y decide qué importar en la vista previa (negocio.CatalogoGiro).
  *
@@ -46,8 +52,9 @@ import com.changarrito.database.entity.VentaEntity;
         CierreCajaEntity.class,
         UsuarioEntity.class,
         BitacoraEntity.class,
-        ConfiguracionNegocioEntity.class
-}, version = 5, exportSchema = false)
+        ConfiguracionNegocioEntity.class,
+        MermaEntity.class
+}, version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -69,6 +76,8 @@ public abstract class AppDatabase extends RoomDatabase {
     /** Respaldo en la nube: leer y reemplazar todo (no agrega tablas, no cambia la version). */
     public abstract RespaldoDAO respaldoDao();
 
+    public abstract MermaDAO mermaDao();
+
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una
      * BD en memoria), para que VentaRepository/ProductoRepository puedan probarse
@@ -87,7 +96,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             appContext,
                             AppDatabase.class,
                             "changarrito_db"
-                    ).fallbackToDestructiveMigration()
+                    ).addMigrations(Migraciones.MIGRACION_5_6)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

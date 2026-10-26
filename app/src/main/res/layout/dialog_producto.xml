@@ -413,6 +413,17 @@
                 android:textColor="@color/acceso_error"
                 android:textSize="15sp"
                 android:visibility="gone" />
+
+            <!-- Solo al editar: sacar del inventario lo danado, caducado o robado -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMerma"
+                style="@style/Acceso.BotonGoogle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="24dp"
+                android:text="@string/merma_boton"
+                android:textColor="@color/acceso_error"
+                android:textSize="15sp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

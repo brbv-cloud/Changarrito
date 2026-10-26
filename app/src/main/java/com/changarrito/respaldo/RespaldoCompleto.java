@@ -3,6 +3,7 @@ package com.changarrito.respaldo;
 import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.MermaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
@@ -21,6 +22,7 @@ public class RespaldoCompleto {
     public List<VentaEntity> ventas = new ArrayList<>();
     public List<CierreCajaEntity> cierres = new ArrayList<>();
     public List<BitacoraEntity> bitacora = new ArrayList<>();
+    public List<MermaEntity> mermas = new ArrayList<>();
 
     /** Sin configuracion no hay negocio que restaurar. */
     public boolean estaVacio() {

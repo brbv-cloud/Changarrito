@@ -37,4 +37,20 @@ public interface CierreCajaDAO {
             "WHERE c.timestampCreacionMs BETWEEN :inicioMs AND :finMs " +
             "GROUP BY c.idUsuario")
     LiveData<List<CierresPorUsuario>> getCierresPorUsuario(long inicioMs, long finMs);
+
+    /** Version sincrona para el PDF (hilo de fondo). */
+    @Query("SELECT c.idUsuario AS idUsuario, u.nombre AS nombre, COUNT(*) AS cierres, " +
+            "COALESCE(SUM(CASE WHEN c.diferencia < -0.005 THEN c.diferencia ELSE 0 END), 0) AS faltante, " +
+            "COALESCE(SUM(CASE WHEN c.diferencia > 0.005 THEN c.diferencia ELSE 0 END), 0) AS sobrante " +
+            "FROM cierre_caja c LEFT JOIN usuario u ON u.id = c.idUsuario " +
+            "WHERE c.timestampCreacionMs BETWEEN :inicioMs AND :finMs " +
+            "GROUP BY c.idUsuario")
+    List<CierresPorUsuario> getCierresPorUsuarioSync(long inicioMs, long finMs);
+
+    /** Cierres de un rango con el nombre de quien los hizo, del mas viejo al mas nuevo (para el PDF). */
+    @Query("SELECT c.*, u.nombre AS nombreUsuario FROM cierre_caja c " +
+            "LEFT JOIN usuario u ON u.id = c.idUsuario " +
+            "WHERE c.timestampCreacionMs BETWEEN :inicioMs AND :finMs " +
+            "ORDER BY c.timestampCreacionMs ASC")
+    List<CierreConUsuario> getCierresEnRangoSync(long inicioMs, long finMs);
 }

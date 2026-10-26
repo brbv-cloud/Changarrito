@@ -72,4 +72,24 @@ public interface ProductoDAO {
 
     @Query("SELECT * FROM producto WHERE activo = 1 AND fechaCaducidadMs BETWEEN :ahora AND :limite")
     LiveData<List<ProductoEntity>> getProductosProximosAVencer(long ahora, long limite);
+
+    /**
+     * "Huesos": productos con existencia que no se venden desde antes de limiteMs
+     * (o que nunca se han vendido y se dieron de alta antes de esa fecha). Los que
+     * llevan mas tiempo quietos van primero.
+     */
+    String SQL_HUESOS = "SELECT p.id AS idProducto, p.nombre AS nombre, p.cantidadDisponible AS existencia, "
+            + "p.unidadMedida AS unidadMedida, p.costoCompra AS costo, p.precio AS precio, "
+            + "(SELECT MAX(v.timestampVentaMs) FROM venta v WHERE v.idProducto = p.id) AS ultimaVentaMs, "
+            + "p.timestampCreacionMs AS creadoMs "
+            + "FROM producto p WHERE p.activo = 1 AND p.cantidadDisponible > 0 "
+            + "AND COALESCE((SELECT MAX(v2.timestampVentaMs) FROM venta v2 WHERE v2.idProducto = p.id), "
+            + "CASE WHEN p.timestampCreacionMs > 0 THEN p.timestampCreacionMs ELSE :limiteMs END) < :limiteMs "
+            + "ORDER BY COALESCE(ultimaVentaMs, creadoMs) ASC";
+
+    @Query(SQL_HUESOS)
+    LiveData<List<ProductoHueso>> getHuesos(long limiteMs);
+
+    @Query(SQL_HUESOS)
+    List<ProductoHueso> getHuesosSync(long limiteMs);
 }

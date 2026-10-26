@@ -3,6 +3,7 @@ package com.changarrito.respaldo;
 import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.MermaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
 import com.changarrito.database.entity.VentaEntity;
@@ -45,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RespaldoNube {
 
-    public static final int VERSION_MODELO = 5;
+    public static final int VERSION_MODELO = 6;
     static final int FILAS_POR_PARTE = 250;
     /** Firestore acepta hasta 500 operaciones por lote; dejamos margen. */
     static final int OPS_POR_LOTE = 400;
@@ -57,6 +58,7 @@ public class RespaldoNube {
     static final String T_VENTAS = "ventas";
     static final String T_CIERRES = "cierres";
     static final String T_BITACORA = "bitacora";
+    static final String T_MERMAS = "mermas";
 
     /** Resumen del respaldo que hay en la nube (lo que se le muestra al dueno). */
     public static class InfoRespaldo {
@@ -64,7 +66,7 @@ public class RespaldoNube {
         public long fechaMs;
         public String dispositivo;
         public String nombreNegocio;
-        public long usuarios, productos, ventas, cierres, bitacora;
+        public long usuarios, productos, ventas, cierres, bitacora, mermas;
     }
 
     // Una clase por tabla para que Firestore sepa convertir cada fila a su entidad.
@@ -74,6 +76,7 @@ public class RespaldoNube {
     public static class ParteVentas { public List<VentaEntity> filas; }
     public static class ParteCierres { public List<CierreCajaEntity> filas; }
     public static class ParteBitacora { public List<BitacoraEntity> filas; }
+    public static class ParteMermas { public List<MermaEntity> filas; }
 
     private static final String TAG = "Respaldo";
 
@@ -133,6 +136,7 @@ public class RespaldoNube {
         agregarPartes(docs, T_VENTAS, r.ventas);
         agregarPartes(docs, T_CIERRES, r.cierres);
         agregarPartes(docs, T_BITACORA, r.bitacora);
+        agregarPartes(docs, T_MERMAS, r.mermas);
 
         Log.i(TAG, "Paso 2: subiendo " + docs.size() + " partes");
         WriteBatch lote = fs.batch();
@@ -162,6 +166,7 @@ public class RespaldoNube {
         info.ventas = r.ventas.size();
         info.cierres = r.cierres.size();
         info.bitacora = r.bitacora.size();
+        info.mermas = r.mermas.size();
 
         Map<String, Object> conteos = new HashMap<>();
         conteos.put(T_USUARIOS, info.usuarios);
@@ -169,6 +174,7 @@ public class RespaldoNube {
         conteos.put(T_VENTAS, info.ventas);
         conteos.put(T_CIERRES, info.cierres);
         conteos.put(T_BITACORA, info.bitacora);
+        conteos.put(T_MERMAS, info.mermas);
 
         Map<String, Object> resumen = new HashMap<>();
         resumen.put("respaldoActual", id);
@@ -245,6 +251,7 @@ public class RespaldoNube {
             info.ventas = numero(conteos.get(T_VENTAS));
             info.cierres = numero(conteos.get(T_CIERRES));
             info.bitacora = numero(conteos.get(T_BITACORA));
+            info.mermas = numero(conteos.get(T_MERMAS));
         }
         return info;
     }
@@ -302,6 +309,11 @@ public class RespaldoNube {
                     if (x != null && x.filas != null) r.bitacora.addAll(x.filas);
                     break;
                 }
+                case T_MERMAS: {
+                    ParteMermas x = p.toObject(ParteMermas.class);
+                    if (x != null && x.filas != null) r.mermas.addAll(x.filas);
+                    break;
+                }
                 default:
                     break;
             }
@@ -313,7 +325,8 @@ public class RespaldoNube {
                 || r.productos.size() != info.productos
                 || r.ventas.size() != info.ventas
                 || r.cierres.size() != info.cierres
-                || r.bitacora.size() != info.bitacora) {
+                || r.bitacora.size() != info.bitacora
+                || r.mermas.size() != info.mermas) {
             throw new RespaldoException(RespaldoException.Tipo.INCOMPLETO, null);
         }
         return r;

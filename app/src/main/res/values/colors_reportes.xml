@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Barras no destacadas -->
+    <color name="grafica_barra_suave">#FFA9D6CF</color>
+    <!-- Rebanadas de la grafica de categorias -->
+    <color name="categoria_1">#FF0B8478</color>
+    <color name="categoria_2">#FFF7A21E</color>
+    <color name="categoria_3">#FF02414A</color>
+    <color name="categoria_4">#FFE07A5F</color>
+    <color name="categoria_5">#FF3D7EA6</color>
+    <color name="categoria_otras">#FFB8B2A6</color>
+</resources>
