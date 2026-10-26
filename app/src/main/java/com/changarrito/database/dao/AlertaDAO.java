@@ -48,6 +48,6 @@ public interface AlertaDAO {
             + "producto.unidadMedida AS unidadMedida, producto.fechaCaducidadMs AS fechaCaducidadMs, "
             + "producto.telefonoProveedor AS telefonoProveedor "
             + "FROM alerta INNER JOIN producto ON alerta.idProducto = producto.id "
-            + "WHERE alerta.estado = :estado ORDER BY alerta.timestampCreacionMs DESC")
+            + "WHERE alerta.estado = :estado AND producto.activo = 1 ORDER BY alerta.timestampCreacionMs DESC")
     LiveData<List<AlertaConProducto>> getAlertasConProducto(EstadoAlerta estado);
 }

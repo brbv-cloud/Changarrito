@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Linea del carrito: nombre, precio, subtotal y abajo el control de cantidad.
+     Por pieza: − 1 + (en 1, el "−" se vuelve bote para quitar). A granel: la cantidad
+     se toca para cambiarla y el bote la quita. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/card_margin_horizontal"
-    android:layout_marginVertical="4dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="@color/color_card_stroke"
-    app:cardBackgroundColor="@color/color_bg_alt">
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,41 +28,124 @@
                 android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/color_slate_dark"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:textColor="@color/color_slate_dark" />
+                tools:text="Leche Alpura 1L" />
 
             <TextView
-                android:id="@+id/tvCantidad"
+                android:id="@+id/tvPrecioUnitario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="@color/color_slate_medium" />
-
+                android:textColor="@color/color_slate_medium"
+                android:textSize="12sp"
+                tools:text="$28.00 / PZA" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvSubtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/color_slate_dark"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/color_primary_variant" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnQuitar"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:text="Quitar"
-            android:textColor="@color/status_rojo"
-            android:textSize="12sp" />
-
+            tools:text="$56.00" />
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Por pieza -->
+        <LinearLayout
+            android:id="@+id/stepper"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_stepper"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnMenos"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/venta_menos"
+                android:src="@drawable/ic_menos"
+                app:tint="@color/color_slate_dark" />
+
+            <!-- Tocar el numero = escribir la cantidad (para llevar muchas sin picar "+"). -->
+            <TextView
+                android:id="@+id/tvCantidad"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/venta_cambiar_cantidad"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:textColor="@color/color_slate_dark"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="2" />
+
+            <ImageButton
+                android:id="@+id/btnMas"
+                android:layout_width="44dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/venta_mas"
+                android:src="@drawable/ic_mas"
+                app:tint="@color/marca_verde" />
+        </LinearLayout>
+
+        <!-- A granel -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCantidadGranel"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:contentDescription="@string/venta_cambiar_cantidad"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textAllCaps="false"
+            android:textColor="@color/color_slate_dark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_editar"
+            app:iconSize="18dp"
+            app:iconTint="@color/color_slate_medium"
+            app:strokeColor="@color/color_card_stroke"
+            tools:text="0.750 KG" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnQuitar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/venta_quitar_linea"
+            android:src="@drawable/ic_eliminar"
+            android:visibility="gone"
+            app:tint="@color/status_rojo" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/color_card_stroke" />
+</LinearLayout>

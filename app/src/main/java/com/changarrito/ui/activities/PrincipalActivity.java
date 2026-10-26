@@ -20,7 +20,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -29,13 +28,13 @@ import com.changarrito.R;
 import com.changarrito.database.AppDatabase;
 import com.changarrito.database.entity.EstadoAlerta;
 import com.changarrito.negocio.SesionTurno;
+import com.changarrito.repository.AlertaRepository;
 import com.changarrito.ui.secciones.AlertasFragment;
 import com.changarrito.ui.secciones.InicioFragment;
 import com.changarrito.ui.secciones.InventarioFragment;
 import com.changarrito.ui.secciones.ReportesFragment;
 import com.changarrito.ui.secciones.VenderFragment;
 import com.changarrito.utils.InsetsUtil;
-import com.changarrito.viewmodel.AlertaViewModel;
 import com.changarrito.workers.AlertaCheckWorker;
 import com.changarrito.workers.RespaldoWorker;
 import com.google.android.material.badge.BadgeDrawable;
@@ -84,6 +83,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
         nav = findViewById(R.id.navInferior);
         configurarBarra();
+        vigilarInventario();
 
         if (savedInstanceState != null) {
             actual = savedInstanceState.getInt(ESTADO_SECCION, R.id.nav_inicio);
@@ -158,6 +158,17 @@ public class PrincipalActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Revisa las alertas (stock bajo y caducidad) al abrir la app y cada vez que cambia el
+     * inventario: al cobrar, editar o surtir un producto, o registrar una merma. Asi la
+     * alerta y su notificacion salen en el momento, no hasta la revision de cada 24 h.
+     */
+    private void vigilarInventario() {
+        AlertaRepository alertas = new AlertaRepository(getApplication());
+        AppDatabase.getInstance(this).productoDao().getAllProductos()
+                .observe(this, productos -> alertas.verificarAlertasAhora());
+    }
+
     // ------------------------------------------------------------------ secciones
 
     /**
@@ -219,8 +230,6 @@ public class PrincipalActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             permisoNotificaciones.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
-        // Revisa alertas al abrir, sin esperar a la revision periodica de cada 24 h.
-        new ViewModelProvider(this).get(AlertaViewModel.class).verificarAlertasAhora();
         WorkManager.getInstance(this).enqueueUniquePeriodicWork("revision_alertas", ExistingPeriodicWorkPolicy.KEEP,
                 new PeriodicWorkRequest.Builder(AlertaCheckWorker.class, 24, TimeUnit.HOURS).build());
         // Respaldo automatico en la nube una vez al dia, cuando haya internet.

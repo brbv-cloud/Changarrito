@@ -37,10 +37,17 @@ public class CantidadVentaDialogFragment extends DialogFragment {
 
         /** Se llama para pedir el cálculo cantidad = importe / precio. */
         double calcularCantidadPorImporte(ProductoEntity producto, double importe);
+
+        /** Desde el carrito: la linea queda con esta cantidad (no se suma). */
+        default void onCantidadCambiada(ProductoEntity producto, double cantidad) {
+            onCantidadConfirmada(producto, cantidad);
+        }
     }
 
     private ProductoEntity producto;
     private Listener listener;
+    /** Si no es null, el dialogo cambia una linea del carrito que ya tenia esta cantidad. */
+    private Double cantidadActual;
 
     private EditText etCantidad;
     private EditText etImporte;
@@ -50,6 +57,14 @@ public class CantidadVentaDialogFragment extends DialogFragment {
         CantidadVentaDialogFragment fragment = new CantidadVentaDialogFragment();
         fragment.producto = producto;
         fragment.listener = listener;
+        return fragment;
+    }
+
+    /** Para cambiar la cantidad de un producto que ya esta en el carrito (a granel). */
+    public static CantidadVentaDialogFragment paraCambiar(ProductoEntity producto, double cantidadActual,
+                                                          Listener listener) {
+        CantidadVentaDialogFragment fragment = newInstance(producto, listener);
+        fragment.cantidadActual = cantidadActual;
         return fragment;
     }
 
@@ -81,6 +96,12 @@ public class CantidadVentaDialogFragment extends DialogFragment {
         etCantidad.setInputType(esGranel
                 ? android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
                 : android.text.InputType.TYPE_CLASS_NUMBER);
+
+        if (cantidadActual != null) {
+            etCantidad.setText(com.changarrito.repository.MermaRepository.cantidadTexto(cantidadActual, null));
+            etCantidad.selectAll();
+            ((TextView) view.findViewById(R.id.btnAgregarAlCarrito)).setText(R.string.venta_cambiar_cantidad);
+        }
 
         tvProductoInfo.setText(String.format(Locale.getDefault(),
                 "%s\n$%.2f por %s — disponible: %s",
@@ -153,7 +174,8 @@ public class CantidadVentaDialogFragment extends DialogFragment {
             etCantidad.setError("Cantidad inválida");
             return;
         }
-        listener.onCantidadConfirmada(producto, cantidad);
+        if (cantidadActual != null) listener.onCantidadCambiada(producto, cantidad);
+        else listener.onCantidadConfirmada(producto, cantidad);
         dialog.dismiss();
     }
 

@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Producto para vender: tocar = agregar (por pieza agrega 1; a granel pide la cantidad).
+     Mantener presionado = escribir la cantidad. -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/card_margin_horizontal"
-    android:layout_marginVertical="@dimen/card_margin_vertical"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/color_bg"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/card_elevation"
-    app:strokeWidth="@dimen/card_stroke_width"
+    app:cardElevation="0dp"
     app:strokeColor="@color/color_card_stroke"
-    app:cardBackgroundColor="@color/color_bg">
+    app:strokeWidth="@dimen/card_stroke_width">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="@dimen/card_padding">
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvInicial"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_inicial_producto"
+            android:gravity="center"
+            android:textColor="@color/marca_verde"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="L" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -31,40 +51,51 @@
                 android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Producto"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/color_slate_dark"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/color_slate_dark" />
+                tools:text="Leche Alpura 1L" />
 
             <TextView
                 android:id="@+id/tvPrecio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="$0.00"
+                android:textColor="@color/marca_verde"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/color_primary_variant" />
+                tools:text="$28.00 / PZA" />
 
-            <TextView
-                android:id="@+id/tvDisponible"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Disponible: 0"
-                android:textSize="12sp"
-                android:textColor="@color/status_verde" />
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tvChipStock"
+                    style="@style/Inventario.Etiqueta"
+                    tools:text="Hay 12 PZA" />
+
+                <TextView
+                    android:id="@+id/tvChipCarrito"
+                    style="@style/Inventario.Etiqueta"
+                    android:layout_marginStart="6dp"
+                    android:visibility="gone"
+                    tools:text="2 en carrito"
+                    tools:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/btnAgregar"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+ Agregar"
-            android:textSize="12sp" />
-
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_boton_redondo"
+            android:contentDescription="@string/venta_agregar"
+            android:src="@drawable/ic_mas"
+            app:tint="@color/white" />
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

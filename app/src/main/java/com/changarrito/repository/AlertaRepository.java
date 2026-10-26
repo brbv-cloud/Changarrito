@@ -63,7 +63,11 @@ public class AlertaRepository {
         executorService.execute(() -> alertaDAO.delete(alerta));
     }
 
-    /** Dispara la verificacion en el hilo de fondo propio de este repository. Uso: al abrir la app. */
+    /**
+     * Dispara la verificacion en el hilo de fondo propio de este repository (uno solo, asi
+     * dos revisiones seguidas no crean la misma alerta dos veces). PrincipalActivity la
+     * llama cada vez que cambia el inventario: al vender, editar, surtir o registrar merma.
+     */
     public void verificarAlertasAhora() {
         executorService.execute(this::verificarAlertasSync);
     }
@@ -88,10 +92,13 @@ public class AlertaRepository {
 
     private void verificarStockBajo(ProductoEntity producto, long ahora) {
         boolean stockBajo = producto.cantidadDisponible <= producto.umbralStockBajo + EPSILON;
-        if (!stockBajo) return;
-
         AlertaEntity existente = alertaDAO.getAlertaExistenteSync(
                 producto.id, TipoAlerta.STOCK_BAJO, EstadoAlerta.ACTIVA);
+        if (!stockBajo) {
+            // Ya se surtio: la alerta se cierra sola, y si vuelve a bajar se avisa de nuevo.
+            if (existente != null) alertaDAO.actualizarEstado(existente.id, EstadoAlerta.RESUELTA, ahora);
+            return;
+        }
         if (existente != null) return;
 
         AlertaEntity alerta = new AlertaEntity();
@@ -107,12 +114,14 @@ public class AlertaRepository {
     }
 
     private void verificarVencimiento(ProductoEntity producto, long ahora, long limite) {
-        // fechaCaducidadMs <= 0 significa "sin fecha de caducidad capturada"
-        if (producto.fechaCaducidadMs <= 0) return;
-        if (producto.fechaCaducidadMs > limite) return;
-
         AlertaEntity existente = alertaDAO.getAlertaExistenteSync(
                 producto.id, TipoAlerta.PROXIMO_VENCIMIENTO, EstadoAlerta.ACTIVA);
+        // fechaCaducidadMs <= 0 significa "sin fecha de caducidad capturada"
+        if (producto.fechaCaducidadMs <= 0 || producto.fechaCaducidadMs > limite) {
+            // Le quitaron la fecha o le pusieron una lejana (lote nuevo): se cierra sola.
+            if (existente != null) alertaDAO.actualizarEstado(existente.id, EstadoAlerta.RESUELTA, ahora);
+            return;
+        }
         if (existente != null) return;
 
         AlertaEntity alerta = new AlertaEntity();

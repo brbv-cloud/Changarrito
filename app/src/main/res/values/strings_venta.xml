@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="venta_titulo">Vender</string>
+    <string name="venta_ayuda">Toca un producto para agregarlo. Mantén presionado para escribir la cantidad.</string>
+    <string name="venta_buscar_hint">Buscar producto o código</string>
+    <string name="venta_sin_productos">No hay productos con existencia para vender.\nDa de alta o surte productos en Inventario.</string>
+    <string name="venta_sin_coincidencias">Ningún producto con existencia coincide con «%s».</string>
+
+    <string name="venta_hay">Hay %s</string>
+    <string name="venta_quedan">Quedan %s</string>
+    <string name="venta_en_carrito">%s en carrito</string>
+    <string name="venta_agregar">Agregar al carrito</string>
+
+    <plurals name="venta_productos_carrito">
+        <item quantity="one">%d producto en el carrito</item>
+        <item quantity="other">%d productos en el carrito</item>
+    </plurals>
+    <string name="venta_ver_cobrar">Cobrar</string>
+    <string name="venta_seguir">Seguir vendiendo</string>
+
+    <string name="venta_menos">Quitar uno</string>
+    <string name="venta_mas">Agregar uno</string>
+    <string name="venta_quitar_linea">Quitar del carrito</string>
+
+    <string name="venta_con_cuanto">¿Con cuánto paga el cliente?</string>
+    <string name="venta_exacto">Exacto</string>
+    <string name="venta_borrar_pago">Borrar pago</string>
+    <string name="venta_cambio">Cambio</string>
+    <string name="venta_cambio_entregar">Cambio a entregar</string>
+    <string name="venta_faltan">Faltan</string>
+    <string name="venta_pago_invalido">Revisa la cantidad</string>
+    <string name="venta_pista_pago">Escribe con cuánto paga o toca un billete.</string>
+    <string name="venta_pago_exacto">Pago exacto, no hay cambio.</string>
+    <string name="venta_entrega">Entrega: %s</string>
+    <string name="venta_no_alcanza">El pago no alcanza para el total.</string>
+    <string name="venta_cobrar_total">Cobrar %s</string>
+    <string name="venta_registrada">Venta registrada. Inventario actualizado.</string>
+    <string name="venta_no_registrado">Ese código no está registrado en el inventario.</string>
+    <string name="venta_sin_stock">%s no tiene existencia.</string>
+    <string name="venta_cambiar_cantidad">Cambiar cantidad</string>
+</resources>

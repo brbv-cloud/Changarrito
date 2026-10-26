@@ -9,12 +9,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UnidadMedida;
+import com.changarrito.repository.MermaRepository;
 import com.changarrito.repository.ProductoRepository;
 import com.changarrito.repository.VentaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class VentaViewModel extends AndroidViewModel {
 
@@ -25,6 +25,7 @@ public class VentaViewModel extends AndroidViewModel {
     private final MutableLiveData<List<ItemCarrito>> carrito = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> mensaje = new MutableLiveData<>();
     private final MutableLiveData<Boolean> ventaRegistrada = new MutableLiveData<>();
+    private volatile boolean registrando;
 
     public VentaViewModel(@NonNull Application application) {
         super(application);
@@ -105,9 +106,36 @@ public class VentaViewModel extends AndroidViewModel {
     }
 
     private String mensajeStockInsuficiente(ProductoEntity producto) {
-        return String.format(Locale.getDefault(),
-                "Solo hay %.3f %s disponibles de %s.",
-                producto.cantidadDisponible, producto.unidadMedida, producto.nombre);
+        return "Solo hay " + MermaRepository.cantidadTexto(producto.cantidadDisponible, producto.unidadMedida)
+                + " de " + producto.nombre + ".";
+    }
+
+    /**
+     * Botones − / + del carrito y "cambiar cantidad" de los productos a granel: deja la
+     * linea con la cantidad nueva (0 o menos la quita), con las mismas reglas que al
+     * agregar (por pieza sin decimales y nunca mas de lo que hay).
+     */
+    public void cambiarCantidad(int idProducto, double nueva) {
+        List<ItemCarrito> actual = new ArrayList<>(
+                carrito.getValue() != null ? carrito.getValue() : new ArrayList<>());
+        for (int i = 0; i < actual.size(); i++) {
+            ItemCarrito item = actual.get(i);
+            if (item.producto.id != idProducto) continue;
+            ProductoEntity p = item.producto;
+            if (nueva <= 0.0005) {
+                actual.remove(i);
+            } else if (p.unidadMedida == UnidadMedida.PZA && nueva != Math.floor(nueva)) {
+                mensaje.setValue(p.nombre + " se vende por pieza, no acepta decimales.");
+                return;
+            } else if (nueva > p.cantidadDisponible + 0.0005) {
+                mensaje.setValue(mensajeStockInsuficiente(p));
+                return;
+            } else {
+                item.cantidad = nueva;
+            }
+            carrito.setValue(actual);
+            return;
+        }
     }
 
     public void quitarDelCarrito(ItemCarrito item) {
@@ -134,13 +162,17 @@ public class VentaViewModel extends AndroidViewModel {
             mensaje.setValue("El carrito está vacío.");
             return;
         }
+        // Dos toques rapidos a "Cobrar" no deben registrar la venta dos veces.
+        if (registrando) return;
+        registrando = true;
         // Un solo numero de ticket para todo el carrito (sirve para el ticket promedio).
         registrarSiguiente(new ArrayList<>(items), 0, System.currentTimeMillis());
     }
 
     private void registrarSiguiente(List<ItemCarrito> items, int indice, long idTicket) {
         if (indice >= items.size()) {
-            limpiarCarrito();
+            carrito.postValue(new ArrayList<>());
+            registrando = false;
             ventaRegistrada.postValue(true);
             return;
         }
@@ -149,7 +181,9 @@ public class VentaViewModel extends AndroidViewModel {
         ventaRepository.registrarVenta(item.producto.id, item.cantidad, idTicket, resultado -> {
             if (resultado.exito) {
                 if (indice + 1 >= items.size()) {
-                    limpiarCarrito();
+                    // Este callback llega en un hilo de fondo: postValue, no setValue.
+                    carrito.postValue(new ArrayList<>());
+                    registrando = false;
                     ventaRegistrada.postValue(true);
                 } else {
                     // Quitar del carrito lo ya vendido antes de seguir con la siguiente línea
@@ -158,6 +192,7 @@ public class VentaViewModel extends AndroidViewModel {
                     registrarSiguiente(items, indice + 1, idTicket);
                 }
             } else {
+                registrando = false;
                 mensaje.postValue("Venta parcial registrada. Falló " + item.producto.nombre
                         + ": " + resultado.error);
             }
