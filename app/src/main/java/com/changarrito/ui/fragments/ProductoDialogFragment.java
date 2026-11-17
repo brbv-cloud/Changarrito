@@ -191,7 +191,7 @@ public class ProductoDialogFragment extends DialogFragment {
         actualizando = true;
         if (p.categoria != null) etCategoria.setText(p.categoria, false);
         if (p.costoCompra > 0) etCosto.setText(numero(p.costoCompra));
-        etPrecio.setText(numero(p.precio));
+        if (p.precio > 0) etPrecio.setText(numero(p.precio)); // del catalogo viene vacio
         etCantidad.setText(numero(p.cantidadDisponible));
         etUmbral.setText(numero(p.umbralStockBajo));
         etTelefono.setText(p.telefonoProveedor);

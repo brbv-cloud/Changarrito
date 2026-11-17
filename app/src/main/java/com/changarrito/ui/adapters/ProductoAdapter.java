@@ -17,6 +17,7 @@ import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.reportes.CalculoGanancias;
 import com.changarrito.repository.MermaRepository;
 import com.changarrito.utils.EstadoProducto;
+import com.changarrito.utils.IconoProducto;
 import com.changarrito.utils.EstadoStock;
 import com.google.android.material.card.MaterialCardView;
 
@@ -72,10 +73,16 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         ProductoEntity p = productos.get(position);
         Context ctx = h.itemView.getContext();
 
-        h.tvInicial.setText(inicial(p.nombre));
+        // Dibujo segun el producto (🥛, 🔩, ✏️...); si no se reconoce, la inicial.
+        String icono = IconoProducto.de(p.nombre, p.categoria);
+        h.tvInicial.setText(icono != null ? icono : inicial(p.nombre));
+        h.tvInicial.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, icono != null ? 24 : 18);
         h.tvNombre.setText(p.nombre);
         String unidad = p.unidadMedida != null ? p.unidadMedida.name() : "";
-        h.tvPrecio.setText(ctx.getString(R.string.inv_precio_unidad, CalculoGanancias.dinero(p.precio), unidad));
+        boolean sinPrecio = p.precio <= 0.0001;
+        h.tvPrecio.setText(sinPrecio ? ctx.getString(R.string.inv_sin_precio)
+                : ctx.getString(R.string.inv_precio_unidad, CalculoGanancias.dinero(p.precio), unidad));
+        h.tvPrecio.setTextColor(ContextCompat.getColor(ctx, sinPrecio ? R.color.semaforo_amarillo_texto : R.color.marca_verde));
         boolean conCategoria = p.categoria != null && !p.categoria.trim().isEmpty();
         h.tvCategoria.setVisibility(conCategoria ? View.VISIBLE : View.GONE);
         if (conCategoria) h.tvCategoria.setText("· " + p.categoria.trim());

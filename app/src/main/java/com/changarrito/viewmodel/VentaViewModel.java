@@ -75,6 +75,10 @@ public class VentaViewModel extends AndroidViewModel {
             mensaje.setValue("La cantidad debe ser mayor a 0.");
             return;
         }
+        if (producto.precio <= 0.0001) {
+            mensaje.setValue(producto.nombre + " no tiene precio. Pónselo en Inventario para poder venderlo.");
+            return;
+        }
         if (producto.unidadMedida == UnidadMedida.PZA && cantidad != Math.floor(cantidad)) {
             mensaje.setValue(producto.nombre + " se vende por pieza, no acepta decimales.");
             return;

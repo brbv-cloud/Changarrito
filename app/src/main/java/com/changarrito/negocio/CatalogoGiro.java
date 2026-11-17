@@ -59,9 +59,10 @@ public class CatalogoGiro {
                 p.categoria = o.getString("categoria");
                 p.unidadMedida = UnidadMedida.valueOf(o.getString("unidadMedida"));
                 p.costoCompra = o.getDouble("costoCompra");
-                p.precio = o.getDouble("precio");
-                p.margenPorcentaje = CalculoPrecio.redondearCentavos(
-                        CalculoPrecio.margenSobreCosto(p.costoCompra, p.precio));
+                // Sin precio: cada negocio pone el suyo (recomendacion de la revision).
+                // El costo se queda como referencia: con el margen, el formulario sugiere precio.
+                p.precio = 0;
+                p.margenPorcentaje = 0;
                 p.umbralStockBajo = o.optDouble("umbralStockBajo", 0);
                 p.cantidadDisponible = 0;
                 p.telefonoProveedor = "";

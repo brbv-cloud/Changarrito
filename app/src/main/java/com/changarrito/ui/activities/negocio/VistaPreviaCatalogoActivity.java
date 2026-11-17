@@ -106,8 +106,8 @@ public class VistaPreviaCatalogoActivity extends AppCompatActivity {
             List<CheckBox> hijos = new ArrayList<>();
             for (ProductoEntity p : grupo.getValue()) {
                 MaterialCheckBox renglon = new MaterialCheckBox(this);
-                renglon.setText(String.format(Locale.getDefault(), "%s · $%.2f / %s",
-                        p.nombre, p.precio, p.unidadMedida.name()));
+                renglon.setText(String.format(Locale.getDefault(), "%s · %s",
+                        p.nombre, p.unidadMedida.name()));
                 renglon.setTextColor(getColor(R.color.acceso_texto));
                 renglon.setTextSize(14);
                 renglon.setMinHeight(alto48);

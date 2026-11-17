@@ -39,7 +39,9 @@ public class CatalogoGiroTest {
                     assertTrue(p.nombre + " repetido en " + giro, nombres.add(p.nombre));
                     assertTrue(p.nombre + ": unidad " + p.unidadMedida + " no es de " + giro,
                             giro.unidadesPorDefecto.contains(p.unidadMedida));
-                    assertTrue(p.nombre + ": precio menor al costo", p.precio >= p.costoCompra);
+                    // El catalogo entra sin precio (cada negocio pone el suyo); el costo es de referencia.
+                    assertEquals(p.nombre + " trae precio", 0, p.precio, 0);
+                    assertTrue(p.nombre + ": sin costo de referencia", p.costoCompra > 0);
                     assertEquals(0, p.cantidadDisponible, 0);
                     assertTrue(p.activo);
                 }

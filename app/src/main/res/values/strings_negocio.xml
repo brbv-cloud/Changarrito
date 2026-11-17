@@ -16,8 +16,8 @@
 
     <!-- Vista previa del catálogo -->
     <string name="catalogo_titulo">¿Empezamos con productos típicos?</string>
-    <string name="catalogo_subtitulo">Tenemos %1$d productos comunes de %2$s. Marca las categorías que vendes o toca una para escoger producto por producto. Después podrás editar precios.</string>
-    <string name="catalogo_nota">Costos y precios son de referencia. Las existencias inician en 0.</string>
+    <string name="catalogo_subtitulo">Tenemos %1$d productos comunes de %2$s. Marca las categorías que vendes o toca una para escoger producto por producto. Entran sin precio: tú pones el tuyo.</string>
+    <string name="catalogo_nota">Los productos entran sin precio y con existencia en 0. Al editarlos pones tu precio y lo que tienes.</string>
     <string name="catalogo_productos">%1$d productos</string>
     <string name="catalogo_de">%1$d de %2$d productos</string>
     <string name="catalogo_importar">Importar %1$d productos</string>

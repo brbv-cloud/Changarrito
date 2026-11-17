@@ -36,4 +36,5 @@
     <string name="inv_quitar_texto">Ya no aparecerá para vender. Lo que ya se vendió se queda en tus reportes.</string>
     <string name="inv_quitar_si">Quitar</string>
     <string name="inv_cancelar">Cancelar</string>
+    <string name="inv_sin_precio">Sin precio · ponle uno</string>
 </resources>
