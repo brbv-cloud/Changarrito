@@ -38,4 +38,11 @@ public class ProductoEntity {
     public boolean activo = true;
     public long timestampCreacionMs;
     public long timestampActualizacionMs;
+    /**
+     * v7: cuando tuvo existencia por primera vez (0 = nunca). Un producto en 0 que nunca
+     * se ha surtido (ej. recien importado del catalogo) es "Pendiente de surtir", no
+     * "Agotado", y no genera alertas. Lo marca AlertaRepository al revisar el inventario.
+     */
+    @ColumnInfo(defaultValue = "0")
+    public long surtidoMs;
 }

@@ -82,7 +82,20 @@
                 android:textSize="14sp"
                 tools:text="Quedan 2 PZA · mínimo 5" />
 
+            <!-- Solo en "Atendidas": quien y cuando. -->
+            <TextView
+                android:id="@+id/tvAtendida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/semaforo_verde_texto"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
+                android:id="@+id/filaAcciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -104,20 +117,26 @@
                     app:backgroundTint="@color/marca_verde"
                     app:cornerRadius="12dp" />
 
+                <!-- Boton con borde: antes era solo texto y no parecia boton. -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResolver"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="@string/alerta_resolver"
                     android:textAllCaps="false"
-                    android:textColor="@color/color_slate_medium"
+                    android:textColor="@color/marca_verde_oscuro"
                     android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/acceso_tinte_verde"
+                    app:cornerRadius="12dp"
                     app:icon="@drawable/ic_check_circulo"
                     app:iconSize="18dp"
-                    app:iconTint="@color/color_slate_medium" />
+                    app:iconTint="@color/marca_verde_oscuro"
+                    app:strokeColor="@color/marca_verde"
+                    app:strokeWidth="1dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

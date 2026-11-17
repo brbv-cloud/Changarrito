@@ -40,12 +40,21 @@ public interface AlertaDAO {
      * Cualquier alerta (activa o ya atendida) de ese tipo para el producto. Si existe, el
      * aviso ya se dio en este "episodio" y no se repite aunque el usuario la haya atendido.
      */
-    @Query("SELECT * FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo ORDER BY timestampCreacionMs DESC LIMIT 1")
+    @Query("SELECT * FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo AND cerradaMs = 0 ORDER BY timestampCreacionMs DESC LIMIT 1")
     AlertaEntity getAlertaDeTipoSync(int idProducto, TipoAlerta tipo);
 
-    /** Se surtio o cambio la fecha: termina el episodio y la proxima vez se avisa de nuevo. */
-    @Query("DELETE FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo")
-    int borrarDeTipo(int idProducto, TipoAlerta tipo);
+    /**
+     * Se surtio o cambio la fecha: termina el aviso (la proxima vez se avisa de nuevo).
+     * No se borra: queda en el historial; si nadie la habia atendido, se cierra sola.
+     */
+    @Query("UPDATE alerta SET cerradaMs = :ahora, estado = 'RESUELTA', "
+            + "timestampResolucionMs = CASE WHEN estado = 'ACTIVA' THEN :ahora ELSE timestampResolucionMs END "
+            + "WHERE idProducto = :idProducto AND tipoAlerta = :tipo AND cerradaMs = 0")
+    int cerrarDeTipo(int idProducto, TipoAlerta tipo, long ahora);
+
+    /** "Ya lo atendi": queda registrado quien y cuando. */
+    @Query("UPDATE alerta SET estado = 'RESUELTA', timestampResolucionMs = :ahora, atendidaPor = :quien WHERE id = :idAlerta")
+    int marcarAtendida(int idAlerta, String quien, long ahora);
 
     @Query("SELECT * FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo AND estado = :estado LIMIT 1")
     AlertaEntity getAlertaExistenteSync(int idProducto, TipoAlerta tipo, EstadoAlerta estado);
@@ -55,10 +64,24 @@ public interface AlertaDAO {
 
     @Query("SELECT alerta.id AS id, alerta.idProducto AS idProducto, alerta.tipoAlerta AS tipoAlerta, "
             + "alerta.estado AS estado, alerta.timestampCreacionMs AS timestampCreacionMs, "
+            + "alerta.timestampResolucionMs AS timestampResolucionMs, alerta.cerradaMs AS cerradaMs, "
+            + "alerta.atendidaPor AS atendidaPor, "
             + "producto.nombre AS nombreProducto, producto.cantidadDisponible AS cantidadDisponible, "
             + "producto.unidadMedida AS unidadMedida, producto.fechaCaducidadMs AS fechaCaducidadMs, "
             + "producto.telefonoProveedor AS telefonoProveedor, producto.umbralStockBajo AS umbralStockBajo "
             + "FROM alerta INNER JOIN producto ON alerta.idProducto = producto.id "
             + "WHERE alerta.estado = :estado AND producto.activo = 1 ORDER BY alerta.timestampCreacionMs DESC")
     LiveData<List<AlertaConProducto>> getAlertasConProducto(EstadoAlerta estado);
+
+    /** Registro de alertas atendidas o cerradas solas, lo mas reciente primero. */
+    @Query("SELECT alerta.id AS id, alerta.idProducto AS idProducto, alerta.tipoAlerta AS tipoAlerta, "
+            + "alerta.estado AS estado, alerta.timestampCreacionMs AS timestampCreacionMs, "
+            + "alerta.timestampResolucionMs AS timestampResolucionMs, alerta.cerradaMs AS cerradaMs, "
+            + "alerta.atendidaPor AS atendidaPor, "
+            + "producto.nombre AS nombreProducto, producto.cantidadDisponible AS cantidadDisponible, "
+            + "producto.unidadMedida AS unidadMedida, producto.fechaCaducidadMs AS fechaCaducidadMs, "
+            + "producto.telefonoProveedor AS telefonoProveedor, producto.umbralStockBajo AS umbralStockBajo "
+            + "FROM alerta INNER JOIN producto ON alerta.idProducto = producto.id "
+            + "WHERE alerta.estado = 'RESUELTA' ORDER BY alerta.timestampResolucionMs DESC LIMIT 100")
+    LiveData<List<AlertaConProducto>> getHistorial();
 }

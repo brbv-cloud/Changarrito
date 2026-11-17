@@ -23,6 +23,9 @@ public class InicioViewModel extends AndroidViewModel {
     private final MediatorLiveData<ResumenGanancia> hoy = new MediatorLiveData<>();
     private LiveData<ResumenGanancia> fuenteHoy;
     private long inicioHoyMs = -1;
+    private final LiveData<Integer> pendientes;
+    private final MediatorLiveData<Double> promedioDiario = new MediatorLiveData<>();
+    private LiveData<Double> fuentePromedio;
 
     public InicioViewModel(@NonNull Application app) {
         super(app);
@@ -30,6 +33,7 @@ public class InicioViewModel extends AndroidViewModel {
         productos = db.productoDao().contarActivos();
         alertas = db.alertaDao().contarPorEstado(EstadoAlerta.ACTIVA);
         configuracion = db.configuracionNegocioDao().getConfiguracion();
+        pendientes = db.productoDao().contarPendientes();
         refrescarHoy();
     }
 
@@ -41,6 +45,10 @@ public class InicioViewModel extends AndroidViewModel {
         if (fuenteHoy != null) hoy.removeSource(fuenteHoy);
         fuenteHoy = db.ventaDao().getResumenGanancia(r[0], r[1]);
         hoy.addSource(fuenteHoy, hoy::setValue);
+        // "Dia normal": promedio de los ultimos 30 dias (sin contar hoy).
+        if (fuentePromedio != null) promedioDiario.removeSource(fuentePromedio);
+        fuentePromedio = db.ventaDao().promedioVentasPorDia(r[0] - 30L * 24 * 60 * 60 * 1000, r[0]);
+        promedioDiario.addSource(fuentePromedio, promedioDiario::setValue);
     }
 
     public LiveData<Integer> getProductos() {
@@ -53,6 +61,14 @@ public class InicioViewModel extends AndroidViewModel {
 
     public LiveData<ResumenGanancia> getHoy() {
         return hoy;
+    }
+
+    public LiveData<Integer> getPendientes() {
+        return pendientes;
+    }
+
+    public LiveData<Double> getPromedioDiario() {
+        return promedioDiario;
     }
 
     public LiveData<ConfiguracionNegocioEntity> getConfiguracion() {

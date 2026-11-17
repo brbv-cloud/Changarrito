@@ -1,5 +1,6 @@
 package com.changarrito.database.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -19,4 +20,12 @@ public class AlertaEntity {
     public EstadoAlerta estado;
     public long timestampCreacionMs;
     public long timestampResolucionMs;
+    /**
+     * v7: cuando termino el aviso (se surtio o cambio la fecha). 0 = sigue vigente, asi
+     * que no se vuelve a avisar aunque ya se haya atendido. Las cerradas quedan como historial.
+     */
+    @ColumnInfo(defaultValue = "0")
+    public long cerradaMs;
+    /** v7: quien toco "Ya lo atendi" (nombre del turno). null = se cerro sola. */
+    public String atendidaPor;
 }

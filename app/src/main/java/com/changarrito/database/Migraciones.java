@@ -45,4 +45,22 @@ public final class Migraciones {
             db.execSQL("CREATE INDEX IF NOT EXISTS `index_merma_timestampMs` ON `merma` (`timestampMs`)");
         }
     };
+
+    /**
+     * v6 → v7: productos "pendientes de surtir" y registro de alertas atendidas.
+     * Se marcan como ya surtidos los productos que hoy tienen existencia o que alguna
+     * vez se vendieron o se registraron como merma.
+     */
+    public static final Migration MIGRACION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase db) {
+            db.execSQL("ALTER TABLE `producto` ADD COLUMN `surtidoMs` INTEGER NOT NULL DEFAULT 0");
+            db.execSQL("UPDATE `producto` SET `surtidoMs` = MAX(`timestampActualizacionMs`, 1) "
+                    + "WHERE `cantidadDisponible` > 0 "
+                    + "OR `id` IN (SELECT `idProducto` FROM `venta`) "
+                    + "OR `id` IN (SELECT `idProducto` FROM `merma` WHERE `idProducto` IS NOT NULL)");
+            db.execSQL("ALTER TABLE `alerta` ADD COLUMN `cerradaMs` INTEGER NOT NULL DEFAULT 0");
+            db.execSQL("ALTER TABLE `alerta` ADD COLUMN `atendidaPor` TEXT");
+        }
+    };
 }

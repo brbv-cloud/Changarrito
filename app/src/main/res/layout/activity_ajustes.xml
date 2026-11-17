@@ -256,6 +256,17 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvReiniciarAyudas"
+            style="@style/Acceso.Enlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:minHeight="48dp"
+            android:gravity="center"
+            android:text="@string/ayuda_reiniciar" />
+
+        <TextView
             android:id="@+id/tvAcerca"
             style="@style/Acceso.Enlace"
             android:layout_width="wrap_content"

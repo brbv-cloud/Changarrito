@@ -96,4 +96,14 @@ public interface ProductoDAO {
     /** Para Inicio: cuantos productos hay en el inventario. */
     @Query("SELECT COUNT(*) FROM producto WHERE activo = 1")
     LiveData<Integer> contarActivos();
+
+    /** v7: marca como "ya surtido" lo que tiene existencia o alguna vez se vendio o se mermo. */
+    @Query("UPDATE producto SET surtidoMs = :ahora WHERE surtidoMs = 0 AND (cantidadDisponible > 0 "
+            + "OR id IN (SELECT idProducto FROM venta) "
+            + "OR id IN (SELECT idProducto FROM merma WHERE idProducto IS NOT NULL))")
+    int marcarSurtidos(long ahora);
+
+    /** Inicio: productos en 0 que nunca se han surtido ("pendientes de surtir"). */
+    @Query("SELECT COUNT(*) FROM producto WHERE activo = 1 AND surtidoMs = 0 AND cantidadDisponible <= 0.0001")
+    LiveData<Integer> contarPendientes();
 }

@@ -84,6 +84,8 @@ public class AlertaRepositoryTest {
         p.barcode = "";
         p.timestampCreacionMs = System.currentTimeMillis();
         p.timestampActualizacionMs = System.currentTimeMillis();
+        // Como en la app: lo que entra con existencia ya cuenta como surtido.
+        if (cantidad > 0) p.surtidoMs = p.timestampActualizacionMs;
         return p;
     }
 
@@ -283,5 +285,32 @@ public class AlertaRepositoryTest {
     public void getAlertaExistenteSync_devuelve_null_cuando_no_hay_alerta() {
         AlertaEntity existente = alertaDao.getAlertaExistenteSync(999, TipoAlerta.STOCK_BAJO, EstadoAlerta.ACTIVA);
         assertNull(existente);
+    }
+
+    @Test
+    public void pendiente_de_surtir_no_avisa() throws Exception {
+        // Recien importado del catalogo: existencia 0 y nunca surtido.
+        productoDao.insert(nuevoProducto("Jabon", 0, 3.0, UnidadMedida.PZA));
+        verificarSync();
+        assertTrue(getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA)).isEmpty());
+    }
+
+    @Test
+    public void atendida_queda_en_el_historial_con_quien_la_atendio() throws Exception {
+        ProductoEntity p = nuevoProducto("Cafe", 1.0, 3.0, UnidadMedida.PZA);
+        p.id = (int) productoDao.insert(p);
+        verificarSync();
+        int idAlerta = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA)).get(0).id;
+        alertaDao.marcarAtendida(idAlerta, "Bruno", System.currentTimeMillis());
+
+        java.util.List<com.changarrito.database.dao.AlertaConProducto> historial = getValor(alertaDao.getHistorial());
+        assertEquals(1, historial.size());
+        assertEquals("Bruno", historial.get(0).atendidaPor);
+
+        // Al surtir, el aviso termina pero el registro se queda.
+        p.cantidadDisponible = 20;
+        productoDao.update(p);
+        verificarSync();
+        assertEquals(1, getValor(alertaDao.getHistorial()).size());
     }
 }

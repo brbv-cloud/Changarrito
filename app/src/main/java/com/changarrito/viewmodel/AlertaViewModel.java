@@ -36,6 +36,11 @@ public class AlertaViewModel extends AndroidViewModel {
         repository.verificarAlertasAhora();
     }
 
+    /** Registro de alertas atendidas o que se cerraron solas. */
+    public LiveData<List<AlertaConProducto>> getHistorial() {
+        return repository.getHistorial();
+    }
+
     public void marcarComoResuelta(int idAlerta) {
         repository.marcarComoResuelta(idAlerta);
     }

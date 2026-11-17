@@ -361,15 +361,22 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         if (centavos == totalCentavosChips) return; // mismo total: no se rehacen
         totalCentavosChips = centavos;
         chipsPago.removeAllViews();
+        vista(R.id.tvPagoRapido).setVisibility(centavos > 0 ? View.VISIBLE : View.GONE);
         if (centavos <= 0) return;
         LayoutInflater inflater = LayoutInflater.from(requireContext());
-        agregarBillete(inflater, getString(R.string.venta_exacto), total);
+        Chip exacto = agregarBillete(inflater, getString(R.string.venta_exacto), total);
+        // "Exacto" se distingue: verde lleno con palomita (el cliente paga justo).
+        exacto.setChipBackgroundColorResource(R.color.marca_verde);
+        exacto.setChipStrokeColorResource(R.color.marca_verde);
+        exacto.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+        exacto.setChipIconResource(R.drawable.ic_check_circulo);
+        exacto.setChipIconTintResource(R.color.white);
         for (double monto : Cobro.sugerenciasPago(total)) {
             agregarBillete(inflater, CalculoGanancias.dinero(monto).replace(".00", ""), monto);
         }
     }
 
-    private void agregarBillete(LayoutInflater inflater, String texto, double monto) {
+    private Chip agregarBillete(LayoutInflater inflater, String texto, double monto) {
         Chip chip = (Chip) inflater.inflate(R.layout.chip_billete, chipsPago, false);
         chip.setText(texto);
         chip.setOnClickListener(v -> {
@@ -380,6 +387,7 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
             esconderTeclado();
         });
         chipsPago.addView(chip);
+        return chip;
     }
 
     /**
@@ -476,6 +484,29 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
 
         @Override
         public void afterTextChanged(Editable s) {
+        }
+    }
+
+    // ------------------------------------------------------------------ guia
+
+    @Override
+    protected String claveGuia() {
+        return "vender";
+    }
+
+    @Override
+    protected void pasosGuia(Pasos p) {
+        RecyclerView lista = vista(R.id.rvProductosDisponibles);
+        p.agregar(vista(R.id.cajaBuscar), R.drawable.ic_buscar, R.string.g_ven_buscar_t, R.string.g_ven_buscar);
+        p.agregar(vista(R.id.btnEscanearVenta), R.drawable.ic_escanear, R.string.g_ven_escanear_t, R.string.g_ven_escanear);
+        p.agregar(lista.getChildAt(0), R.drawable.ic_nav_vender, R.string.g_ven_producto_t, R.string.g_ven_producto);
+        // La barra del carrito solo si esta a la vista (con productos y cerrada).
+        if (hoja != null && hoja.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            p.agregar(vista(R.id.barraCarrito), R.drawable.ic_nav_vender, R.string.g_ven_carrito_t, R.string.g_ven_carrito);
+        }
+        if (hoja != null && hoja.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            p.agregar(vista(R.id.chipsPago), R.drawable.ic_billete, R.string.g_ven_pago_t, R.string.g_ven_pago);
+            p.agregar(vista(R.id.cardCambio), R.drawable.ic_billete, R.string.g_ven_cambio_t, R.string.g_ven_cambio);
         }
     }
 }

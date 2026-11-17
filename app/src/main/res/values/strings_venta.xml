@@ -38,4 +38,5 @@
     <string name="venta_no_registrado">Ese código no está registrado en el inventario.</string>
     <string name="venta_sin_stock">%s no tiene existencia.</string>
     <string name="venta_cambiar_cantidad">Cambiar cantidad</string>
+    <string name="venta_pago_rapido">⚡ Pago rápido: toca el billete con el que te pagan</string>
 </resources>

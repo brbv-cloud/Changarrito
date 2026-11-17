@@ -624,4 +624,28 @@ public class ReportesFragment extends SeccionFragment {
         // se recalcula cada vez que se ve esta seccion.
         if (cierreCajaViewModel != null) cierreCajaViewModel.actualizarEfectivoPendiente();
     }
+
+    // ------------------------------------------------------------------ guia y caja
+
+    /** "Cerrar caja" desde Inicio: abre directo la pestana Caja. */
+    public void abrirCaja() {
+        if (getView() != null && !cierreCiego) toggleTabs.check(R.id.btnTabCaja);
+    }
+
+    @Override
+    protected String claveGuia() {
+        return cierreCiego ? "caja" : "reportes";
+    }
+
+    @Override
+    protected void pasosGuia(Pasos p) {
+        if (cierreCiego) {
+            p.agregar(vista(R.id.etEfectivoContado), R.drawable.ic_nav_caja, R.string.g_caja_contado_t, R.string.g_caja_contado);
+            p.agregar(vista(R.id.btnHacerCierre), R.drawable.ic_check_circulo, R.string.g_caja_boton_t, R.string.g_caja_boton);
+            return;
+        }
+        p.agregar(vista(R.id.scrollTabs), R.drawable.ic_nav_reportes, R.string.g_rep_temas_t, R.string.g_rep_temas);
+        p.agregar(vista(R.id.toggleRango), R.drawable.ic_reloj, R.string.g_rep_periodo_t, R.string.g_rep_periodo);
+        p.agregar(vista(R.id.btnEstadoCuenta), R.drawable.ic_pdf, R.string.g_rep_pdf_t, R.string.g_rep_pdf);
+    }
 }

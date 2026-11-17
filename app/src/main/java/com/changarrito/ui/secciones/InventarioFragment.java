@@ -100,6 +100,8 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
             }
         });
         rvProductos.setAdapter(adapter);
+        // Solo el dueno puede quitar productos; el trabajador puede verlos y editarlos.
+        adapter.setPuedeQuitar(com.changarrito.negocio.SesionTurno.esDueno(requireContext()));
 
         tvResumen = vista(R.id.tvResumen);
         tvVacio = vista(R.id.tvVacio);
@@ -162,20 +164,26 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
     private void aplicarFiltro() {
         if (getView() == null || !cargado) return;
         long ahora = System.currentTimeMillis();
-        int bajos = 0, agotados = 0, porCaducar = 0, porAtender = 0;
+        int bajos = 0, agotados = 0, pendientes = 0, porCaducar = 0, porAtender = 0;
         for (ProductoEntity p : todos) {
             EstadoStock.Nivel nivel = EstadoStock.calcular(p);
+            boolean pendiente = esPendiente(p);
             boolean caduca = EstadoProducto.caducidadConAviso(p.fechaCaducidadMs, ahora);
             if (nivel == EstadoStock.Nivel.BAJO) bajos++;
-            if (nivel == EstadoStock.Nivel.AGOTADO) agotados++;
+            if (nivel == EstadoStock.Nivel.AGOTADO && !pendiente) agotados++;
+            if (pendiente) pendientes++;
             if (caduca) porCaducar++;
-            if (nivel != EstadoStock.Nivel.NORMAL || caduca) porAtender++;
+            if ((nivel != EstadoStock.Nivel.NORMAL && !pendiente) || caduca) porAtender++;
         }
 
         ((Chip) vista(R.id.chipTodos)).setText(getString(R.string.inv_filtro_todos, todos.size()));
         ((Chip) vista(R.id.chipBajo)).setText(getString(R.string.inv_filtro_bajo, bajos));
         ((Chip) vista(R.id.chipAgotados)).setText(getString(R.string.inv_filtro_agotados, agotados));
         ((Chip) vista(R.id.chipCaducar)).setText(getString(R.string.inv_filtro_caducar, porCaducar));
+        Chip chipPendientes = vista(R.id.chipPendientes);
+        chipPendientes.setText(getString(R.string.inv_filtro_pendientes, pendientes));
+        // Solo aparece si hay pendientes (normalmente justo despues de importar el catalogo).
+        chipPendientes.setVisibility(pendientes > 0 || chipPendientes.isChecked() ? View.VISIBLE : View.GONE);
 
         String cuantos = getResources().getQuantityString(R.plurals.inv_productos_n, todos.size(), todos.size());
         tvResumen.setText(porAtender > 0 ? getString(R.string.inv_por_atender, cuantos, porAtender) : cuantos);
@@ -202,9 +210,15 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
 
     private static boolean pasaFiltro(ProductoEntity p, int filtro, long ahora) {
         if (filtro == R.id.chipBajo) return EstadoStock.calcular(p) == EstadoStock.Nivel.BAJO;
-        if (filtro == R.id.chipAgotados) return EstadoStock.calcular(p) == EstadoStock.Nivel.AGOTADO;
+        if (filtro == R.id.chipAgotados) return EstadoStock.calcular(p) == EstadoStock.Nivel.AGOTADO && !esPendiente(p);
+        if (filtro == R.id.chipPendientes) return esPendiente(p);
         if (filtro == R.id.chipCaducar) return EstadoProducto.caducidadConAviso(p.fechaCaducidadMs, ahora);
         return true;
+    }
+
+    /** En 0 y nunca surtido (ej. recien importado del catalogo): "Pendiente de surtir". */
+    private static boolean esPendiente(ProductoEntity p) {
+        return p.surtidoMs == 0 && EstadoStock.calcular(p) == EstadoStock.Nivel.AGOTADO;
     }
 
     /** Quitar es con un toque del bote: se pregunta antes para que no pase por accidente. */
@@ -290,5 +304,22 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
     public void onDestroy() {
         super.onDestroy();
         if (catalogoExecutor != null) catalogoExecutor.shutdown();
+    }
+
+    // ------------------------------------------------------------------ guia
+
+    @Override
+    protected String claveGuia() {
+        return "inventario";
+    }
+
+    @Override
+    protected void pasosGuia(Pasos p) {
+        RecyclerView lista = vista(R.id.rvProductos);
+        p.agregar(vista(R.id.cajaBuscar), R.drawable.ic_buscar, R.string.g_inv_buscar_t, R.string.g_inv_buscar);
+        p.agregar(vista(R.id.btnEscanear), R.drawable.ic_escanear, R.string.g_inv_escanear_t, R.string.g_inv_escanear);
+        p.agregar(vista(R.id.chipsFiltro), R.drawable.ic_nav_alertas, R.string.g_inv_filtros_t, R.string.g_inv_filtros);
+        p.agregar(lista.getChildAt(0), R.drawable.ic_nav_inventario, R.string.g_inv_tarjeta_t, R.string.g_inv_tarjeta);
+        p.agregar(vista(R.id.fabAgregarProducto), R.drawable.ic_mas, R.string.g_inv_agregar_t, R.string.g_inv_agregar);
     }
 }

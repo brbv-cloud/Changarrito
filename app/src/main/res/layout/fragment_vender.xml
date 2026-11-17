@@ -13,25 +13,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="12dp">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_weight="1"
             android:text="@string/venta_titulo"
             android:textColor="@color/color_slate_dark"
             android:textSize="26sp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/venta_ayuda"
-            android:textColor="@color/color_slate_medium"
-            android:textSize="13sp" />
+            android:id="@+id/btnGuia"
+            style="@style/Guia.Boton" />
+    </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,6 +43,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
+            android:id="@+id/cajaBuscar"
             android:background="@drawable/bg_buscador"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -266,6 +271,16 @@
                     android:visibility="gone"
                     app:tint="@color/color_slate_medium" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPagoRapido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/venta_pago_rapido"
+                android:textColor="@color/marca_verde_oscuro"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

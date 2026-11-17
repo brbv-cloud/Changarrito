@@ -34,6 +34,7 @@ public class AlertasFragment extends SeccionFragment {
     private AlertaViewModel viewModel;
     private AlertaAdapter adapter;
     private List<AlertaConProducto> todas = new ArrayList<>();
+    private List<AlertaConProducto> historial = new ArrayList<>();
     private boolean cargado;
 
     private ChipGroup chipsFiltro;
@@ -82,6 +83,10 @@ public class AlertasFragment extends SeccionFragment {
             cargado = true;
             mostrar();
         });
+        viewModel.getHistorial().observe(getViewLifecycleOwner(), lista -> {
+            historial = lista != null ? lista : new ArrayList<>();
+            mostrar();
+        });
     }
 
     @Override
@@ -122,6 +127,16 @@ public class AlertasFragment extends SeccionFragment {
         }
 
         int filtro = chipsFiltro.getCheckedChipId();
+        if (filtro == R.id.chipAtendidas) {
+            // Registro de lo ya atendido (o que se cerro solo al surtir).
+            adapter.setModoHistorial(true);
+            adapter.setAlertas(historial);
+            vacio.setVisibility(historial.isEmpty() ? View.VISIBLE : View.GONE);
+            tvVacioTitulo.setVisibility(View.GONE);
+            tvSinAlertas.setText(R.string.alertas_historial_vacio);
+            return;
+        }
+        adapter.setModoHistorial(false);
         List<AlertaConProducto> visibles = new ArrayList<>();
         for (AlertaConProducto a : ordenadas) {
             boolean deExistencia = a.tipoAlerta != TipoAlerta.PROXIMO_VENCIMIENTO;
@@ -153,5 +168,20 @@ public class AlertasFragment extends SeccionFragment {
         } catch (Exception e) {
             avisar(R.string.alerta_sin_whatsapp);
         }
+    }
+
+    // ------------------------------------------------------------------ guia
+
+    @Override
+    protected String claveGuia() {
+        return "alertas";
+    }
+
+    @Override
+    protected void pasosGuia(Pasos p) {
+        RecyclerView lista = vista(R.id.rvAlertas);
+        p.agregar(vista(R.id.chipExistencia), R.drawable.ic_nav_alertas, R.string.g_ale_filtros_t, R.string.g_ale_filtros);
+        p.agregar(lista.getChildAt(0), R.drawable.ic_nav_alertas, R.string.g_ale_tarjeta_t, R.string.g_ale_tarjeta);
+        p.agregar(vista(R.id.chipAtendidas), R.drawable.ic_check_circulo, R.string.g_ale_atendidas_t, R.string.g_ale_atendidas);
     }
 }

@@ -455,6 +455,7 @@ public class ProductoDialogFragment extends DialogFragment {
             p.id = productoEditando.id;
             p.timestampCreacionMs = productoEditando.timestampCreacionMs;
             p.activo = productoEditando.activo;
+            p.surtidoMs = productoEditando.surtidoMs; // si ya tuvo existencia, en 0 es "Agotado"
         }
         // Un trabajador que edita no ve el costo: se conserva el que ya tenía.
         boolean costoVisible = esDueno || esNuevo;

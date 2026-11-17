@@ -33,6 +33,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     private List<ProductoEntity> productos;
     private OnProductoClickListener listener;
+    /** El trabajador no puede quitar productos del inventario (solo el dueno). */
+    private boolean puedeQuitar = true;
 
     public interface OnProductoClickListener {
         void onEditar(ProductoEntity producto);
@@ -42,6 +44,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
     public ProductoAdapter(List<ProductoEntity> productos) {
         this.productos = productos;
+    }
+
+    public void setPuedeQuitar(boolean puedeQuitar) {
+        this.puedeQuitar = puedeQuitar;
+        notifyDataSetChanged();
     }
 
     public void setOnProductoClickListener(OnProductoClickListener listener) {
@@ -79,9 +86,15 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         int colorBorde = 0;
         switch (nivel) {
             case AGOTADO:
-                etiqueta(h.tvChipStock, ctx.getString(R.string.inv_chip_agotado),
-                        R.color.semaforo_rojo_fondo, R.color.semaforo_rojo_texto);
-                colorBorde = R.color.status_rojo;
+                if (p.surtidoMs == 0) {
+                    // Nunca ha tenido existencia (ej. del catalogo): no se acabo, falta surtirlo.
+                    etiqueta(h.tvChipStock, ctx.getString(R.string.inv_chip_pendiente),
+                            R.color.chip_azul_fondo, R.color.chip_azul_texto);
+                } else {
+                    etiqueta(h.tvChipStock, ctx.getString(R.string.inv_chip_agotado),
+                            R.color.semaforo_rojo_fondo, R.color.semaforo_rojo_texto);
+                    colorBorde = R.color.status_rojo;
+                }
                 break;
             case BAJO:
                 etiqueta(h.tvChipStock, ctx.getString(R.string.inv_chip_bajo, cantidad),
@@ -123,6 +136,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         h.btnEditar.setOnClickListener(v -> {
             if (listener != null) listener.onEditar(p);
         });
+        h.btnEliminar.setVisibility(puedeQuitar ? View.VISIBLE : View.GONE);
         h.btnEliminar.setOnClickListener(v -> {
             if (listener != null) listener.onEliminar(p);
         });

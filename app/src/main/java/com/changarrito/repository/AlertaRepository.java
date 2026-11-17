@@ -54,9 +54,15 @@ public class AlertaRepository {
         return alertaDAO.contarPorEstado(EstadoAlerta.ACTIVA);
     }
 
+    /** "Ya lo atendi": queda en el registro con el nombre de quien atiende el turno. */
     public void marcarComoResuelta(int idAlerta) {
+        String quien = com.changarrito.negocio.SesionTurno.getNombre(application);
         executorService.execute(() ->
-                alertaDAO.actualizarEstado(idAlerta, EstadoAlerta.RESUELTA, System.currentTimeMillis()));
+                alertaDAO.marcarAtendida(idAlerta, quien, System.currentTimeMillis()));
+    }
+
+    public LiveData<List<AlertaConProducto>> getHistorial() {
+        return alertaDAO.getHistorial();
     }
 
     public void eliminarAlerta(AlertaEntity alerta) {
@@ -78,6 +84,8 @@ public class AlertaRepository {
      * tipo para el mismo producto. Debe llamarse desde un hilo de fondo.
      */
     public void verificarAlertasSync() {
+        // Lo que ya tiene (o tuvo) existencia deja de ser "pendiente de surtir".
+        productoDAO.marcarSurtidos(System.currentTimeMillis());
         List<ProductoEntity> productos = productoDAO.getAllProductosSync();
         if (productos == null) return;
 
@@ -97,18 +105,25 @@ public class AlertaRepository {
      * otra vez. Al surtir arriba del minimo terminan las dos y el ciclo empieza de nuevo.
      */
     private void verificarStockBajo(ProductoEntity producto, long ahora) {
+        if (producto.surtidoMs == 0) {
+            // Pendiente de surtir (ej. recien importado del catalogo): no es que se acabo,
+            // es que todavia no llega. No se avisa.
+            alertaDAO.cerrarDeTipo(producto.id, TipoAlerta.STOCK_BAJO, ahora);
+            alertaDAO.cerrarDeTipo(producto.id, TipoAlerta.AGOTADO, ahora);
+            return;
+        }
         boolean stockBajo = producto.cantidadDisponible <= producto.umbralStockBajo + EPSILON;
         if (!stockBajo) {
             // Ya se surtio: terminan los avisos, y si vuelve a bajar se avisa de nuevo.
-            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.STOCK_BAJO);
-            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.AGOTADO);
+            alertaDAO.cerrarDeTipo(producto.id, TipoAlerta.STOCK_BAJO, ahora);
+            alertaDAO.cerrarDeTipo(producto.id, TipoAlerta.AGOTADO, ahora);
             return;
         }
         boolean agotado = producto.cantidadDisponible <= EPSILON;
         TipoAlerta tipo = agotado ? TipoAlerta.AGOTADO : TipoAlerta.STOCK_BAJO;
         // Una sola tarjeta de existencia por producto: "se acabo" reemplaza a "queda poco"
         // (y al reves si se surte un poco pero sigue bajo).
-        alertaDAO.borrarDeTipo(producto.id, agotado ? TipoAlerta.STOCK_BAJO : TipoAlerta.AGOTADO);
+        alertaDAO.cerrarDeTipo(producto.id, agotado ? TipoAlerta.STOCK_BAJO : TipoAlerta.AGOTADO, ahora);
         // Ya se aviso de este nivel (aunque el usuario la haya marcado como atendida).
         if (alertaDAO.getAlertaDeTipoSync(producto.id, tipo) != null) return;
 
@@ -129,7 +144,7 @@ public class AlertaRepository {
         // fechaCaducidadMs <= 0 significa "sin fecha de caducidad capturada"
         if (producto.fechaCaducidadMs <= 0 || producto.fechaCaducidadMs > limite) {
             // Le quitaron la fecha o le pusieron una lejana (lote nuevo): termina el aviso.
-            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.PROXIMO_VENCIMIENTO);
+            alertaDAO.cerrarDeTipo(producto.id, TipoAlerta.PROXIMO_VENCIMIENTO, ahora);
             return;
         }
         // Ya se aviso de esta fecha (aunque el usuario la haya marcado como atendida).

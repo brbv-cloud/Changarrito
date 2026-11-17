@@ -42,6 +42,12 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.ViewHolder
 
     private List<AlertaConProducto> alertas = new ArrayList<>();
     private Listener listener;
+    /** Registro de atendidas: sin botones, con quien y cuando. */
+    private boolean modoHistorial;
+
+    public void setModoHistorial(boolean modoHistorial) {
+        this.modoHistorial = modoHistorial;
+    }
 
     public void setListener(Listener listener) {
         this.listener = listener;
@@ -54,7 +60,7 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.ViewHolder
 
     /** Agotado o ya caducado: va primero y en rojo. */
     public static boolean esUrgente(AlertaConProducto a, long ahora) {
-        if (a.tipoAlerta == TipoAlerta.AGOTADO) return true;
+        if (a.tipoAlerta == TipoAlerta.AGOTADO) return a.cantidadDisponible <= EPSILON;
         if (a.tipoAlerta == TipoAlerta.STOCK_BAJO) return a.cantidadDisponible <= EPSILON;
         return a.fechaCaducidadMs > 0 && EstadoProducto.diasParaCaducar(a.fechaCaducidadMs, ahora) <= 0;
     }
@@ -114,6 +120,24 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.ViewHolder
         h.btnResolver.setOnClickListener(v -> {
             if (listener != null) listener.onResolver(a);
         });
+
+        // Registro: gris, sin botones, y quien la atendio o si se cerro sola.
+        h.filaAcciones.setVisibility(modoHistorial ? View.GONE : View.VISIBLE);
+        h.tvAtendida.setVisibility(modoHistorial ? View.VISIBLE : View.GONE);
+        if (modoHistorial) {
+            int gris = ContextCompat.getColor(ctx, R.color.color_card_stroke);
+            h.franja.setBackgroundColor(gris);
+            String cuando = new SimpleDateFormat("dd/MM HH:mm", Locale.forLanguageTag("es-MX"))
+                    .format(new Date(a.timestampResolucionMs > 0 ? a.timestampResolucionMs : a.cerradaMs));
+            if (a.atendidaPor != null && !a.atendidaPor.trim().isEmpty()) {
+                h.tvAtendida.setText(ctx.getString(R.string.alerta_atendida_por, a.atendidaPor, cuando));
+            } else if (a.cerradaMs > 0 && a.cerradaMs == a.timestampResolucionMs) {
+                h.tvAtendida.setText(ctx.getString(deExistencia ? R.string.alerta_cerrada_surtido
+                        : R.string.alerta_cerrada_fecha, cuando));
+            } else {
+                h.tvAtendida.setText(ctx.getString(R.string.alerta_atendida, cuando));
+            }
+        }
     }
 
     @Override
@@ -122,7 +146,8 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final View franja;
+        final View franja, filaAcciones;
+        final TextView tvAtendida;
         final ImageView ivIcono;
         final TextView tvTipo, tvNombreProducto, tvMensaje;
         final MaterialButton btnContactar, btnResolver;
@@ -130,6 +155,8 @@ public class AlertaAdapter extends RecyclerView.Adapter<AlertaAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             franja = itemView.findViewById(R.id.franja);
+            filaAcciones = itemView.findViewById(R.id.filaAcciones);
+            tvAtendida = itemView.findViewById(R.id.tvAtendida);
             ivIcono = itemView.findViewById(R.id.ivIconoAlerta);
             tvTipo = itemView.findViewById(R.id.tvTipo);
             tvNombreProducto = itemView.findViewById(R.id.tvNombreProducto);

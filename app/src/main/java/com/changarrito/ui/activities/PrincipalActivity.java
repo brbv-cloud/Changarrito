@@ -119,6 +119,13 @@ public class PrincipalActivity extends AppCompatActivity {
         Avisos.mostrar(findViewById(R.id.rootPrincipal), mensaje, ancla != null ? ancla : barra);
     }
 
+    /** "Cerrar caja" de Inicio: Reportes en la pestana Caja (el trabajador ya entra ahi). */
+    public void irACaja() {
+        irA(R.id.nav_reportes);
+        Fragment f = getSupportFragmentManager().findFragmentByTag(etiqueta(R.id.nav_reportes));
+        if (f instanceof ReportesFragment) ((ReportesFragment) f).abrirCaja();
+    }
+
     /** Para los accesos de Inicio ("Vender", "Ver alertas"...). */
     public void irA(@IdRes int itemNavegacion) {
         if (itemNavegacion != actual) mostrar(itemNavegacion, true);

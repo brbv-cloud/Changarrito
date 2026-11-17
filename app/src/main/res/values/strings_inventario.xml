@@ -22,6 +22,8 @@
 
     <string name="inv_precio_unidad">%1$s / %2$s</string>
     <string name="inv_chip_agotado">Agotado</string>
+    <string name="inv_chip_pendiente">Pendiente de surtir</string>
+    <string name="inv_filtro_pendientes">Pendientes (%d)</string>
     <string name="inv_chip_bajo">Stock bajo · %s</string>
     <string name="inv_chip_caducado">Caducado</string>
     <string name="inv_chip_vence_hoy">Vence hoy</string>

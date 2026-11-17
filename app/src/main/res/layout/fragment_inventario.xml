@@ -9,15 +9,28 @@
     android:background="@color/color_bg_alt"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/inv_titulo"
-        android:textColor="@color/color_slate_dark"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/inv_titulo"
+            android:textColor="@color/color_slate_dark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnGuia"
+            style="@style/Guia.Boton" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvResumen"
@@ -28,12 +41,14 @@
         android:textColor="@color/color_slate_medium"
         android:textSize="13sp" />
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
+        android:id="@+id/cajaBuscar"
         android:background="@drawable/bg_buscador"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -118,6 +133,12 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipAgotados"
+                style="@style/Inventario.Filtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPendientes"
                 style="@style/Inventario.Filtro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

@@ -182,4 +182,13 @@ public interface VentaDAO {
 
     @Query(SQL_POR_CATEGORIA)
     List<VentasPorCategoria> getVentasPorCategoriaSync(long inicioMs, long finMs);
+
+    /**
+     * Inicio: lo que se vende en un "dia normal" = promedio de lo vendido por dia, contando
+     * solo los dias del rango en que hubo ventas (hora local del celular).
+     */
+    @Query("SELECT AVG(t) FROM (SELECT SUM(total) AS t FROM venta "
+            + "WHERE timestampVentaMs >= :desde AND timestampVentaMs < :hasta "
+            + "GROUP BY date(timestampVentaMs / 1000, 'unixepoch', 'localtime'))")
+    LiveData<Double> promedioVentasPorDia(long desde, long hasta);
 }

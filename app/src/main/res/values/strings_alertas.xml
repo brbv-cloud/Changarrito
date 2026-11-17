@@ -37,4 +37,10 @@
     <string name="alerta_resuelta">Alerta atendida</string>
     <string name="alerta_sin_telefono_toast">Este producto no tiene teléfono de proveedor. Agrégalo en Inventario.</string>
     <string name="alerta_sin_whatsapp">No se pudo abrir WhatsApp. ¿Está instalado?</string>
+    <string name="alertas_filtro_atendidas">Atendidas</string>
+    <string name="alertas_historial_vacio">Todavía no hay alertas atendidas.</string>
+    <string name="alerta_atendida_por">✓ Atendida por %1$s · %2$s</string>
+    <string name="alerta_atendida">✓ Atendida · %s</string>
+    <string name="alerta_cerrada_surtido">Se cerró sola al surtir · %s</string>
+    <string name="alerta_cerrada_fecha">Se cerró sola al cambiar la fecha · %s</string>
 </resources>

@@ -54,7 +54,7 @@ import com.changarrito.database.entity.VentaEntity;
         BitacoraEntity.class,
         ConfiguracionNegocioEntity.class,
         MermaEntity.class
-}, version = 6, exportSchema = false)
+}, version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -96,7 +96,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             appContext,
                             AppDatabase.class,
                             "changarrito_db"
-                    ).addMigrations(Migraciones.MIGRACION_5_6)
+                    ).addMigrations(Migraciones.MIGRACION_5_6, Migraciones.MIGRACION_6_7)
                             .fallbackToDestructiveMigration()
                             .build();
                 }

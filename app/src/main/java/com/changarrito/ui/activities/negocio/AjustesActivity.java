@@ -61,6 +61,10 @@ public class AjustesActivity extends AppCompatActivity {
         findViewById(R.id.btnAtras).setOnClickListener(v -> finish());
         findViewById(R.id.btnCambiarTurno).setOnClickListener(v -> cambiarTurno());
         findViewById(R.id.tvAcerca).setOnClickListener(v -> mostrarAcerca());
+        findViewById(R.id.tvReiniciarAyudas).setOnClickListener(v -> {
+            com.changarrito.ui.Ayuda.reiniciar(this);
+            android.widget.Toast.makeText(this, R.string.ayuda_reiniciadas, android.widget.Toast.LENGTH_LONG).show();
+        });
 
         if (!esDueno) return;
 

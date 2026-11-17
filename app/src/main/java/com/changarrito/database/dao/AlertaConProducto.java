@@ -15,6 +15,10 @@ public class AlertaConProducto {
     public TipoAlerta tipoAlerta;
     public EstadoAlerta estado;
     public long timestampCreacionMs;
+    public long timestampResolucionMs;
+    public long cerradaMs;
+    /** Quien la atendio (null = se cerro sola al surtir o cambiar la fecha). */
+    public String atendidaPor;
 
     public String nombreProducto;
     public double cantidadDisponible;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Boton "Agregar" de Inicio: blanco con borde punteado verde. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#220B8478">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_bg" />
+            <corners android:radius="18dp" />
+            <stroke android:width="2dp" android:color="@color/marca_verde" android:dashGap="6dp" android:dashWidth="9dp" />
+        </shape>
+    </item>
+</ripple>
