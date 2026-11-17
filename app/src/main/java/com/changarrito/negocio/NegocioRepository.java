@@ -115,6 +115,18 @@ public class NegocioRepository {
         }, callback);
     }
 
+    /** Corrige el nombre del negocio (Ajustes) sin tocar giro, unidades ni catalogo. */
+    public void cambiarNombreNegocio(String nombre, Callback<Boolean> callback) {
+        enFondo(() -> {
+            ConfiguracionNegocioEntity c = configDao.getConfiguracionSync();
+            if (c == null || nombre == null || nombre.trim().isEmpty()) return false;
+            c.nombreNegocio = nombre.trim();
+            c.timestampActualizacionMs = System.currentTimeMillis();
+            configDao.guardar(c);
+            return true;
+        }, callback);
+    }
+
     /**
      * Inserta los productos elegidos (puede ser una lista vacía = "Empezar vacío") y
      * marca el catálogo como resuelto para no volver a ofrecerlo.

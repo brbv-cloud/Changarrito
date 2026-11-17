@@ -36,6 +36,17 @@ public interface AlertaDAO {
      * una alerta duplicada si ya existe una activa del mismo tipo para el mismo
      * producto. Nunca llamar desde el hilo principal.
      */
+    /**
+     * Cualquier alerta (activa o ya atendida) de ese tipo para el producto. Si existe, el
+     * aviso ya se dio en este "episodio" y no se repite aunque el usuario la haya atendido.
+     */
+    @Query("SELECT * FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo ORDER BY timestampCreacionMs DESC LIMIT 1")
+    AlertaEntity getAlertaDeTipoSync(int idProducto, TipoAlerta tipo);
+
+    /** Se surtio o cambio la fecha: termina el episodio y la proxima vez se avisa de nuevo. */
+    @Query("DELETE FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo")
+    int borrarDeTipo(int idProducto, TipoAlerta tipo);
+
     @Query("SELECT * FROM alerta WHERE idProducto = :idProducto AND tipoAlerta = :tipo AND estado = :estado LIMIT 1")
     AlertaEntity getAlertaExistenteSync(int idProducto, TipoAlerta tipo, EstadoAlerta estado);
 
@@ -46,7 +57,7 @@ public interface AlertaDAO {
             + "alerta.estado AS estado, alerta.timestampCreacionMs AS timestampCreacionMs, "
             + "producto.nombre AS nombreProducto, producto.cantidadDisponible AS cantidadDisponible, "
             + "producto.unidadMedida AS unidadMedida, producto.fechaCaducidadMs AS fechaCaducidadMs, "
-            + "producto.telefonoProveedor AS telefonoProveedor "
+            + "producto.telefonoProveedor AS telefonoProveedor, producto.umbralStockBajo AS umbralStockBajo "
             + "FROM alerta INNER JOIN producto ON alerta.idProducto = producto.id "
             + "WHERE alerta.estado = :estado AND producto.activo = 1 ORDER BY alerta.timestampCreacionMs DESC")
     LiveData<List<AlertaConProducto>> getAlertasConProducto(EstadoAlerta estado);

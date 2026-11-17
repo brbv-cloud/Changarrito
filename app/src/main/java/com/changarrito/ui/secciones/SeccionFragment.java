@@ -4,6 +4,8 @@ import android.view.View;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.changarrito.ui.activities.PrincipalActivity;
@@ -26,6 +28,25 @@ public abstract class SeccionFragment extends Fragment {
     /** Atajo para no escribir requireView().findViewById(...) en cada linea. */
     protected <T extends View> T vista(@IdRes int id) {
         return requireView().findViewById(id);
+    }
+
+    /** Mensaje corto que se quita con un toque (en lugar de Toast). */
+    protected void avisar(CharSequence mensaje) {
+        if (getActivity() instanceof PrincipalActivity) {
+            ((PrincipalActivity) getActivity()).avisar(mensaje, anclaAvisos());
+        } else if (getView() != null) {
+            com.changarrito.ui.Avisos.mostrar(getView(), mensaje, null);
+        }
+    }
+
+    protected void avisar(@StringRes int mensaje) {
+        if (isAdded()) avisar(getString(mensaje));
+    }
+
+    /** Vista arriba de la cual salen los avisos; null = arriba de la barra de abajo. */
+    @Nullable
+    protected View anclaAvisos() {
+        return null;
     }
 
     /** Cambia a otra pestana (por ejemplo, los accesos grandes de Inicio). */

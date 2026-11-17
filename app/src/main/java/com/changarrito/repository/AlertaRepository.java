@@ -90,39 +90,50 @@ public class AlertaRepository {
         }
     }
 
+    /**
+     * Existencia, en dos niveles: "queda poco" (STOCK_BAJO) y "se acabo" (AGOTADO).
+     * Cada nivel avisa una sola vez; si el usuario marca la alerta como atendida no se
+     * repite mientras siga igual. Pero si de "queda poco" pasa a "se acabo", se avisa
+     * otra vez. Al surtir arriba del minimo terminan las dos y el ciclo empieza de nuevo.
+     */
     private void verificarStockBajo(ProductoEntity producto, long ahora) {
         boolean stockBajo = producto.cantidadDisponible <= producto.umbralStockBajo + EPSILON;
-        AlertaEntity existente = alertaDAO.getAlertaExistenteSync(
-                producto.id, TipoAlerta.STOCK_BAJO, EstadoAlerta.ACTIVA);
         if (!stockBajo) {
-            // Ya se surtio: la alerta se cierra sola, y si vuelve a bajar se avisa de nuevo.
-            if (existente != null) alertaDAO.actualizarEstado(existente.id, EstadoAlerta.RESUELTA, ahora);
+            // Ya se surtio: terminan los avisos, y si vuelve a bajar se avisa de nuevo.
+            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.STOCK_BAJO);
+            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.AGOTADO);
             return;
         }
-        if (existente != null) return;
+        boolean agotado = producto.cantidadDisponible <= EPSILON;
+        TipoAlerta tipo = agotado ? TipoAlerta.AGOTADO : TipoAlerta.STOCK_BAJO;
+        // Una sola tarjeta de existencia por producto: "se acabo" reemplaza a "queda poco"
+        // (y al reves si se surte un poco pero sigue bajo).
+        alertaDAO.borrarDeTipo(producto.id, agotado ? TipoAlerta.STOCK_BAJO : TipoAlerta.AGOTADO);
+        // Ya se aviso de este nivel (aunque el usuario la haya marcado como atendida).
+        if (alertaDAO.getAlertaDeTipoSync(producto.id, tipo) != null) return;
 
         AlertaEntity alerta = new AlertaEntity();
         alerta.idProducto = producto.id;
-        alerta.tipoAlerta = TipoAlerta.STOCK_BAJO;
+        alerta.tipoAlerta = tipo;
         alerta.estado = EstadoAlerta.ACTIVA;
         alerta.timestampCreacionMs = ahora;
         long id = alertaDAO.insert(alerta);
 
-        String mensaje = "Quedan " + formatearCantidad(producto) + " de " + producto.nombre;
-        NotificacionUtil.mostrarNotificacionAlerta(
-                application, (int) id, TipoAlerta.STOCK_BAJO, producto.nombre, mensaje);
+        String mensaje = agotado
+                ? "Se acabó " + producto.nombre + ". Toca para pedirle al proveedor."
+                : "Quedan " + formatearCantidad(producto) + " de " + producto.nombre;
+        NotificacionUtil.mostrarNotificacionAlerta(application, (int) id, tipo, producto.nombre, mensaje);
     }
 
     private void verificarVencimiento(ProductoEntity producto, long ahora, long limite) {
-        AlertaEntity existente = alertaDAO.getAlertaExistenteSync(
-                producto.id, TipoAlerta.PROXIMO_VENCIMIENTO, EstadoAlerta.ACTIVA);
         // fechaCaducidadMs <= 0 significa "sin fecha de caducidad capturada"
         if (producto.fechaCaducidadMs <= 0 || producto.fechaCaducidadMs > limite) {
-            // Le quitaron la fecha o le pusieron una lejana (lote nuevo): se cierra sola.
-            if (existente != null) alertaDAO.actualizarEstado(existente.id, EstadoAlerta.RESUELTA, ahora);
+            // Le quitaron la fecha o le pusieron una lejana (lote nuevo): termina el aviso.
+            alertaDAO.borrarDeTipo(producto.id, TipoAlerta.PROXIMO_VENCIMIENTO);
             return;
         }
-        if (existente != null) return;
+        // Ya se aviso de esta fecha (aunque el usuario la haya marcado como atendida).
+        if (alertaDAO.getAlertaDeTipoSync(producto.id, TipoAlerta.PROXIMO_VENCIMIENTO) != null) return;
 
         AlertaEntity alerta = new AlertaEntity();
         alerta.idProducto = producto.id;

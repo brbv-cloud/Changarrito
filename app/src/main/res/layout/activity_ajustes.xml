@@ -99,9 +99,12 @@
                 android:text="@string/ajustes_seccion_negocio" />
 
             <LinearLayout
+                android:id="@+id/tarjetaNegocio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_tarjeta_info"
+                android:contentDescription="@string/ajustes_editar_nombre"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="16dp">
@@ -136,6 +139,15 @@
                         android:textColor="@color/acceso_texto_secundario"
                         android:textSize="14sp" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivEditarNombre"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_editar"
+                    android:visibility="gone"
+                    app:tint="@color/acceso_texto_secundario" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton

@@ -208,8 +208,8 @@ public class AlertaRepositoryTest {
     }
 
     @Test
-    public void resolver_y_volver_a_verificar_crea_nueva_alerta_si_sigue_bajo() throws Exception {
-        int id = (int) productoDao.insert(nuevoProducto("Huevo", 1.0, 3.0, UnidadMedida.PZA));
+    public void atendida_no_se_repite_mientras_siga_bajo() throws Exception {
+        productoDao.insert(nuevoProducto("Huevo", 1.0, 3.0, UnidadMedida.PZA));
         verificarSync();
 
         List<AlertaEntity> activas = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA));
@@ -217,9 +217,45 @@ public class AlertaRepositoryTest {
 
         verificarSync();
 
-        List<AlertaEntity> nuevasActivas = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA));
-        assertEquals(1, nuevasActivas.size());
-        assertEquals(id, nuevasActivas.get(0).idProducto);
+        assertTrue(getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA)).isEmpty());
+    }
+
+    @Test
+    public void de_stock_bajo_a_agotado_avisa_otra_vez() throws Exception {
+        ProductoEntity p = nuevoProducto("Leche", 1.0, 3.0, UnidadMedida.PZA);
+        p.id = (int) productoDao.insert(p);
+        verificarSync();
+        List<AlertaEntity> activas = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA));
+        alertaDao.actualizarEstado(activas.get(0).id, EstadoAlerta.RESUELTA, System.currentTimeMillis());
+
+        p.cantidadDisponible = 0;
+        productoDao.update(p);
+        verificarSync();
+
+        List<AlertaEntity> nuevas = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA));
+        assertEquals(1, nuevas.size());
+        assertEquals(TipoAlerta.AGOTADO, nuevas.get(0).tipoAlerta);
+        // La de "queda poco" se reemplaza: no quedan dos tarjetas del mismo producto.
+        assertNull(alertaDao.getAlertaDeTipoSync(p.id, TipoAlerta.STOCK_BAJO));
+    }
+
+    @Test
+    public void surtir_y_volver_a_bajar_avisa_de_nuevo() throws Exception {
+        ProductoEntity p = nuevoProducto("Azucar", 1.0, 3.0, UnidadMedida.KG);
+        p.id = (int) productoDao.insert(p);
+        verificarSync();
+        List<AlertaEntity> activas = getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA));
+        alertaDao.actualizarEstado(activas.get(0).id, EstadoAlerta.RESUELTA, System.currentTimeMillis());
+
+        p.cantidadDisponible = 10;
+        productoDao.update(p);
+        verificarSync();
+        assertNull(alertaDao.getAlertaDeTipoSync(p.id, TipoAlerta.STOCK_BAJO));
+
+        p.cantidadDisponible = 2;
+        productoDao.update(p);
+        verificarSync();
+        assertEquals(1, getValor(alertaDao.getAlertasPorEstado(EstadoAlerta.ACTIVA)).size());
     }
 
     @Test

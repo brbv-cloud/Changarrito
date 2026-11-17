@@ -73,6 +73,9 @@ public class AjustesActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.tvGiroCuenta)).setText(config.giro.nombreVisible + " · " + correo);
         });
         repo.getUsuariosActivos().observe(this, this::mostrarEquipo);
+        // Solo el dueno puede corregir el nombre del negocio.
+        findViewById(R.id.ivEditarNombre).setVisibility(View.VISIBLE);
+        findViewById(R.id.tarjetaNegocio).setOnClickListener(v -> editarNombre());
 
         findViewById(R.id.btnBitacora).setOnClickListener(v ->
                 startActivity(new Intent(this, BitacoraActivity.class)));
@@ -255,5 +258,34 @@ public class AjustesActivity extends AppCompatActivity {
                 .setMessage(getString(R.string.ajustes_acerca_texto, version))
                 .setPositiveButton(R.string.legal_entendido, null)
                 .show();
+    }
+
+    /** Corregir el nombre del negocio (por si se escribio mal al empezar). */
+    private void editarNombre() {
+        View vista = getLayoutInflater().inflate(R.layout.dialogo_nombre_negocio, null);
+        com.google.android.material.textfield.TextInputLayout til = vista.findViewById(R.id.tilNombre);
+        com.google.android.material.textfield.TextInputEditText et = vista.findViewById(R.id.etNombre);
+        et.setText(((TextView) findViewById(R.id.tvNombreNegocio)).getText());
+        et.setSelection(et.getText() != null ? et.getText().length() : 0);
+        androidx.appcompat.app.AlertDialog dialogo = new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.ajustes_nombre_titulo)
+                .setView(vista)
+                .setPositiveButton(R.string.ajustes_nombre_guardar, null)
+                .setNegativeButton(R.string.ajustes_nombre_cancelar, null)
+                .create();
+        dialogo.setOnShowListener(d -> dialogo.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(b -> {
+                    String nombre = et.getText() != null ? et.getText().toString().trim() : "";
+                    if (nombre.isEmpty()) {
+                        til.setError(getString(R.string.ajustes_nombre_vacio));
+                        return;
+                    }
+                    repo.cambiarNombreNegocio(nombre, ok -> {
+                        if (ok) android.widget.Toast.makeText(this, R.string.ajustes_nombre_guardado,
+                                android.widget.Toast.LENGTH_SHORT).show();
+                    });
+                    dialogo.dismiss();
+                }));
+        dialogo.show();
     }
 }

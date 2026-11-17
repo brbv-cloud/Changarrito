@@ -34,6 +34,7 @@ public class ElegirGiroActivity extends AppCompatActivity {
 
     private final Map<GiroNegocio, View> tarjetas = new EnumMap<>(GiroNegocio.class);
     private GiroNegocio elegido;
+    private boolean prellenado;
 
     private TextInputEditText etNombreNegocio;
     private TextView tvError;
@@ -62,7 +63,20 @@ public class ElegirGiroActivity extends AppCompatActivity {
         }
 
         btnContinuar.setOnClickListener(v -> continuar());
-        if (savedInstanceState == null) buscarRespaldoEnLaNube();
+
+        // Si regresa desde el catalogo para corregir, el giro y el nombre ya vienen puestos.
+        // Si es la primera vez (no hay negocio), se busca un respaldo en la nube.
+        boolean primeraVez = savedInstanceState == null;
+        new NegocioRepository(getApplication()).getConfiguracion().observe(this, c -> {
+            if (prellenado) return;
+            prellenado = true;
+            if (c == null) {
+                if (primeraVez) buscarRespaldoEnLaNube();
+                return;
+            }
+            if (primeraVez && c.nombreNegocio != null) etNombreNegocio.setText(c.nombreNegocio);
+            if (c.giro != null) elegir(c.giro);
+        });
     }
 
     /**

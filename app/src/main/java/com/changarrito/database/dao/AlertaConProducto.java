@@ -18,6 +18,8 @@ public class AlertaConProducto {
 
     public String nombreProducto;
     public double cantidadDisponible;
+    /** Minimo capturado en el producto (para "Quedan 2 PZA · minimo 5"). */
+    public double umbralStockBajo;
     public UnidadMedida unidadMedida;
     public long fechaCaducidadMs;
     public String telefonoProveedor;

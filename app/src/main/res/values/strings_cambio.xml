@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cambio_titulo">Este celular ya tiene un negocio</string>
+    <string name="cambio_subtitulo">Aquí se usa «%1$s»: %2$s. Tu cuenta (%3$s) es de otro negocio.</string>
+    <string name="cambio_sin_nombre">otro negocio</string>
+    <plurals name="cambio_productos">
+        <item quantity="one">%d producto</item>
+        <item quantity="other">%d productos</item>
+    </plurals>
+    <plurals name="cambio_ventas">
+        <item quantity="one">%d venta</item>
+        <item quantity="other">%d ventas</item>
+    </plurals>
+    <string name="cambio_cargando">Revisando lo que hay en el celular…</string>
+
+    <string name="cambio_respaldo_nunca">Este negocio nunca se ha respaldado en la nube desde este celular. Si lo borras, sus datos se pierden.</string>
+    <string name="cambio_respaldo_viejo">Último respaldo en la nube: %s. Después hubo ventas o cambios; esos se perderían.</string>
+    <string name="cambio_respaldo_ok">Último respaldo en la nube: %s. Todo está guardado: su dueño lo recupera entrando con su cuenta.</string>
+    <string name="cambio_consejo">Para no perder nada: entra con la cuenta de ese negocio, ve a Ajustes → Respaldar ahora y después vuelve a entrar con tu cuenta.</string>
+
+    <string name="cambio_clave">Clave del dueño de «%s»</string>
+    <string name="cambio_clave_ayuda">Son los 4 dígitos con los que el dueño de ese negocio abre su turno. Se piden porque hay datos sin respaldar.</string>
+    <string name="cambio_usar_mi_cuenta">Usar mi cuenta en este celular</string>
+    <string name="cambio_confirmar_texto_ok">Sus datos ya están en la nube: se quitan de este celular y su dueño los recupera entrando con su cuenta.</string>
+    <string name="cambio_entiendo">Entiendo que se borran los datos de este celular</string>
+    <string name="cambio_borrar">Borrar del celular y usar mi cuenta</string>
+    <string name="cambio_borrando">Borrando…</string>
+    <string name="cambio_otra_cuenta">Entrar con la cuenta de ese negocio</string>
+
+    <string name="cambio_falta_clave">Escribe la clave de 4 dígitos del dueño</string>
+    <string name="cambio_falta_entiendo">Marca la casilla para confirmar</string>
+    <string name="cambio_clave_mal">Clave incorrecta. Te quedan %d intentos.</string>
+    <string name="cambio_bloqueado">Demasiados intentos. Espera unos minutos.</string>
+    <string name="cambio_confirmar_titulo">¿Borrar «%s» de este celular?</string>
+    <string name="cambio_confirmar_texto">Se borran sus productos, ventas, cortes y perfiles de este celular. No se puede deshacer aquí; solo se recupera lo que esté en la nube.</string>
+    <string name="cambio_confirmar_si">Sí, borrar</string>
+    <string name="cambio_cancelar">Cancelar</string>
+    <string name="cambio_error">No se pudo borrar: %s</string>
+</resources>

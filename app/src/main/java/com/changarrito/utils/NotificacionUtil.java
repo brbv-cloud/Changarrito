@@ -55,7 +55,8 @@ public class NotificacionUtil {
                 context, idNotificacion, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        String titulo = tipo == TipoAlerta.STOCK_BAJO ? "Stock bajo" : "Proximo a vencer";
+        String titulo = tipo == TipoAlerta.AGOTADO ? "Se acabó"
+                : tipo == TipoAlerta.STOCK_BAJO ? "Stock bajo" : "Próximo a vencer";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CANAL_ID)
                 .setSmallIcon(R.drawable.ic_stat_changarrito)

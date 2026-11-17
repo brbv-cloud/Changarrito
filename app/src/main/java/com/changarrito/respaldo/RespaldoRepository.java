@@ -164,6 +164,11 @@ public class RespaldoRepository {
         return prefs().getString(CLAVE_ULTIMO_RESUMEN, null);
     }
 
+    /** Al borrar el negocio del celular: el "ultimo respaldo" era de esa otra cuenta. */
+    public static void olvidarUltimo(Context c) {
+        c.getApplicationContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
     private void guardarUltimo(RespaldoNube.InfoRespaldo info) {
         prefs().edit()
                 .putLong(CLAVE_ULTIMO_MS, info.fechaMs)

@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -512,7 +511,7 @@ public class ReportesFragment extends SeccionFragment {
                 if (!isAdded()) return;
                 btnEstadoCuenta.setEnabled(true);
                 btnEstadoCuenta.setText(R.string.pdf_boton);
-                Toast.makeText(requireContext(), getString(R.string.pdf_error, mensaje), Toast.LENGTH_LONG).show();
+                avisar(getString(R.string.pdf_error, mensaje));
             }
         });
     }
@@ -530,12 +529,10 @@ public class ReportesFragment extends SeccionFragment {
                         CompartirArchivo.compartir(requireActivity(), pdf, getString(R.string.pdf_asunto, periodo)))
                 .setNegativeButton(R.string.pdf_ver, (d, w) -> {
                     if (!CompartirArchivo.ver(requireActivity(), pdf)) {
-                        Toast.makeText(requireContext(), R.string.pdf_sin_visor, Toast.LENGTH_LONG).show();
+                        avisar(R.string.pdf_sin_visor);
                     }
                 })
-                .setNeutralButton(R.string.pdf_guardar, (d, w) -> Toast.makeText(requireContext(),
-                        CompartirArchivo.guardarEnDescargas(requireActivity(), pdf) ? R.string.pdf_guardado : R.string.pdf_no_guardado,
-                        Toast.LENGTH_LONG).show())
+                .setNeutralButton(R.string.pdf_guardar, (d, w) -> avisar(CompartirArchivo.guardarEnDescargas(requireActivity(), pdf) ? R.string.pdf_guardado : R.string.pdf_no_guardado))
                 .show();
     }
 
@@ -573,18 +570,18 @@ public class ReportesFragment extends SeccionFragment {
     private void intentarHacerCierre() {
         String textoContado = etEfectivoContado.getText().toString().trim().replace(',', '.');
         if (TextUtils.isEmpty(textoContado)) {
-            Toast.makeText(requireContext(), "Captura el efectivo contado", Toast.LENGTH_SHORT).show();
+            avisar("Captura el efectivo contado");
             return;
         }
         double contado;
         try {
             contado = Double.parseDouble(textoContado);
         } catch (NumberFormatException e) {
-            Toast.makeText(requireContext(), "Cantidad invalida", Toast.LENGTH_SHORT).show();
+            avisar("Cantidad invalida");
             return;
         }
         if (contado < 0) {
-            Toast.makeText(requireContext(), "La cantidad no puede ser negativa", Toast.LENGTH_SHORT).show();
+            avisar("La cantidad no puede ser negativa");
             return;
         }
         cierreCajaViewModel.hacerCierre(contado, etNotasCierre.getText().toString().trim());

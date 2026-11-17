@@ -21,6 +21,16 @@
             android:paddingBottom="16dp">
 
             <TextView
+                android:id="@+id/tvCambiarGiro"
+                style="@style/Acceso.Enlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
+                android:text="@string/catalogo_cambiar_giro" />
+
+            <TextView
                 style="@style/Acceso.Titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -13,7 +13,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -142,7 +141,7 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
         });
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
             if (error != null && !error.isEmpty()) {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+                avisar(error);
             }
         });
 
@@ -232,8 +231,7 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
                 // Solo interesa el primer resultado.
                 busqueda.removeObserver(this);
                 if (producto != null) {
-                    Toast.makeText(requireContext(), "Producto encontrado: " + producto.nombre,
-                            Toast.LENGTH_SHORT).show();
+                    avisar("Producto encontrado: " + producto.nombre);
                     abrirDialogo(producto);
                 } else {
                     buscarEnCatalogoOfflineYAbrir(codigo);
@@ -252,8 +250,7 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
                     ProductoEntity nuevo = new ProductoEntity();
                     nuevo.barcode = codigo;
                     nuevo.nombre = nombre;
-                    Toast.makeText(requireContext(), "Identificado (catálogo offline): " + nombre,
-                            Toast.LENGTH_SHORT).show();
+                    avisar("Identificado (catálogo offline): " + nombre);
                     abrirDialogo(nuevo);
                 } else {
                     buscarEnLineaYAbrir(codigo);
@@ -263,17 +260,16 @@ public class InventarioFragment extends SeccionFragment implements ProductoDialo
     }
 
     private void buscarEnLineaYAbrir(String codigo) {
-        Toast.makeText(requireContext(), "Buscando producto en línea...", Toast.LENGTH_SHORT).show();
+        avisar("Buscando producto en línea...");
         OpenFoodFactsClient.buscarNombre(codigo, nombre -> {
             if (!isAdded()) return;
             ProductoEntity nuevo = new ProductoEntity();
             nuevo.barcode = codigo;
             if (nombre != null) {
                 nuevo.nombre = nombre;
-                Toast.makeText(requireContext(), "Identificado: " + nombre, Toast.LENGTH_SHORT).show();
+                avisar("Identificado: " + nombre);
             } else {
-                Toast.makeText(requireContext(), "No se identificó, captura el nombre a mano",
-                        Toast.LENGTH_SHORT).show();
+                avisar("No se identificó, captura el nombre a mano");
             }
             abrirDialogo(nuevo);
         });

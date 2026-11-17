@@ -16,9 +16,10 @@
 
     <!-- Vista previa del catálogo -->
     <string name="catalogo_titulo">¿Empezamos con productos típicos?</string>
-    <string name="catalogo_subtitulo">Tenemos %1$d productos comunes de %2$s. Elige las categorías que vendes; podrás editar precios y borrar lo que no uses.</string>
+    <string name="catalogo_subtitulo">Tenemos %1$d productos comunes de %2$s. Marca las categorías que vendes o toca una para escoger producto por producto. Después podrás editar precios.</string>
     <string name="catalogo_nota">Costos y precios son de referencia. Las existencias inician en 0.</string>
     <string name="catalogo_productos">%1$d productos</string>
+    <string name="catalogo_de">%1$d de %2$d productos</string>
     <string name="catalogo_importar">Importar %1$d productos</string>
     <string name="catalogo_importando">Importando…</string>
     <string name="catalogo_vacio">Empezar vacío</string>
@@ -77,4 +78,11 @@
     <string name="cierre_ciego_titulo">Cierre de caja</string>
     <string name="cierre_ciego_ayuda">Cuenta el efectivo de la caja y escríbelo. El dueño verá si sobra o falta.</string>
     <string name="cierre_ciego_registrado">Cierre registrado. Gracias.</string>
+    <string name="catalogo_cambiar_giro">‹ Cambiar giro o nombre</string>
+    <string name="ajustes_editar_nombre">Cambiar nombre del negocio</string>
+    <string name="ajustes_nombre_titulo">Nombre del negocio</string>
+    <string name="ajustes_nombre_guardar">Guardar</string>
+    <string name="ajustes_nombre_cancelar">Cancelar</string>
+    <string name="ajustes_nombre_vacio">Escribe el nombre del negocio</string>
+    <string name="ajustes_nombre_guardado">Nombre actualizado</string>
 </resources>

@@ -29,6 +29,7 @@ import com.changarrito.database.AppDatabase;
 import com.changarrito.database.entity.EstadoAlerta;
 import com.changarrito.negocio.SesionTurno;
 import com.changarrito.repository.AlertaRepository;
+import com.changarrito.ui.Avisos;
 import com.changarrito.ui.secciones.AlertasFragment;
 import com.changarrito.ui.secciones.InicioFragment;
 import com.changarrito.ui.secciones.InventarioFragment;
@@ -107,6 +108,15 @@ public class PrincipalActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ESTADO_SECCION, actual);
+    }
+
+    /**
+     * Mensaje corto (2.5 s, se quita con un toque) arriba de la barra de abajo, o arriba
+     * de la vista que pida la seccion (la barra del carrito en Vender).
+     */
+    public void avisar(CharSequence mensaje, View ancla) {
+        View barra = (View) nav.getParent();
+        Avisos.mostrar(findViewById(R.id.rootPrincipal), mensaje, ancla != null ? ancla : barra);
     }
 
     /** Para los accesos de Inicio ("Vender", "Ver alertas"...). */

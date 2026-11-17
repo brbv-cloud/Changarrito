@@ -13,7 +13,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -119,12 +118,12 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         });
         viewModel.getMensaje().observe(getViewLifecycleOwner(), mensaje -> {
             if (mensaje != null && !mensaje.isEmpty()) {
-                Toast.makeText(requireContext(), mensaje, Toast.LENGTH_LONG).show();
+                avisar(mensaje);
             }
         });
         viewModel.getVentaRegistrada().observe(getViewLifecycleOwner(), registrada -> {
             if (registrada != null && registrada) {
-                Toast.makeText(requireContext(), R.string.venta_registrada, Toast.LENGTH_SHORT).show();
+                avisar(R.string.venta_registrada);
                 etPagoCliente.setText("");
                 esconderTeclado();
             }
@@ -213,10 +212,9 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
             public void onChanged(ProductoEntity producto) {
                 busqueda.removeObserver(this);
                 if (producto == null) {
-                    Toast.makeText(requireContext(), R.string.venta_no_registrado, Toast.LENGTH_LONG).show();
+                    avisar(R.string.venta_no_registrado);
                 } else if (producto.cantidadDisponible <= 0) {
-                    Toast.makeText(requireContext(), getString(R.string.venta_sin_stock, producto.nombre),
-                            Toast.LENGTH_LONG).show();
+                    avisar(getString(R.string.venta_sin_stock, producto.nombre));
                 } else {
                     agregarRapido(producto);
                 }
@@ -295,6 +293,13 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         actualizarEstadoHoja();
+    }
+
+    @Override
+    protected View anclaAvisos() {
+        // Con el carrito cerrado (la barrita abajo), el aviso sale justo arriba de ella.
+        if (hoja != null && hoja.getState() == BottomSheetBehavior.STATE_COLLAPSED) return vista(R.id.hojaCarrito);
+        return null;
     }
 
     /** Barra del carrito: aparece con el primer producto y se va cuando queda vacio. */

@@ -38,6 +38,7 @@ public class InsetsUtil {
         int paddingArribaBase = root.getPaddingTop();
         int paddingAbajoBase = root.getPaddingBottom();
 
+        int[] tecladoAntes = {0};
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
             Insets barras = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             Insets teclado = insets.getInsets(WindowInsetsCompat.Type.ime());
@@ -48,7 +49,23 @@ public class InsetsUtil {
                     paddingDer,
                     abajo ? paddingAbajoBase + espacioAbajo : paddingAbajoBase
             );
+            // El teclado acaba de abrirse (o cambio de alto): la pantalla ya se encogio,
+            // pero el campo enfocado puede haber quedado debajo. Se le pide a la vista
+            // que lo desplace a la vista (un ScrollView lo hace solo con esto).
+            if (abajo && teclado.bottom > 0 && teclado.bottom != tecladoAntes[0]) {
+                v.postDelayed(() -> mostrarCampoEnfocado(v), 120); // despues de reacomodar la pantalla
+            }
+            tecladoAntes[0] = teclado.bottom;
             return insets;
         });
+    }
+
+    /** Desplaza lo necesario para que el campo enfocado (y un poco debajo) se vea sobre el teclado. */
+    private static void mostrarCampoEnfocado(View root) {
+        View foco = root.findFocus();
+        if (foco == null) return;
+        int extra = (int) (72 * foco.getResources().getDisplayMetrics().density);
+        android.graphics.Rect zona = new android.graphics.Rect(0, 0, foco.getWidth(), foco.getHeight() + extra);
+        foco.requestRectangleOnScreen(zona, false);
     }
 }

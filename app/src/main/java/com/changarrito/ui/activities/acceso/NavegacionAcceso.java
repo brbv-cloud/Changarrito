@@ -3,13 +3,11 @@ package com.changarrito.ui.activities.acceso;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.changarrito.R;
 import com.changarrito.auth.AuthRepository;
 import com.changarrito.negocio.NegocioRepository;
 import com.changarrito.ui.activities.PrincipalActivity;
 import com.changarrito.ui.activities.negocio.ElegirGiroActivity;
 import com.changarrito.ui.activities.negocio.SeleccionarTurnoActivity;
-import com.changarrito.ui.activities.negocio.VistaPreviaCatalogoActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
@@ -17,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
  *  - sin sesión → Login
  *  - correo sin verificar → Verificar correo
  *  - primera vez → Elige tu giro → (vista previa del catálogo)
+ *  - el celular ya tiene el negocio de otra cuenta → Cambiar de negocio
  *  - varias personas en el negocio y nadie con turno → ¿Quién atiende?
  *  - todo listo → la app.
  * Siempre borra el historial, para que "atrás" no regrese a pantallas de acceso.
@@ -43,14 +42,17 @@ public final class NavegacionAcceso {
                             abrir(desde, ElegirGiroActivity.class, null);
                             break;
                         case CATALOGO:
-                            abrir(desde, VistaPreviaCatalogoActivity.class, null);
+                            // Dejo la configuracion a medias (cerro la app en el catalogo): se
+                            // regresa a "Elige tu giro" con lo que ya habia puesto, para que lo
+                            // confirme o lo cambie, en vez de seguir con un giro que no confirmo.
+                            abrir(desde, ElegirGiroActivity.class, null);
                             break;
                         case ELEGIR_TURNO:
                             abrir(desde, SeleccionarTurnoActivity.class, null);
                             break;
                         case OTRA_CUENTA:
-                            auth.cerrarSesion();
-                            abrir(desde, LoginActivity.class, desde.getString(R.string.acceso_otra_cuenta));
+                            // El celular tiene otro negocio: se explica y se ofrece dejarlo libre.
+                            abrir(desde, CambiarNegocioActivity.class, null);
                             break;
                         default:
                             abrir(desde, PrincipalActivity.class, null);

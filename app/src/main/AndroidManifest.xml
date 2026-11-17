@@ -50,6 +50,12 @@
 
         <!-- Sprint 6: giro, catálogo, turnos y ajustes -->
         <activity
+            android:name=".ui.activities.acceso.CambiarNegocioActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".ui.activities.negocio.ElegirGiroActivity"
             android:exported="false"
             android:theme="@style/Theme.Changarrito.Acceso"
