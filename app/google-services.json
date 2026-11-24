@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "692143922256-64m7sk0f3tnao1h0uukjoar0cj2h6l3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.changarrito",
+            "certificate_hash": "82ce3dab5b8c1a76ec69f2a6dfabbab80ac9852d"
+          }
+        },
+        {
           "client_id": "692143922256-igkgkm43ocr4td2vkj0rrvqjq8fpq8rf.apps.googleusercontent.com",
           "client_type": 3
         }

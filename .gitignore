@@ -17,3 +17,13 @@ local.properties
 dump_*.csv.gz
 generar_catalogo.py
 /_to_delete/
+
+# Llave de firma del APK: NUNCA al repositorio
+*.jks
+*.keystore
+keystore.properties
+
+# APK firmados (se entregan aparte, no van al repositorio)
+app/release/
+*.apk
+*.aab
