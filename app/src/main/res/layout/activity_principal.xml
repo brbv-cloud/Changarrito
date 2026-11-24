@@ -7,6 +7,13 @@
     android:background="@color/color_bg_alt"
     android:orientation="vertical">
 
+    <!-- Detras de la barra de notificaciones: verde en Inicio, clara en lo demas -->
+    <View
+        android:id="@+id/fondoBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_bg_alt" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/contenedorSecciones"
         android:layout_width="match_parent"

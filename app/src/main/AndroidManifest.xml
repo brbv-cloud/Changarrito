@@ -94,7 +94,7 @@
             android:name=".scanner.ScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Changarrito" />
+            android:theme="@style/Theme.Changarrito.Camara" />
 
         <activity
             android:name=".MainActivity"

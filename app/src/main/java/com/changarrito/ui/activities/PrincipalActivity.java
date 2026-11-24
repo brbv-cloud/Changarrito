@@ -1,5 +1,9 @@
 package com.changarrito.ui.activities;
 
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import android.view.ViewGroup;
+
 import android.app.Application;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -98,8 +102,21 @@ public class PrincipalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Igual en todas las versiones de Android: la app se dibuja detras de la barra de
+        // notificaciones y la franja fondoBarraEstado ocupa ese espacio.
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         setContentView(R.layout.activity_principal);
-        InsetsUtil.aplicarPaddingBarrasDelSistema(findViewById(R.id.rootPrincipal), true, true);
+        InsetsUtil.aplicarPaddingBarrasDelSistema(findViewById(R.id.rootPrincipal), false, true);
+        View fondoBarra = findViewById(R.id.fondoBarraEstado);
+        ViewCompat.setOnApplyWindowInsetsListener(fondoBarra, (v, insets) -> {
+            int alto = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top;
+            ViewGroup.LayoutParams lp = v.getLayoutParams();
+            if (lp.height != alto) {
+                lp.height = alto;
+                v.setLayoutParams(lp);
+            }
+            return insets;
+        });
 
         permisoNotificaciones = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(), concedido -> { /* la app funciona igual */ });
@@ -353,8 +370,19 @@ public class PrincipalActivity extends AppCompatActivity {
         }
         t.commitNowAllowingStateLoss();
         actual = destino;
+        pintarBarraEstado(destino);
         MenuItem item = nav.getMenu().findItem(destino);
         if (item != null && !item.isChecked()) item.setChecked(true);
+    }
+
+    /** Inicio: franja verde (sigue al encabezado) e iconos blancos; lo demas: clara e iconos oscuros. */
+    private void pintarBarraEstado(@IdRes int destino) {
+        boolean inicio = destino == R.id.nav_inicio;
+        int color = inicio ? R.color.marca_verde_oscuro
+                : destino == R.id.nav_reportes ? R.color.color_bg : R.color.color_bg_alt;
+        findViewById(R.id.fondoBarraEstado).setBackgroundColor(ContextCompat.getColor(this, color));
+        new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView())
+                .setAppearanceLightStatusBars(!inicio);
     }
 
     private static Fragment crear(@IdRes int id) {
