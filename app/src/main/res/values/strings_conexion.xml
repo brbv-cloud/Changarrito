@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Aviso breve de internet (arriba de la barra de abajo) -->
+    <string name="conexion_sin">Sin internet. Todo sigue funcionando; respaldamos cuando vuelva.</string>
+    <string name="conexion_volvio">Conectado a internet</string>
+    <string name="conexion_volvio_respaldo">Conectado a internet · respaldando tu información</string>
+
+    <!-- Notificaciones de respaldo -->
+    <string name="noti_respaldo_canal">Respaldo de tu información</string>
+    <string name="noti_respaldo_canal_desc">Avisa si tu información no se ha guardado en la nube</string>
+    <string name="noti_respaldo_pendiente_t">Tu información de hoy no está respaldada</string>
+    <string name="noti_respaldo_pendiente">Conéctate a internet y se respalda sola.</string>
+    <string name="noti_respaldo_listo_t">Información respaldada</string>
+    <string name="noti_respaldo_listo">Tus ventas e inventario ya están guardados en la nube.</string>
+
+    <!-- Ajustes -->
+    <string name="respaldo_sin_internet">Ahora no hay internet: se respalda solo en cuanto te conectes.</string>
+
+    <!-- Guia de Ajustes -->
+    <string name="g_aj_turno_t">¿Quién está atendiendo?</string>
+    <string name="g_aj_turno">Aquí ves quién tiene el turno. Al terminar, toca Cambiar de turno para que entre otra persona con su clave.</string>
+    <string name="g_aj_tutorial_t">El tutorial</string>
+    <string name="g_aj_tutorial">Vuelve a ver el recorrido de bienvenida cuando quieras.</string>
+    <string name="g_aj_negocio_t">Tu negocio</string>
+    <string name="g_aj_negocio">Toca la tarjeta para corregir el nombre de tu negocio.</string>
+    <string name="g_aj_bitacora_t">Bitácora</string>
+    <string name="g_aj_bitacora">Quién cambió precios, borró productos o registró mermas y gastos, y cuándo.</string>
+    <string name="g_aj_respaldo_t">Respaldo en la nube</string>
+    <string name="g_aj_respaldo">Tu información se respalda sola cuando hay internet: una vez al día y al cerrar caja. Si a las 9 de la noche falta algo, te avisamos. Toca aquí para respaldar ahora.</string>
+    <string name="g_aj_restaurar_t">Recuperar tu información</string>
+    <string name="g_aj_restaurar">Si cambias de celular o se borra la app, entra con la misma cuenta y toca aquí para bajar tu respaldo.</string>
+    <string name="g_aj_equipo_t">Tu equipo</string>
+    <string name="g_aj_equipo">Agrega a quien te ayuda en el negocio. Cada quien entra con su clave de 4 dígitos y no ve tus ganancias.</string>
+    <string name="g_aj_clave_t">Tu clave de dueño</string>
+    <string name="g_aj_clave">Crea o cambia tu clave de 4 dígitos para que nadie más entre a tu turno.</string>
+    <string name="g_aj_salir_t">Cerrar sesión</string>
+    <string name="g_aj_salir">Sal de tu cuenta en este celular. Antes, respalda tu información.</string>
+</resources>

@@ -431,8 +431,7 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         } else {
             double cambio = diferencia / 100.0;
             pintarCambio(R.color.semaforo_verde_fondo, R.color.semaforo_verde_texto,
-                    getString(R.string.venta_cambio_entregar), CalculoGanancias.dinero(cambio),
-                    getString(R.string.venta_entrega, Cobro.textoDesglose(cambio)));
+                    getString(R.string.venta_cambio_entregar), CalculoGanancias.dinero(cambio), "");
             btnRegistrarVenta.setEnabled(total > 0);
         }
     }
@@ -449,6 +448,7 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         tvDesglose.setTextColor(c);
         tvDesglose.setVisibility(detalle.isEmpty() ? View.GONE : View.VISIBLE);
     }
+
 
     private void esconderTeclado() {
         View v = getView();

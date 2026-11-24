@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.changarrito.R;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.GiroNegocio;
 import com.changarrito.database.entity.ModoCaducidad;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UnidadMedida;
@@ -205,6 +206,40 @@ public class ProductoDialogFragment extends DialogFragment {
         actualizarSemaforo();
     }
 
+    /** Ejemplos de nombre y categoria que tengan que ver con lo que vende el negocio. */
+    private void ponerPistasDelGiro(@Nullable GiroNegocio giro) {
+        if (giro == null || getView() == null) return;
+        int nombre, categoria;
+        switch (giro) {
+            case PAPELERIA:
+                nombre = R.string.pista_papeleria_nombre;
+                categoria = R.string.pista_papeleria_categoria;
+                break;
+            case FERRETERIA:
+                nombre = R.string.pista_ferreteria_nombre;
+                categoria = R.string.pista_ferreteria_categoria;
+                break;
+            case FARMACIA:
+                nombre = R.string.pista_farmacia_nombre;
+                categoria = R.string.pista_farmacia_categoria;
+                break;
+            case INDEPENDIENTE:
+                nombre = R.string.pista_independiente_nombre;
+                categoria = R.string.pista_independiente_categoria;
+                break;
+            default:
+                return; // abarrotes: se quedan los del layout
+        }
+        ponerPista(tilNombre, etNombre, getString(nombre));
+        ponerPista(getView().findViewById(R.id.tilCategoria), etCategoria, getString(categoria));
+    }
+
+    /** El TextInputLayout se queda con la pista del campo; si la tiene, se cambia ahi. */
+    private static void ponerPista(@Nullable TextInputLayout caja, TextView campo, CharSequence pista) {
+        if (caja != null && caja.isHintEnabled()) caja.setHint(pista);
+        else campo.setHint(pista);
+    }
+
     private void aplicarConfiguracion(ConfiguracionNegocioEntity config) {
         if (config == null || configAplicada) return;
         configAplicada = true;
@@ -218,6 +253,7 @@ public class ProductoDialogFragment extends DialogFragment {
             unidades.add(productoEditando.unidadMedida); // no esconder la unidad que ya tiene
         }
         armarBotonesUnidad();
+        ponerPistasDelGiro(config.giro);
 
         if (config.giro != null) {
             categorias.addAll(CatalogoGiro.cargar(requireContext(), config.giro).porCategoria.keySet());

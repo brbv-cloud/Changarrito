@@ -45,6 +45,8 @@ public class GananciasViewModel extends AndroidViewModel {
     private final LiveData<List<VentasPorCategoria>> porCategoria;
     private final LiveData<List<MermaPorMotivo>> mermasPorMotivo;
     private final LiveData<List<MermaConUsuario>> mermas;
+    private final LiveData<List<com.changarrito.database.dao.GastoPorTipo>> gastosPorTipo;
+    private final LiveData<List<com.changarrito.database.dao.GastoConUsuario>> gastos;
     private final LiveData<List<ProductoHueso>> huesos;
     private final MediatorLiveData<List<DiaReporte>> porDia = new MediatorLiveData<>();
     private final MediatorLiveData<List<CalculoGanancias.FilaPersona>> porPersona = new MediatorLiveData<>();
@@ -62,6 +64,8 @@ public class GananciasViewModel extends AndroidViewModel {
         porCategoria = segun(rango, r -> repo.getPorCategoria(rangoMs(r)));
         mermasPorMotivo = segun(rango, r -> repo.getMermasPorMotivo(rangoMs(r)));
         mermas = segun(rango, r -> repo.getMermas(rangoMs(r)));
+        gastosPorTipo = segun(rango, r -> repo.getGastosPorTipo(rangoMs(r)));
+        gastos = segun(rango, r -> repo.getGastos(rangoMs(r)));
         huesos = segun(diasHueso, d -> repo.getHuesos(System.currentTimeMillis() - d * DIA_MS));
 
         // Dia por dia: la consulta solo trae dias con ventas; aqui se rellenan los demas.
@@ -148,6 +152,14 @@ public class GananciasViewModel extends AndroidViewModel {
 
     public LiveData<List<MermaConUsuario>> getMermas() {
         return mermas;
+    }
+
+    public LiveData<List<com.changarrito.database.dao.GastoPorTipo>> getGastosPorTipo() {
+        return gastosPorTipo;
+    }
+
+    public LiveData<List<com.changarrito.database.dao.GastoConUsuario>> getGastos() {
+        return gastos;
     }
 
     public LiveData<List<ProductoHueso>> getHuesos() {

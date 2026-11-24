@@ -65,6 +65,9 @@ public final class CambioDeNegocio {
         if (foto.mermas != null) {
             for (MermaEntity m : foto.mermas) r.ultimoCambioMs = Math.max(r.ultimoCambioMs, m.timestampMs);
         }
+        for (com.changarrito.database.entity.GastoEntity g : foto.gastos) {
+            r.ultimoCambioMs = Math.max(r.ultimoCambioMs, g.timestampMs);
+        }
         r.dueno = db.usuarioDao().getDuenoSync();
         r.ultimoRespaldoMs = new RespaldoRepository(app).getUltimoRespaldoMs();
         return r;
@@ -80,6 +83,7 @@ public final class CambioDeNegocio {
         db.runInTransaction(() -> {
             dao.borrarAlertas();
             dao.borrarMermas();
+            dao.borrarGastos();
             dao.borrarBitacora();
             dao.borrarVentas();
             dao.borrarCierres();

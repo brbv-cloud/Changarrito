@@ -28,6 +28,7 @@ public class GananciasRepository {
     private final VentaDAO ventaDAO;
     private final CierreCajaDAO cierreCajaDAO;
     private final MermaDAO mermaDAO;
+    private final com.changarrito.database.dao.GastoDAO gastoDAO;
     private final ProductoDAO productoDAO;
 
     public GananciasRepository(Application application) {
@@ -35,6 +36,7 @@ public class GananciasRepository {
         ventaDAO = db.ventaDao();
         cierreCajaDAO = db.cierreCajaDao();
         mermaDAO = db.mermaDao();
+        gastoDAO = db.gastoDao();
         productoDAO = db.productoDao();
     }
 
@@ -72,6 +74,14 @@ public class GananciasRepository {
 
     public LiveData<List<MermaConUsuario>> getMermas(long[] r) {
         return mermaDAO.getEnRango(r[0], r[1]);
+    }
+
+    public LiveData<List<com.changarrito.database.dao.GastoPorTipo>> getGastosPorTipo(long[] r) {
+        return gastoDAO.getPorTipo(r[0], r[1]);
+    }
+
+    public LiveData<List<com.changarrito.database.dao.GastoConUsuario>> getGastos(long[] r) {
+        return gastoDAO.getEnRango(r[0], r[1]);
     }
 
     /** Productos con existencia sin venderse desde antes de limiteMs. */

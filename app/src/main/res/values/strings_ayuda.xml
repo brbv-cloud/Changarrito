@@ -2,4 +2,5 @@
 <resources>
     <string name="ayuda_reiniciar">Volver a mostrar las ayudas</string>
     <string name="ayuda_reiniciadas">Listo: la bienvenida y las guías volverán a salir la próxima vez que abras la app.</string>
+    <string name="ayuda_ver_tutorial">Ver el tutorial de bienvenida</string>
 </resources>

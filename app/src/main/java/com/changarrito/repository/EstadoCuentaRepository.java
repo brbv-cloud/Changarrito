@@ -78,6 +78,8 @@ public class EstadoCuentaRepository {
         d.huesos = db.productoDao().getHuesosSync(ahoraMs - DatosEstadoCuenta.DIAS_HUESO * 24L * 60 * 60 * 1000);
         d.mermasPorMotivo = db.mermaDao().getPorMotivoSync(r[0], r[1]);
         d.mermas = db.mermaDao().getEnRangoSync(r[0], r[1]);
+        d.gastosPorTipo = db.gastoDao().getPorTipoSync(r[0], r[1]);
+        d.gastos = db.gastoDao().getEnRangoSync(r[0], r[1]);
         return d;
     }
 }

@@ -45,6 +45,8 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
     private ResumenGanancia hoy;
     @Nullable
     private Double promedioDiario;
+    /** Pedido desde Ajustes ("Ver el tutorial de bienvenida"). */
+    private boolean recorridoPendiente;
 
     public InicioFragment() {
         super(R.layout.fragment_inicio);
@@ -110,6 +112,10 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
         vista(R.id.mosaicoCaja).setOnClickListener(v -> {
             if (getActivity() instanceof PrincipalActivity) ((PrincipalActivity) getActivity()).irACaja();
         });
+        vista(R.id.mosaicoMerma).setOnClickListener(v ->
+                com.changarrito.ui.fragments.ElegirProductoMerma.mostrar(requireActivity()));
+        vista(R.id.mosaicoGasto).setOnClickListener(v ->
+                com.changarrito.ui.fragments.GastoDialog.mostrar(requireActivity(), null));
         vista(R.id.tarjetaResumen).setOnClickListener(v -> {
             if (esDueno) irA(R.id.nav_reportes);
         });
@@ -123,7 +129,17 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
         ((TextView) vista(R.id.tvSaludo)).setText(getString(R.string.inicio_hola, primerNombre(nombre)) + " 👋");
         ((TextView) vista(R.id.tvTurno)).setText(getString(R.string.inicio_atiende, nombre));
 
-        // Primera vez en este celular: bienvenida y recorrido de 1 minuto.
+        if (recorridoPendiente) {
+            // Lo pidio desde Ajustes: directo al recorrido, sin preguntar.
+            recorridoPendiente = false;
+            Ayuda.marcarVista(requireContext(), CLAVE_BIENVENIDA);
+            requireView().postDelayed(() -> {
+                if (!isAdded() || isHidden()) return;
+                GuiaOverlay.mostrar(requireActivity(), pasosRecorrido(), GuiaOverlay.Modo.RECORRIDO, null);
+            }, 450);
+            return;
+        }
+        // Primera vez con esta cuenta: bienvenida y recorrido de 1 minuto.
         if (!Ayuda.yaVista(requireContext(), CLAVE_BIENVENIDA)) {
             Ayuda.marcarVista(requireContext(), CLAVE_BIENVENIDA);
             requireView().postDelayed(() -> {
@@ -174,6 +190,12 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
 
     // ------------------------------------------------------------------ guias
 
+    /** Muestra el recorrido de la primera vez (desde Ajustes). */
+    public void verRecorrido() {
+        recorridoPendiente = true;
+        if (isResumed() && !isHidden() && getView() != null) alMostrar();
+    }
+
     /** Recorrido de la primera vez (reflector, "PASO 1 DE 6"). */
     private java.util.List<GuiaOverlay.Paso> pasosRecorrido() {
         Pasos p = new Pasos();
@@ -182,6 +204,9 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
         p.agregar(vista(R.id.mosaicoVender), R.drawable.ic_nav_vender, R.string.g_ini_vender_t, R.string.g_ini_vender);
         p.agregar(vista(R.id.mosaicoInventario), R.drawable.ic_nav_inventario, R.string.g_ini_inv_t, R.string.g_ini_inv);
         p.agregar(vista(R.id.mosaicoAlertas), R.drawable.ic_nav_alertas, R.string.g_ini_ale_t, R.string.g_ini_ale);
+        p.agregar(vista(R.id.mosaicoMerma), R.drawable.ic_eliminar, R.string.g_ini_merma_t, R.string.g_ini_merma);
+        p.agregar(vista(R.id.mosaicoGasto), R.drawable.ic_billete, R.string.g_ini_gasto_t,
+                esDueno ? R.string.g_ini_gasto : R.string.g_ini_gasto_trab);
         p.agregar(vista(R.id.mosaicoCaja), R.drawable.ic_nav_caja, R.string.g_ini_caja_t,
                 esDueno ? R.string.g_ini_caja : R.string.g_ini_caja_trab);
         p.agregar(vista(R.id.btnGuia), R.drawable.ic_info, R.string.g_ini_ayuda_t, R.string.g_ini_ayuda);
@@ -200,6 +225,9 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
             p.agregar(vista(R.id.mosaicoReportes), R.drawable.ic_nav_reportes, R.string.g_ini_rep_t, R.string.g_ini_rep);
         }
         p.agregar(vista(R.id.mosaicoAgregar), R.drawable.ic_mas, R.string.g_ini_agr_t, R.string.g_ini_agr);
+        p.agregar(vista(R.id.mosaicoMerma), R.drawable.ic_eliminar, R.string.g_ini_merma_t, R.string.g_ini_merma);
+        p.agregar(vista(R.id.mosaicoGasto), R.drawable.ic_billete, R.string.g_ini_gasto_t,
+                esDueno ? R.string.g_ini_gasto : R.string.g_ini_gasto_trab);
         p.agregar(vista(R.id.mosaicoCaja), R.drawable.ic_nav_caja, R.string.g_ini_caja_t,
                 esDueno ? R.string.g_ini_caja : R.string.g_ini_caja_trab);
     }

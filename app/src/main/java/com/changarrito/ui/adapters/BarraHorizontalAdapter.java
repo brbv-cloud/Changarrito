@@ -40,7 +40,17 @@ public class BarraHorizontalAdapter extends RecyclerView.Adapter<BarraHorizontal
         }
     }
 
+    /** Toque en una fila (por ejemplo, borrar un gasto mal capturado). */
+    public interface AlTocar {
+        void tocada(int posicion);
+    }
+
     private List<Fila> filas = new ArrayList<>();
+    private AlTocar alTocar;
+
+    public void setAlTocar(AlTocar alTocar) {
+        this.alTocar = alTocar;
+    }
 
     public void setFilas(List<Fila> nuevas) {
         filas = nuevas != null ? nuevas : new ArrayList<>();
@@ -57,6 +67,13 @@ public class BarraHorizontalAdapter extends RecyclerView.Adapter<BarraHorizontal
     @Override
     public void onBindViewHolder(@NonNull ViewHolder h, int position) {
         Fila f = filas.get(position);
+        if (alTocar != null) {
+            int fila = position; // la lista se recarga completa (notifyDataSetChanged)
+            h.itemView.setOnClickListener(v -> alTocar.tocada(fila));
+        } else {
+            h.itemView.setOnClickListener(null);
+            h.itemView.setClickable(false);
+        }
         h.tvNumero.setVisibility(f.numero != null ? View.VISIBLE : View.GONE);
         h.tvNumero.setText(f.numero);
         h.tvTitulo.setText(f.titulo);

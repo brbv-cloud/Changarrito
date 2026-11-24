@@ -46,6 +46,9 @@ public interface RespaldoDAO {
     @Query("SELECT * FROM merma ORDER BY id")
     List<MermaEntity> leerMermas();
 
+    @Query("SELECT * FROM gasto ORDER BY id")
+    List<com.changarrito.database.entity.GastoEntity> leerGastos();
+
     // ---------- Borrar todo (en orden: primero lo que depende de otras tablas) ----------
 
     @Query("DELETE FROM alerta")
@@ -53,6 +56,9 @@ public interface RespaldoDAO {
 
     @Query("DELETE FROM merma")
     void borrarMermas();
+
+    @Query("DELETE FROM gasto")
+    void borrarGastos();
 
     @Query("DELETE FROM bitacora")
     void borrarBitacora();
@@ -94,4 +100,7 @@ public interface RespaldoDAO {
 
     @Insert
     void insertarMermas(List<MermaEntity> mermas);
+
+    @Insert
+    void insertarGastos(List<com.changarrito.database.entity.GastoEntity> gastos);
 }

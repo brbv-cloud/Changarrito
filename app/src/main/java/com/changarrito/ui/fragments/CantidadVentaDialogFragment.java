@@ -52,6 +52,13 @@ public class CantidadVentaDialogFragment extends DialogFragment {
     private EditText etCantidad;
     private EditText etImporte;
     private TextView tvVistaPrevia;
+    /**
+     * Cantidad sin redondear que la app puso en el campo (por importe o la que ya tenia la
+     * linea). Si no se toca el texto se usa esta: $50 de arroz a $34 = 1.470588 KG, que
+     * cobra $50.00 justos (con 1.471 KG saldrian $50.01).
+     */
+    private Double cantidadExacta;
+    private String textoExacto;
 
     public static CantidadVentaDialogFragment newInstance(ProductoEntity producto, Listener listener) {
         CantidadVentaDialogFragment fragment = new CantidadVentaDialogFragment();
@@ -98,7 +105,9 @@ public class CantidadVentaDialogFragment extends DialogFragment {
                 : android.text.InputType.TYPE_CLASS_NUMBER);
 
         if (cantidadActual != null) {
-            etCantidad.setText(com.changarrito.repository.MermaRepository.cantidadTexto(cantidadActual, null));
+            textoExacto = com.changarrito.repository.MermaRepository.cantidadTexto(cantidadActual, null);
+            cantidadExacta = cantidadActual;
+            etCantidad.setText(textoExacto);
             etCantidad.selectAll();
             ((TextView) view.findViewById(R.id.btnAgregarAlCarrito)).setText(R.string.venta_cambiar_cantidad);
         }
@@ -115,7 +124,9 @@ public class CantidadVentaDialogFragment extends DialogFragment {
             try {
                 double importe = Double.parseDouble(textoImporte.replace(',', '.'));
                 double cantidad = listener.calcularCantidadPorImporte(producto, importe);
-                etCantidad.setText(String.format(Locale.getDefault(), "%.3f", cantidad));
+                textoExacto = String.format(Locale.getDefault(), "%.3f", cantidad);
+                cantidadExacta = cantidad;
+                etCantidad.setText(textoExacto);
             } catch (NumberFormatException ignored) {
                 // importe mal escrito: no truena, solo no calcula nada
             }
@@ -169,7 +180,7 @@ public class CantidadVentaDialogFragment extends DialogFragment {
             etCantidad.setError("Captura una cantidad");
             return;
         }
-        Double cantidad = leerNumero(texto);
+        Double cantidad = cantidadEscrita();
         if (cantidad == null) {
             etCantidad.setError("Cantidad inválida");
             return;
@@ -181,7 +192,7 @@ public class CantidadVentaDialogFragment extends DialogFragment {
 
     /** Muestra en grande "2 PZA × $1300.00 = $2600.00" mientras se escribe. */
     private void actualizarVistaPrevia() {
-        Double cantidad = leerNumero(etCantidad.getText().toString().trim());
+        Double cantidad = cantidadEscrita();
         if (cantidad == null || cantidad <= 0) {
             tvVistaPrevia.setText(String.format(Locale.getDefault(), "$%.2f por %s",
                     producto.precio, producto.unidadMedida != null ? producto.unidadMedida.name() : ""));
@@ -199,6 +210,13 @@ public class CantidadVentaDialogFragment extends DialogFragment {
     }
 
     /** Acepta punto o coma decimal (el teclado de Samsung trae los dos). null si no es numero. */
+    /** Lo escrito; si es justo lo que puso la app, el valor sin redondear. */
+    private Double cantidadEscrita() {
+        String texto = etCantidad.getText().toString().trim();
+        if (cantidadExacta != null && texto.equals(textoExacto)) return cantidadExacta;
+        return leerNumero(texto);
+    }
+
     private static Double leerNumero(String texto) {
         if (texto == null || texto.isEmpty()) return null;
         try {

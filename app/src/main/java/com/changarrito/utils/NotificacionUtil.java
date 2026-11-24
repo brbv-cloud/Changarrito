@@ -72,4 +72,54 @@ public class NotificacionUtil {
             // Permiso POST_NOTIFICATIONS no concedido: seguimos sin romper la app.
         }
     }
+
+    // ------------------------------------------------------------------ respaldo
+
+    private static final String CANAL_RESPALDO = "respaldo_changarrito";
+    /** Una sola notificacion de respaldo a la vez: "falta respaldar" se cambia por "listo". */
+    public static final int ID_RESPALDO = 7001;
+
+    /** 9 pm sin internet: la informacion de hoy todavia no esta en la nube. */
+    public static void mostrarRespaldoPendiente(Context c) {
+        notificarRespaldo(c, false);
+    }
+
+    /** Se termino el respaldo que pidio el recordatorio de la noche. */
+    public static void mostrarRespaldoListo(Context c) {
+        notificarRespaldo(c, true);
+    }
+
+    /** Al respaldar (solo o a mano), el aviso de "falta respaldar" ya no aplica. */
+    public static void quitarRespaldoPendiente(Context c) {
+        NotificationManagerCompat.from(c).cancel(ID_RESPALDO);
+    }
+
+    private static void notificarRespaldo(Context c, boolean listo) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel canal = new NotificationChannel(CANAL_RESPALDO,
+                    c.getString(R.string.noti_respaldo_canal), NotificationManager.IMPORTANCE_DEFAULT);
+            canal.setDescription(c.getString(R.string.noti_respaldo_canal_desc));
+            NotificationManager manager = c.getSystemService(NotificationManager.class);
+            if (manager != null) manager.createNotificationChannel(canal);
+        }
+        Intent intent = new Intent(c, PrincipalActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent abrir = PendingIntent.getActivity(c, ID_RESPALDO, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        String texto = c.getString(listo ? R.string.noti_respaldo_listo : R.string.noti_respaldo_pendiente);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(c, CANAL_RESPALDO)
+                .setSmallIcon(R.drawable.ic_stat_changarrito)
+                .setContentTitle(c.getString(listo ? R.string.noti_respaldo_listo_t : R.string.noti_respaldo_pendiente_t))
+                .setContentText(texto)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(texto))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setSilent(listo) // el "listo" no suena: solo queda en la barra
+                .setContentIntent(abrir)
+                .setAutoCancel(true);
+        try {
+            NotificationManagerCompat.from(c).notify(ID_RESPALDO, b.build());
+        } catch (SecurityException e) {
+            // Sin permiso de notificaciones: el respaldo sigue funcionando igual.
+        }
+    }
 }

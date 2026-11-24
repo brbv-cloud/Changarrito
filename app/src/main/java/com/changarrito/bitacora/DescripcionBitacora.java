@@ -2,6 +2,7 @@ package com.changarrito.bitacora;
 
 import com.changarrito.database.entity.AccionBitacora;
 import com.changarrito.database.entity.MotivoMerma;
+import com.changarrito.database.entity.TipoGasto;
 
 /**
  * Convierte una entrada de bitácora en una frase para el dueño, por ejemplo
@@ -25,6 +26,12 @@ public final class DescripcionBitacora {
             case REGISTRAR_MERMA:
                 return persona + " registró una merma de " + prod + " (" + MotivoMerma.nombre(campo) + "): "
                         + antes + " → " + despues;
+            case REGISTRAR_GASTO:
+            case BORRAR_GASTO:
+                return persona + (accion == AccionBitacora.REGISTRAR_GASTO ? " registró" : " borró")
+                        + " un gasto de " + TipoGasto.nombre(campo) + ": " + despues
+                        + ("caja".equals(antes) ? ", pagado con la caja" : "")
+                        + (producto != null && !producto.trim().isEmpty() ? " (" + producto.trim() + ")" : "");
             case AJUSTAR_EXISTENCIA:
                 return persona + " ajustó la existencia de " + prod + ": " + antes + " → " + despues;
             default:

@@ -14,4 +14,11 @@
     <string name="merma_listo">Merma registrada. Quedan %1$s.</string>
     <string name="merma_error_cantidad">Escribe cuánto se perdió.</string>
     <string name="merma_error_motivo">Elige el motivo.</string>
+    <!-- Elegir el producto (Registrar merma desde Inicio o Reportes) -->
+    <string name="merma_elegir_titulo">¿Qué producto se perdió?</string>
+    <string name="merma_elegir_explica">Se dañó, caducó o se perdió. Elígelo y se descuenta de tu inventario.</string>
+    <string name="merma_elegir_buscar">Buscar producto</string>
+    <string name="merma_elegir_hay">Hay %1$s</string>
+    <string name="merma_elegir_vacio">Ningún producto con existencia se llama así.</string>
+    <string name="merma_elegir_sin_productos">No tienes productos con existencia. Primero surte tu inventario.</string>
 </resources>

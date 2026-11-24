@@ -16,11 +16,14 @@ import com.changarrito.database.dao.CierreConUsuario;
 import com.changarrito.database.dao.GananciaProducto;
 import com.changarrito.database.dao.MermaConUsuario;
 import com.changarrito.database.dao.MermaPorMotivo;
+import com.changarrito.database.dao.GastoConUsuario;
+import com.changarrito.database.dao.GastoPorTipo;
 import com.changarrito.database.dao.ProductoHueso;
 import com.changarrito.database.dao.ResumenGanancia;
 import com.changarrito.database.dao.VentasPorCategoria;
 import com.changarrito.database.dao.VentasPorHora;
 import com.changarrito.database.entity.MotivoMerma;
+import com.changarrito.database.entity.TipoGasto;
 import com.changarrito.database.entity.UnidadMedida;
 import com.changarrito.reportes.CalculoGanancias;
 import com.changarrito.reportes.DatosEstadoCuenta;
@@ -106,6 +109,7 @@ public class GeneradorEstadoCuenta {
             tablaProductos(d.productos);
             huesos(d.huesos, d.generadoMs);
             mermas(d.mermasPorMotivo, d.mermas);
+            gastos(d.gastosPorTipo, d.gastos);
             tablaPersonas(d.personas);
             tablaCierres(d.cierres);
             notas();
@@ -207,8 +211,19 @@ public class GeneradorEstadoCuenta {
         float anchoCaja = (ANCHO - 2 * MARGEN - 2 * 10) / 3f;
         caja(MARGEN, "Vendiste", CalculoGanancias.dinero(r.ventas), texto, anchoCaja);
         caja(MARGEN + anchoCaja + 10, "Te costó", CalculoGanancias.dinero(r.costo), texto, anchoCaja);
-        caja(MARGEN + 2 * (anchoCaja + 10), "Te quedó", CalculoGanancias.dinero(ganancia),
+        caja(MARGEN + 2 * (anchoCaja + 10), "Ganancia de ventas", CalculoGanancias.dinero(ganancia),
                 ganancia < 0 ? error : verde, anchoCaja);
+        y += 56;
+        // Lo que quedo de verdad: a la ganancia se le restan mermas y gastos del periodo.
+        double perdidoMermas = 0;
+        for (MermaPorMotivo m : d.mermasPorMotivo) perdidoMermas += m.costo;
+        double gastado = 0;
+        for (GastoPorTipo g : d.gastosPorTipo) gastado += g.total;
+        double deVerdad = ganancia - perdidoMermas - gastado;
+        caja(MARGEN, "− Mermas", CalculoGanancias.dinero(perdidoMermas), perdidoMermas > 0 ? error : texto, anchoCaja);
+        caja(MARGEN + anchoCaja + 10, "− Gastos", CalculoGanancias.dinero(gastado), gastado > 0 ? error : texto, anchoCaja);
+        caja(MARGEN + 2 * (anchoCaja + 10), "Te quedó de verdad", CalculoGanancias.dinero(deVerdad),
+                deVerdad < 0 ? error : verde, anchoCaja);
         y += 56;
 
         Paint p = pintura(9.5f, texto, false);
@@ -543,6 +558,45 @@ public class GeneradorEstadoCuenta {
                     MotivoMerma.nombre(mu.merma.motivo != null ? mu.merma.motivo.name() : null),
                     mu.nombreUsuario != null ? mu.nombreUsuario : "Sin turno",
                     mu.merma.costoTotal() > 0 ? CalculoGanancias.dinero(mu.merma.costoTotal()) : "—");
+        }
+        y += 14;
+    }
+
+    private void gastos(List<GastoPorTipo> porTipo, List<GastoConUsuario> lista) {
+        titulo("Gastos del negocio (renta, luz, sueldos...)");
+        if (lista == null || lista.isEmpty()) {
+            sinDatos("No se registraron gastos en este periodo.");
+            return;
+        }
+        double total = 0;
+        for (GastoPorTipo g : porTipo) total += g.total;
+        double deCaja = 0;
+        for (GastoConUsuario gu : lista) {
+            if (gu.gasto.pagadoConCaja) deCaja += gu.gasto.monto;
+        }
+        String frase = "Gastaste " + CalculoGanancias.dinero(total) + " en " + lista.size()
+                + (lista.size() == 1 ? " registro" : " registros")
+                + (deCaja > 0 ? "; " + CalculoGanancias.dinero(deCaja) + " salieron de la caja." : ".");
+        c.drawText(frase, MARGEN, y + 9, pintura(9.5f, error, true));
+        y += 20;
+        Tabla t = new Tabla(new String[]{"Tipo", "Registros", "Total"},
+                new float[]{2, 1, 1}, new boolean[]{false, true, true});
+        t.encabezado();
+        for (GastoPorTipo g : porTipo) {
+            t.fila(false, TipoGasto.nombre(g.tipo), String.valueOf(g.registros), CalculoGanancias.dinero(g.total));
+        }
+        y += 12;
+        Tabla d = new Tabla(new String[]{"Fecha", "Tipo", "Nota", "De la caja", "Quién", "Monto"},
+                new float[]{1.1f, 1, 1.8f, 0.8f, 1, 0.9f}, new boolean[]{false, false, false, false, false, true});
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM HH:mm", MX);
+        d.encabezado();
+        for (GastoConUsuario gu : lista) {
+            d.fila(false, fmt.format(new Date(gu.gasto.timestampMs)),
+                    TipoGasto.nombre(gu.gasto.tipo != null ? gu.gasto.tipo.name() : null),
+                    gu.gasto.nota != null ? gu.gasto.nota : "—",
+                    gu.gasto.pagadoConCaja ? "Sí" : "No",
+                    gu.nombreUsuario != null ? gu.nombreUsuario : "Sin turno",
+                    CalculoGanancias.dinero(gu.gasto.monto));
         }
         y += 14;
     }

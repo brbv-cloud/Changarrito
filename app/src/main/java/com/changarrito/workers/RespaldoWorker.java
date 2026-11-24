@@ -1,5 +1,8 @@
 package com.changarrito.workers;
 
+import androidx.work.Data;
+import com.changarrito.utils.NotificacionUtil;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -30,6 +33,8 @@ public class RespaldoWorker extends Worker {
 
     private static final String UNICO_DIARIO = "respaldo_diario";
     private static final String UNICO_PRONTO = "respaldo_pronto";
+    /** true = al terminar, notificacion de "informacion respaldada". */
+    public static final String AVISAR = "avisar";
 
     public RespaldoWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
@@ -40,6 +45,9 @@ public class RespaldoWorker extends Worker {
     public Result doWork() {
         try {
             new RespaldoRepository((Application) getApplicationContext()).respaldarSync();
+            if (getInputData().getBoolean(AVISAR, false)) {
+                NotificacionUtil.mostrarRespaldoListo(getApplicationContext());
+            }
             return Result.success();
         } catch (RespaldoException e) {
             switch (e.tipo) {
@@ -69,7 +77,13 @@ public class RespaldoWorker extends Worker {
 
     /** Respaldo en cuanto haya internet (ej. despues de cerrar caja). */
     public static void respaldarPronto(Context c) {
+        respaldarPronto(c, false);
+    }
+
+    /** @param avisar true = notificar al terminar (lo pide el recordatorio de la noche). */
+    public static void respaldarPronto(Context c, boolean avisar) {
         OneTimeWorkRequest pronto = new OneTimeWorkRequest.Builder(RespaldoWorker.class)
+                .setInputData(new Data.Builder().putBoolean(AVISAR, avisar).build())
                 .setConstraints(conInternet())
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 10, TimeUnit.MINUTES)
                 .build();
@@ -80,5 +94,6 @@ public class RespaldoWorker extends Worker {
     public static void cancelar(Context c) {
         WorkManager.getInstance(c).cancelUniqueWork(UNICO_DIARIO);
         WorkManager.getInstance(c).cancelUniqueWork(UNICO_PRONTO);
+        WorkManager.getInstance(c).cancelUniqueWork(RecordatorioRespaldoWorker.UNICO);
     }
 }

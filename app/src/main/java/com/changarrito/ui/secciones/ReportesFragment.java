@@ -17,11 +17,14 @@ import com.changarrito.R;
 import com.changarrito.database.dao.GananciaProducto;
 import com.changarrito.database.dao.MermaConUsuario;
 import com.changarrito.database.dao.MermaPorMotivo;
+import com.changarrito.database.dao.GastoConUsuario;
+import com.changarrito.database.dao.GastoPorTipo;
 import com.changarrito.database.dao.ProductoHueso;
 import com.changarrito.database.dao.ResumenGanancia;
 import com.changarrito.database.dao.VentasPorCategoria;
 import com.changarrito.database.dao.VentasPorHora;
 import com.changarrito.database.entity.MotivoMerma;
+import com.changarrito.database.entity.TipoGasto;
 import com.changarrito.negocio.SesionTurno;
 import com.changarrito.pdf.CompartirArchivo;
 import com.changarrito.reportes.CalculoGanancias;
@@ -32,6 +35,7 @@ import com.changarrito.reportes.Rankings;
 import com.changarrito.reportes.ReparticionPesos;
 import com.changarrito.repository.EstadoCuentaRepository;
 import com.changarrito.repository.MermaRepository;
+import com.changarrito.repository.GastoRepository;
 import com.changarrito.ui.adapters.BarraHorizontalAdapter;
 import com.changarrito.ui.adapters.CierreHistorialAdapter;
 import com.changarrito.ui.adapters.PersonaReporteAdapter;
@@ -93,6 +97,15 @@ public class ReportesFragment extends SeccionFragment {
     // Mermas
     private TextView tvMermaTotal, tvMermaResumen, tvMermasVacio;
     private RecyclerView rvMermaMotivos, rvMermas;
+    // Gastos
+    private View seccionGastos;
+    private TextView tvGastoTotal, tvGastoResumen, tvGastosVacio;
+    private RecyclerView rvGastoTipos, rvGastos;
+    private final BarraHorizontalAdapter gastoTiposAdapter = new BarraHorizontalAdapter();
+    private final BarraHorizontalAdapter gastosAdapter = new BarraHorizontalAdapter();
+    private final List<GastoConUsuario> gastosMostrados = new ArrayList<>();
+    // Lo que quedo de verdad (Resumen): ganancia de ventas - mermas - gastos
+    private double balanceGanancia, balanceMermas, balanceGastos;
 
     // Caja
     private TextView tvEfectivoSistema, tvResultadoCierre;
@@ -144,6 +157,8 @@ public class ReportesFragment extends SeccionFragment {
         seccionProductos = vista(R.id.seccionProductos);
         seccionHorarios = vista(R.id.seccionHorarios);
         seccionMermas = vista(R.id.seccionMermas);
+        vista(R.id.btnRegistrarMerma).setOnClickListener(v ->
+                com.changarrito.ui.fragments.ElegirProductoMerma.mostrar(requireActivity()));
         seccionCaja = vista(R.id.seccionCaja);
 
         tvVendiste = vista(R.id.tvVendiste);
@@ -182,6 +197,14 @@ public class ReportesFragment extends SeccionFragment {
         tvMermasVacio = vista(R.id.tvMermasVacio);
         rvMermaMotivos = vista(R.id.rvMermaMotivos);
         rvMermas = vista(R.id.rvMermas);
+        seccionGastos = vista(R.id.seccionGastos);
+        tvGastoTotal = vista(R.id.tvGastoTotal);
+        tvGastoResumen = vista(R.id.tvGastoResumen);
+        tvGastosVacio = vista(R.id.tvGastosVacio);
+        rvGastoTipos = vista(R.id.rvGastoTipos);
+        rvGastos = vista(R.id.rvGastos);
+        vista(R.id.btnRegistrarGasto).setOnClickListener(v ->
+                com.changarrito.ui.fragments.GastoDialog.mostrar(requireActivity(), null));
 
         tvEfectivoSistema = vista(R.id.tvEfectivoSistema);
         tvResultadoCierre = vista(R.id.tvResultadoCierre);
@@ -198,6 +221,7 @@ public class ReportesFragment extends SeccionFragment {
             seccionProductos.setVisibility(checkedId == R.id.btnTabProductos ? View.VISIBLE : View.GONE);
             seccionHorarios.setVisibility(checkedId == R.id.btnTabHorarios ? View.VISIBLE : View.GONE);
             seccionMermas.setVisibility(checkedId == R.id.btnTabMermas ? View.VISIBLE : View.GONE);
+            seccionGastos.setVisibility(checkedId == R.id.btnTabGastos ? View.VISIBLE : View.GONE);
             seccionCaja.setVisibility(checkedId == R.id.btnTabCaja ? View.VISIBLE : View.GONE);
             // El periodo no aplica a la caja.
             toggleRango.setVisibility(checkedId == R.id.btnTabCaja || cierreCiego ? View.GONE : View.VISIBLE);
@@ -228,6 +252,9 @@ public class ReportesFragment extends SeccionFragment {
         lista(rvPorPersona, personasAdapter);
         lista(rvMermaMotivos, motivosAdapter);
         lista(rvMermas, mermasAdapter);
+        lista(rvGastoTipos, gastoTiposAdapter);
+        lista(rvGastos, gastosAdapter);
+        gastosAdapter.setAlTocar(this::confirmarBorrarGasto);
 
         vm.getResumen().observe(getViewLifecycleOwner(), this::mostrarResumen);
         vm.getPorDia().observe(getViewLifecycleOwner(), d -> {
@@ -272,6 +299,8 @@ public class ReportesFragment extends SeccionFragment {
 
         vm.getMermasPorMotivo().observe(getViewLifecycleOwner(), this::mostrarMermasPorMotivo);
         vm.getMermas().observe(getViewLifecycleOwner(), this::mostrarMermas);
+        vm.getGastosPorTipo().observe(getViewLifecycleOwner(), this::mostrarGastosPorTipo);
+        vm.getGastos().observe(getViewLifecycleOwner(), this::mostrarGastos);
 
         btnEstadoCuenta.setOnClickListener(v -> generarEstadoCuenta(vm.getRangoActual()));
     }
@@ -282,6 +311,8 @@ public class ReportesFragment extends SeccionFragment {
         tvVendiste.setText(CalculoGanancias.dinero(r != null ? r.ventas : 0));
         double ganancia = CalculoGanancias.ganancia(r);
         tvTeQuedo.setText(CalculoGanancias.dinero(ganancia));
+        balanceGanancia = ganancia;
+        mostrarBalance();
         tvTeQuedo.setTextColor(ContextCompat.getColor(requireContext(),
                 ganancia < 0 ? R.color.status_rojo : R.color.color_primary_variant));
         // En la app la ganancia se explica solo en pesos ("de cada $100..."); los dos
@@ -458,6 +489,8 @@ public class ReportesFragment extends SeccionFragment {
             }
         }
         tvMermaTotal.setText(CalculoGanancias.dinero(total));
+        balanceMermas = total;
+        mostrarBalance();
         tvMermaResumen.setText(getString(R.string.rep_mermas_resumen, registros));
         int rojo = ContextCompat.getColor(requireContext(), R.color.status_rojo);
         List<BarraHorizontalAdapter.Fila> filas = new ArrayList<>();
@@ -490,6 +523,100 @@ public class ReportesFragment extends SeccionFragment {
         mermasAdapter.setFilas(filas);
         tvMermasVacio.setVisibility(filas.isEmpty() ? View.VISIBLE : View.GONE);
         rvMermas.setVisibility(filas.isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    // ---------------------------------------------------------------- Gastos
+
+    private void mostrarGastosPorTipo(List<GastoPorTipo> datos) {
+        double total = 0;
+        double max = 0;
+        int registros = 0;
+        if (datos != null) {
+            for (GastoPorTipo g : datos) {
+                total += g.total;
+                registros += g.registros;
+                max = Math.max(max, g.total);
+            }
+        }
+        tvGastoTotal.setText(CalculoGanancias.dinero(total));
+        tvGastoResumen.setText(getString(R.string.rep_gastos_resumen, registros));
+        int ambar = ContextCompat.getColor(requireContext(), R.color.marca_ambar);
+        List<BarraHorizontalAdapter.Fila> filas = new ArrayList<>();
+        if (datos != null) {
+            for (GastoPorTipo g : datos) {
+                filas.add(new BarraHorizontalAdapter.Fila(null, TipoGasto.nombre(g.tipo),
+                        g.registros + (g.registros == 1 ? " registro" : " registros"),
+                        CalculoGanancias.dinero(g.total), max > 0 ? (float) (g.total / max) : 0, ambar));
+            }
+        }
+        gastoTiposAdapter.setFilas(filas);
+        rvGastoTipos.setVisibility(filas.isEmpty() ? View.GONE : View.VISIBLE);
+        balanceGastos = total;
+        mostrarBalance();
+    }
+
+    private void mostrarGastos(List<GastoConUsuario> datos) {
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM HH:mm", MX);
+        List<BarraHorizontalAdapter.Fila> filas = new ArrayList<>();
+        gastosMostrados.clear();
+        if (datos != null) {
+            for (int i = 0; i < Math.min(MAX_MERMAS_LISTA, datos.size()); i++) {
+                GastoConUsuario gu = datos.get(i);
+                String sub = getString(R.string.rep_gasto_sub, fmt.format(new Date(gu.gasto.timestampMs)),
+                        gu.nombreUsuario != null ? gu.nombreUsuario : getString(R.string.rep_sin_turno));
+                if (gu.gasto.pagadoConCaja) sub += " · " + getString(R.string.rep_gasto_de_caja);
+                if (gu.gasto.nota != null) sub += " · " + gu.gasto.nota;
+                filas.add(new BarraHorizontalAdapter.Fila(null,
+                        TipoGasto.nombre(gu.gasto.tipo != null ? gu.gasto.tipo.name() : null),
+                        sub, CalculoGanancias.dinero(gu.gasto.monto), -1, 0));
+                gastosMostrados.add(gu);
+            }
+        }
+        gastosAdapter.setFilas(filas);
+        tvGastosVacio.setVisibility(filas.isEmpty() ? View.VISIBLE : View.GONE);
+        rvGastos.setVisibility(filas.isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    /** Tocar un gasto de la lista: borrarlo si se capturo por error. */
+    private void confirmarBorrarGasto(int posicion) {
+        if (posicion < 0 || posicion >= gastosMostrados.size()) return;
+        GastoConUsuario gu = gastosMostrados.get(posicion);
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy", MX);
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.gasto_borrar_titulo)
+                .setMessage(getString(R.string.gasto_borrar_texto,
+                        TipoGasto.nombre(gu.gasto.tipo != null ? gu.gasto.tipo.name() : null),
+                        CalculoGanancias.dinero(gu.gasto.monto), fmt.format(new Date(gu.gasto.timestampMs))))
+                .setNegativeButton(R.string.producto_cancelar, null)
+                .setPositiveButton(R.string.gasto_borrar_si, (d, w) ->
+                        new GastoRepository(requireActivity().getApplication()).borrar(gu.gasto.id,
+                                new GastoRepository.Callback() {
+                                    @Override
+                                    public void onListo() {
+                                        if (!isAdded()) return;
+                                        avisar(R.string.gasto_borrado);
+                                        if (cierreCajaViewModel != null) cierreCajaViewModel.actualizarEfectivoPendiente();
+                                    }
+
+                                    @Override
+                                    public void onError(String mensaje) {
+                                        if (isAdded()) avisar(mensaje);
+                                    }
+                                }))
+                .show();
+    }
+
+    /** Resumen: ganancia de ventas - mermas - gastos del periodo. */
+    private void mostrarBalance() {
+        if (getView() == null) return;
+        double queda = balanceGanancia - balanceMermas - balanceGastos;
+        ((TextView) vista(R.id.tvBalanceGanancia)).setText(CalculoGanancias.dinero(balanceGanancia));
+        ((TextView) vista(R.id.tvBalanceMermas)).setText(CalculoGanancias.dinero(balanceMermas));
+        ((TextView) vista(R.id.tvBalanceGastos)).setText(CalculoGanancias.dinero(balanceGastos));
+        TextView tvFinal = vista(R.id.tvBalanceFinal);
+        tvFinal.setText(CalculoGanancias.dinero(queda));
+        tvFinal.setTextColor(ContextCompat.getColor(requireContext(),
+                queda < 0 ? R.color.status_rojo : R.color.color_primary_variant));
     }
 
     // ---------------------------------------------------------------- PDF
@@ -557,6 +684,12 @@ public class ReportesFragment extends SeccionFragment {
         cierreCajaViewModel.getEfectivoPendienteDeCierre().observe(getViewLifecycleOwner(), efectivo -> {
             double valor = efectivo != null ? efectivo : 0;
             tvEfectivoSistema.setText(String.format(Locale.getDefault(), "$%.2f", valor));
+        });
+        cierreCajaViewModel.getGastosCajaPendientes().observe(getViewLifecycleOwner(), g -> {
+            TextView tv = vista(R.id.tvGastosCaja);
+            boolean hay = !cierreCiego && g != null && g > 0.004;
+            tv.setVisibility(hay ? View.VISIBLE : View.GONE);
+            if (hay) tv.setText(getString(R.string.caja_gastos_restados, CalculoGanancias.dinero(g)));
         });
         cierreCajaViewModel.getUltimoResultado().observe(getViewLifecycleOwner(), cierre -> {
             if (cierre == null) return;
@@ -647,5 +780,14 @@ public class ReportesFragment extends SeccionFragment {
         p.agregar(vista(R.id.scrollTabs), R.drawable.ic_nav_reportes, R.string.g_rep_temas_t, R.string.g_rep_temas);
         p.agregar(vista(R.id.toggleRango), R.drawable.ic_reloj, R.string.g_rep_periodo_t, R.string.g_rep_periodo);
         p.agregar(vista(R.id.btnEstadoCuenta), R.drawable.ic_pdf, R.string.g_rep_pdf_t, R.string.g_rep_pdf);
+        if (seccionMermas != null && seccionMermas.getVisibility() == View.VISIBLE) {
+            p.agregar(vista(R.id.btnRegistrarMerma), R.drawable.ic_eliminar, R.string.g_rep_merma_t, R.string.g_rep_merma);
+        }
+        if (seccionGastos != null && seccionGastos.getVisibility() == View.VISIBLE) {
+            p.agregar(vista(R.id.btnRegistrarGasto), R.drawable.ic_billete, R.string.g_rep_gasto_t, R.string.g_rep_gasto);
+        }
+        if (seccionResumen != null && seccionResumen.getVisibility() == View.VISIBLE) {
+            p.agregar(vista(R.id.cardBalance), R.drawable.ic_nav_reportes, R.string.g_rep_balance_t, R.string.g_rep_balance);
+        }
     }
 }

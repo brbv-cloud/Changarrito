@@ -25,6 +25,7 @@ public final class RespaldoLocal {
             r.cierres = dao.leerCierres();
             r.bitacora = dao.leerBitacora();
             r.mermas = dao.leerMermas();
+            r.gastos = dao.leerGastos();
         });
         return r;
     }
@@ -44,6 +45,7 @@ public final class RespaldoLocal {
         db.runInTransaction(() -> {
             dao.borrarAlertas();
             dao.borrarMermas();
+            dao.borrarGastos();
             dao.borrarBitacora();
             dao.borrarVentas();
             dao.borrarCierres();
@@ -63,6 +65,7 @@ public final class RespaldoLocal {
             if (!r.cierres.isEmpty()) dao.insertarCierres(r.cierres);
             if (!r.bitacora.isEmpty()) dao.insertarBitacora(r.bitacora);
             if (r.mermas != null && !r.mermas.isEmpty()) dao.insertarMermas(r.mermas);
+            if (r.gastos != null && !r.gastos.isEmpty()) dao.insertarGastos(r.gastos);
         });
     }
 }

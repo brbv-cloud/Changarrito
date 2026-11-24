@@ -101,7 +101,7 @@ public class MigracionTest {
     @Test
     public void migra_de_v5_a_v6_sin_perder_ventas() {
         AppDatabase db = Room.databaseBuilder(ctx, AppDatabase.class, NOMBRE)
-                .addMigrations(Migraciones.MIGRACION_5_6, Migraciones.MIGRACION_6_7)
+                .addMigrations(Migraciones.MIGRACION_5_6, Migraciones.MIGRACION_6_7, Migraciones.MIGRACION_7_8)
                 .allowMainThreadQueries()
                 .build();
         try {

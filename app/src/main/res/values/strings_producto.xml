@@ -6,6 +6,15 @@
     <string name="producto_nombre_pista">Coca-Cola 600 ml</string>
     <string name="producto_categoria">Categoría</string>
     <string name="producto_categoria_pista">Bebidas</string>
+    <!-- Ejemplos del formulario segun el giro (los de arriba son los de abarrotes) -->
+    <string name="pista_papeleria_nombre">Cuaderno profesional 100 hojas</string>
+    <string name="pista_papeleria_categoria">Cuadernos y libretas</string>
+    <string name="pista_ferreteria_nombre">Tornillo para madera 1 pulgada</string>
+    <string name="pista_ferreteria_categoria">Tornillería y fijación</string>
+    <string name="pista_farmacia_nombre">Paracetamol 500 mg (10 tabletas)</string>
+    <string name="pista_farmacia_categoria">Analgésicos y fiebre</string>
+    <string name="pista_independiente_nombre">Nombre de lo que vendes</string>
+    <string name="pista_independiente_categoria">General</string>
     <string name="producto_unidad">Se vende por</string>
     <string name="producto_costo">Costo de compra (lo que te costó)</string>
     <string name="producto_costo_por">Costo por %1$s</string>

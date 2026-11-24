@@ -72,6 +72,7 @@ public class RespaldoRepository {
             RespaldoNube.InfoRespaldo info = conReintentoDeToken(cuenta,
                     () -> new RespaldoNube().subir(cuenta.getUid(), foto, nombreDispositivo()));
             guardarUltimo(info);
+            com.changarrito.utils.NotificacionUtil.quitarRespaldoPendiente(app);
             return info;
         }
     }

@@ -63,11 +63,21 @@ public class CierreCajaRepository {
      * del primero, no repite lo ya reconciliado.
      */
     private double calcularEfectivoPendienteSync() {
+        long desdeMs = desdeUltimoCierreSync();
+        // Lo que se pago con dinero del cajon (garrafon, luz...) ya no esta en la caja.
+        return ventaDAO.getTotalVentasDesdeSync(desdeMs) - db.gastoDao().getTotalCajaDesdeSync(desdeMs);
+    }
+
+    private long desdeUltimoCierreSync() {
         CierreCajaEntity ultimoCierre = cierreCajaDAO.getUltimoCierreSync();
-        long desdeMs = ultimoCierre != null
+        return ultimoCierre != null
                 ? ultimoCierre.timestampCreacionMs
                 : FechaUtil.inicioDelDia(System.currentTimeMillis());
-        return ventaDAO.getTotalVentasDesdeSync(desdeMs);
+    }
+
+    /** Gastos pagados con la caja desde el ultimo cierre (ya restados del efectivo pendiente). */
+    public void obtenerGastosCajaPendientes(EfectivoPendienteCallback callback) {
+        executorService.execute(() -> callback.onResultado(db.gastoDao().getTotalCajaDesdeSync(desdeUltimoCierreSync())));
     }
 
     /** Para mostrar en pantalla, antes de cerrar, cuanto efectivo esta pendiente de reconciliar. */

@@ -30,6 +30,11 @@
     <string name="ini_agregar">Agregar</string>
     <string name="ini_agregar_sub">producto nuevo</string>
     <string name="ini_caja">Cerrar caja</string>
+    <string name="ini_merma">Registrar merma</string>
+    <string name="g_ini_merma_t">¿Se dañó o se perdió algo?</string>
+    <string name="g_ini_merma">Si un producto se rompe, caduca o se pierde, regístralo aquí. Se descuenta del inventario para que tus números cuadren.</string>
+    <string name="g_rep_merma_t">Registrar merma</string>
+    <string name="g_rep_merma">Elige el producto, cuánto se perdió y por qué. Aquí abajo ves cuánto dinero se te va en mermas.</string>
     <string name="ini_ajustes">Ajustes</string>
 
     <!-- ===== Bienvenida (primera vez) ===== -->

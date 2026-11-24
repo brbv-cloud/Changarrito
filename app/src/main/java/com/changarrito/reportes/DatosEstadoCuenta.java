@@ -31,6 +31,8 @@ public class DatosEstadoCuenta {
     public List<ProductoHueso> huesos = new ArrayList<>();
     public List<MermaPorMotivo> mermasPorMotivo = new ArrayList<>();
     public List<MermaConUsuario> mermas = new ArrayList<>();
+    public List<com.changarrito.database.dao.GastoPorTipo> gastosPorTipo = new ArrayList<>();
+    public List<com.changarrito.database.dao.GastoConUsuario> gastos = new ArrayList<>();
 
     public static final int DIAS_HUESO = 30;
 }

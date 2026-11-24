@@ -31,7 +31,6 @@
     <string name="venta_pago_invalido">Revisa la cantidad</string>
     <string name="venta_pista_pago">Escribe con cuánto paga o toca un billete.</string>
     <string name="venta_pago_exacto">Pago exacto, no hay cambio.</string>
-    <string name="venta_entrega">Entrega: %s</string>
     <string name="venta_no_alcanza">El pago no alcanza para el total.</string>
     <string name="venta_cobrar_total">Cobrar %s</string>
     <string name="venta_registrada">Venta registrada. Inventario actualizado.</string>

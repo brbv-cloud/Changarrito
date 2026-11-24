@@ -18,7 +18,6 @@ import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.reportes.CalculoGanancias;
 import com.changarrito.repository.MermaRepository;
 import com.changarrito.utils.EstadoProducto;
-import com.changarrito.utils.IconoProducto;
 import com.changarrito.utils.EstadoStock;
 import com.google.android.material.card.MaterialCardView;
 
@@ -96,11 +95,8 @@ public class ProductoVentaAdapter extends RecyclerView.Adapter<ProductoVentaAdap
         ProductoEntity p = filtrados.get(position);
         Context ctx = h.itemView.getContext();
 
-        // Dibujo segun el producto (🥛, 🔩, ✏️...); si no se reconoce, la inicial.
-        String icono = IconoProducto.de(p.nombre, p.categoria);
-        h.tvInicial.setText(icono != null ? icono : p.nombre == null || p.nombre.trim().isEmpty() ? "?"
+        h.tvInicial.setText(p.nombre == null || p.nombre.trim().isEmpty() ? "?"
                 : p.nombre.trim().substring(0, 1).toUpperCase(Locale.forLanguageTag("es-MX")));
-        h.tvInicial.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, icono != null ? 22 : 17);
         h.tvNombre.setText(p.nombre);
         String unidad = p.unidadMedida != null ? p.unidadMedida.name() : "";
         boolean sinPrecio = p.precio <= 0.0001;

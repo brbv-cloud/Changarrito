@@ -13,5 +13,18 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Aviso breve: sin internet / conectado otra vez (PrincipalActivity) -->
+    <TextView
+        android:id="@+id/avisoConexion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_slate_dark"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
     <include layout="@layout/barra_navegacion" />
 </LinearLayout>

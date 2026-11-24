@@ -20,6 +20,7 @@ public class CierreCajaViewModel extends AndroidViewModel {
     private final LiveData<List<CierreCajaEntity>> historial;
     private final MutableLiveData<CierreCajaEntity> ultimoResultado = new MutableLiveData<>();
     private final MutableLiveData<Double> efectivoPendienteDeCierre = new MutableLiveData<>(0.0);
+    private final MutableLiveData<Double> gastosCajaPendientes = new MutableLiveData<>(0.0);
 
     public CierreCajaViewModel(@NonNull Application application) {
         super(application);
@@ -49,6 +50,12 @@ public class CierreCajaViewModel extends AndroidViewModel {
     /** Refresca efectivoPendienteDeCierre; llamar al mostrar la pestaña de Caja. */
     public void actualizarEfectivoPendiente() {
         repository.obtenerEfectivoPendiente(efectivoPendienteDeCierre::postValue);
+        repository.obtenerGastosCajaPendientes(gastosCajaPendientes::postValue);
+    }
+
+    /** Gastos pagados con el efectivo de la caja desde el ultimo cierre. */
+    public LiveData<Double> getGastosCajaPendientes() {
+        return gastosCajaPendientes;
     }
 
     public void hacerCierre(double efectivoContado, String notas) {

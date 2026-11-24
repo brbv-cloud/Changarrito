@@ -1,5 +1,17 @@
 package com.changarrito.ui.activities;
 
+import android.app.Application;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.TextView;
+import androidx.annotation.ColorRes;
+import com.changarrito.negocio.CambioDeNegocio;
+import com.changarrito.utils.Conexion;
+import com.changarrito.workers.RecordatorioRespaldoWorker;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -63,6 +75,8 @@ public class PrincipalActivity extends AppCompatActivity {
 
     public static final String EXTRA_SECCION = "seccion";
     public static final String SECCION_ALERTAS = "alertas";
+    /** true = ir a Inicio y mostrar el recorrido de bienvenida (Ajustes). */
+    public static final String EXTRA_TUTORIAL = "ver_tutorial";
 
     private static final String ESTADO_SECCION = "seccion_actual";
     private static final int[] SECCIONES = {
@@ -72,6 +86,14 @@ public class PrincipalActivity extends AppCompatActivity {
     @IdRes
     private int actual = R.id.nav_inicio;
     private ActivityResultLauncher<String> permisoNotificaciones;
+
+    // Aviso breve de internet
+    private ConnectivityManager.NetworkCallback vigilanteRed;
+    /** null = todavia no se sabe (al abrir no se avisa si hay internet, solo si falta). */
+    private Boolean enLinea;
+    private final Handler principal = new Handler(Looper.getMainLooper());
+    private final Runnable revisarRed = this::revisarConexion;
+    private final Runnable ocultarAviso = this::ocultarAvisoConexion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +114,7 @@ public class PrincipalActivity extends AppCompatActivity {
         } else {
             int pedida = seccionPedida(getIntent());
             mostrar(pedida != 0 ? pedida : R.id.nav_inicio, false);
+            pedirTutorial(getIntent());
             tareasDeArranque();
         }
     }
@@ -102,12 +125,134 @@ public class PrincipalActivity extends AppCompatActivity {
         setIntent(intent);
         int pedida = seccionPedida(intent);
         if (pedida != 0) mostrar(pedida, false);
+        pedirTutorial(intent);
+    }
+
+    private void pedirTutorial(Intent intent) {
+        if (intent == null || !intent.getBooleanExtra(EXTRA_TUTORIAL, false)) return;
+        intent.removeExtra(EXTRA_TUTORIAL); // que no se repita al rotar
+        mostrar(R.id.nav_inicio, false);
+        Fragment f = getSupportFragmentManager().findFragmentByTag(etiqueta(R.id.nav_inicio));
+        if (f instanceof InicioFragment) ((InicioFragment) f).verRecorrido();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ESTADO_SECCION, actual);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        vigilarConexion();
+    }
+
+    @Override
+    protected void onStop() {
+        dejarDeVigilarConexion();
+        super.onStop();
+    }
+
+    // ------------------------------------------------------------------ internet
+
+    private void vigilarConexion() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm == null || vigilanteRed != null) return;
+        vigilanteRed = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                programarRevision();
+            }
+
+            @Override
+            public void onLost(@NonNull Network network) {
+                programarRevision();
+            }
+
+            @Override
+            public void onCapabilitiesChanged(@NonNull Network network, @NonNull NetworkCapabilities capacidades) {
+                programarRevision();
+            }
+        };
+        try {
+            cm.registerDefaultNetworkCallback(vigilanteRed);
+        } catch (RuntimeException e) {
+            vigilanteRed = null;
+        }
+        programarRevision(); // como esta al volver a la app
+    }
+
+    private void dejarDeVigilarConexion() {
+        principal.removeCallbacks(revisarRed);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (cm != null && vigilanteRed != null) {
+            try {
+                cm.unregisterNetworkCallback(vigilanteRed);
+            } catch (RuntimeException ignorada) {
+                // ya no estaba registrado
+            }
+        }
+        vigilanteRed = null;
+    }
+
+    /** Al conectarse la red cambia varias veces seguidas: se espera a que se asiente. */
+    private void programarRevision() {
+        principal.removeCallbacks(revisarRed);
+        principal.postDelayed(revisarRed, 1200);
+    }
+
+    private void revisarConexion() {
+        if (isFinishing()) return;
+        boolean ahora = Conexion.hayInternet(this);
+        Boolean antes = enLinea;
+        enLinea = ahora;
+        if (antes != null && antes == ahora) return;
+        if (!ahora) {
+            mostrarAvisoConexion(getString(R.string.conexion_sin), R.color.color_slate_dark);
+            return;
+        }
+        if (antes == null) return; // al abrir con internet no hace falta avisar
+        // Volvio el internet: si hay algo sin respaldar, se respalda ya.
+        Application app = getApplication();
+        new Thread(() -> {
+            boolean pendiente;
+            try {
+                CambioDeNegocio.Resumen r = CambioDeNegocio.leerSync(app);
+                pendiente = r.nombreNegocio != null && r.hayCambiosSinRespaldar();
+            } catch (Exception e) {
+                pendiente = false;
+            }
+            boolean respaldando = pendiente;
+            if (respaldando) RespaldoWorker.respaldarPronto(app);
+            runOnUiThread(() -> {
+                if (!isFinishing()) mostrarAvisoConexion(getString(respaldando
+                        ? R.string.conexion_volvio_respaldo : R.string.conexion_volvio), R.color.marca_verde);
+            });
+        }).start();
+    }
+
+    /** Franja sobre la barra de abajo; se quita sola en 4 segundos o con un toque. */
+    private void mostrarAvisoConexion(CharSequence texto, @ColorRes int color) {
+        TextView aviso = findViewById(R.id.avisoConexion);
+        principal.removeCallbacks(ocultarAviso);
+        aviso.setText(texto);
+        aviso.setBackgroundColor(ContextCompat.getColor(this, color));
+        aviso.setOnClickListener(v -> ocultarAvisoConexion());
+        aviso.animate().cancel();
+        if (aviso.getVisibility() != View.VISIBLE) {
+            aviso.setAlpha(0f);
+            aviso.setVisibility(View.VISIBLE);
+        }
+        aviso.animate().alpha(1f).setDuration(200).start();
+        principal.postDelayed(ocultarAviso, 4000);
+    }
+
+    private void ocultarAvisoConexion() {
+        principal.removeCallbacks(ocultarAviso);
+        TextView aviso = findViewById(R.id.avisoConexion);
+        if (aviso == null || aviso.getVisibility() != View.VISIBLE) return;
+        aviso.animate().alpha(0f).setDuration(250).withEndAction(() -> aviso.setVisibility(View.GONE)).start();
     }
 
     /**
@@ -251,5 +396,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 new PeriodicWorkRequest.Builder(AlertaCheckWorker.class, 24, TimeUnit.HOURS).build());
         // Respaldo automatico en la nube una vez al dia, cuando haya internet.
         RespaldoWorker.programarDiario(this);
+        // A las 9 de la noche: si falta respaldar algo, se manda y se avisa.
+        RecordatorioRespaldoWorker.programar(this);
     }
 }

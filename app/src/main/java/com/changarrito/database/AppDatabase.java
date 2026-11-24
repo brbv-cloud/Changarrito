@@ -10,6 +10,7 @@ import com.changarrito.database.dao.AlertaDAO;
 import com.changarrito.database.dao.BitacoraDAO;
 import com.changarrito.database.dao.CierreCajaDAO;
 import com.changarrito.database.dao.ConfiguracionNegocioDAO;
+import com.changarrito.database.dao.GastoDAO;
 import com.changarrito.database.dao.MermaDAO;
 import com.changarrito.database.dao.ProductoDAO;
 import com.changarrito.database.dao.RespaldoDAO;
@@ -19,6 +20,7 @@ import com.changarrito.database.entity.AlertaEntity;
 import com.changarrito.database.entity.BitacoraEntity;
 import com.changarrito.database.entity.CierreCajaEntity;
 import com.changarrito.database.entity.ConfiguracionNegocioEntity;
+import com.changarrito.database.entity.GastoEntity;
 import com.changarrito.database.entity.MermaEntity;
 import com.changarrito.database.entity.ProductoEntity;
 import com.changarrito.database.entity.UsuarioEntity;
@@ -53,8 +55,9 @@ import com.changarrito.database.entity.VentaEntity;
         UsuarioEntity.class,
         BitacoraEntity.class,
         ConfiguracionNegocioEntity.class,
-        MermaEntity.class
-}, version = 7, exportSchema = false)
+        MermaEntity.class,
+        GastoEntity.class
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -78,6 +81,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract MermaDAO mermaDao();
 
+    public abstract GastoDAO gastoDao();
+
     /**
      * SOLO PARA TESTS: reemplaza el singleton por una instancia inyectada (ej. una
      * BD en memoria), para que VentaRepository/ProductoRepository puedan probarse
@@ -96,7 +101,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             appContext,
                             AppDatabase.class,
                             "changarrito_db"
-                    ).addMigrations(Migraciones.MIGRACION_5_6, Migraciones.MIGRACION_6_7)
+                    ).addMigrations(Migraciones.MIGRACION_5_6, Migraciones.MIGRACION_6_7, Migraciones.MIGRACION_7_8)
                             .fallbackToDestructiveMigration()
                             .build();
                 }

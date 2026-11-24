@@ -1,5 +1,10 @@
 package com.changarrito.ui.activities.negocio;
 
+import com.changarrito.ui.Ayuda;
+import com.changarrito.ui.guia.GuiaOverlay;
+import com.changarrito.utils.Conexion;
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,10 +66,26 @@ public class AjustesActivity extends AppCompatActivity {
         findViewById(R.id.btnAtras).setOnClickListener(v -> finish());
         findViewById(R.id.btnCambiarTurno).setOnClickListener(v -> cambiarTurno());
         findViewById(R.id.tvAcerca).setOnClickListener(v -> mostrarAcerca());
+        findViewById(R.id.btnVerTutorial).setOnClickListener(v -> {
+            // Regresa a Inicio (la pantalla que ya estaba abierta) y arranca el recorrido.
+            Intent i = new Intent(this, com.changarrito.ui.activities.PrincipalActivity.class)
+                    .putExtra(com.changarrito.ui.activities.PrincipalActivity.EXTRA_TUTORIAL, true)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(i);
+            finish();
+        });
         findViewById(R.id.tvReiniciarAyudas).setOnClickListener(v -> {
             com.changarrito.ui.Ayuda.reiniciar(this);
             android.widget.Toast.makeText(this, R.string.ayuda_reiniciadas, android.widget.Toast.LENGTH_LONG).show();
         });
+        // Guia: boton "?" y, la primera vez con esta cuenta, sola.
+        findViewById(R.id.btnGuia).setOnClickListener(v -> mostrarGuia());
+        if (!Ayuda.yaVista(this, "guia_ajustes")) {
+            Ayuda.marcarVista(this, "guia_ajustes");
+            findViewById(R.id.rootAjustes).postDelayed(() -> {
+                if (!isFinishing()) mostrarGuia();
+            }, 700);
+        }
 
         if (!esDueno) return;
 
@@ -87,10 +108,42 @@ public class AjustesActivity extends AppCompatActivity {
         respaldo = new RespaldoRepository(getApplication());
         mostrarEstadoRespaldo();
         findViewById(R.id.btnRespaldarAhora).setOnClickListener(v -> respaldarAhora());
+        // Solo en la version de desarrollo: dejar presionado prueba el recordatorio de las 9 pm.
+        if ((getApplicationInfo().flags & android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+            findViewById(R.id.btnRespaldarAhora).setOnLongClickListener(v -> {
+                com.changarrito.workers.RecordatorioRespaldoWorker.probarPronto(this, 30);
+                Toast.makeText(this, "Prueba: el recordatorio de las 9 pm corre en 30 segundos. "
+                        + "Sal de la app con el botón de Inicio.", Toast.LENGTH_LONG).show();
+                return true;
+            });
+        }
         findViewById(R.id.btnRestaurar).setOnClickListener(v -> buscarParaRestaurar());
         findViewById(R.id.btnAgregarTrabajador).setOnClickListener(v -> agregarTrabajador());
         findViewById(R.id.btnMiClave).setOnClickListener(v -> crearClaveDueno(null));
         findViewById(R.id.btnCerrarSesion).setOnClickListener(v -> confirmarCerrarSesion());
+    }
+
+    // ---------- Guia ----------
+
+    /** Paso por paso (la pantalla es larga: cada parte se trae a la vista al explicarla). */
+    private void mostrarGuia() {
+        List<GuiaOverlay.Paso> p = new ArrayList<>();
+        paso(p, R.id.btnCambiarTurno, R.drawable.ic_cambiar_turno, R.string.g_aj_turno_t, R.string.g_aj_turno);
+        paso(p, R.id.btnVerTutorial, R.drawable.ic_info, R.string.g_aj_tutorial_t, R.string.g_aj_tutorial);
+        paso(p, R.id.tarjetaNegocio, R.drawable.ic_editar, R.string.g_aj_negocio_t, R.string.g_aj_negocio);
+        paso(p, R.id.btnBitacora, R.drawable.ic_reloj, R.string.g_aj_bitacora_t, R.string.g_aj_bitacora);
+        paso(p, R.id.btnRespaldarAhora, R.drawable.ic_nube_subir, R.string.g_aj_respaldo_t, R.string.g_aj_respaldo);
+        paso(p, R.id.btnRestaurar, R.drawable.ic_nube_bajar, R.string.g_aj_restaurar_t, R.string.g_aj_restaurar);
+        paso(p, R.id.btnAgregarTrabajador, R.drawable.ic_persona_mas, R.string.g_aj_equipo_t, R.string.g_aj_equipo);
+        paso(p, R.id.btnMiClave, R.drawable.ic_llave, R.string.g_aj_clave_t, R.string.g_aj_clave);
+        paso(p, R.id.btnCerrarSesion, R.drawable.ic_salir, R.string.g_aj_salir_t, R.string.g_aj_salir);
+        GuiaOverlay.mostrar(this, p, GuiaOverlay.Modo.RECORRIDO, null);
+    }
+
+    /** Solo lo que se ve (el trabajador no tiene la parte del negocio). */
+    private void paso(List<GuiaOverlay.Paso> lista, int id, int icono, int titulo, int texto) {
+        View v = findViewById(id);
+        if (v != null && v.isShown()) lista.add(new GuiaOverlay.Paso(v, icono, getText(titulo), getText(texto)));
     }
 
     // ---------- Respaldo en la nube ----------
@@ -105,6 +158,7 @@ public class AjustesActivity extends AppCompatActivity {
         String resumen = respaldo.getUltimoResumen();
         tv.setText(getString(R.string.respaldo_ultimo, DialogosRespaldo.cuando(this, ms),
                 resumen != null ? resumen : ""));
+        if (!Conexion.hayInternet(this)) tv.append("\n" + getString(R.string.respaldo_sin_internet));
     }
 
     private void botonesRespaldo(boolean activos, int textoRespaldar, int textoRestaurar) {

@@ -23,6 +23,7 @@ public class RespaldoCompleto {
     public List<CierreCajaEntity> cierres = new ArrayList<>();
     public List<BitacoraEntity> bitacora = new ArrayList<>();
     public List<MermaEntity> mermas = new ArrayList<>();
+    public List<com.changarrito.database.entity.GastoEntity> gastos = new ArrayList<>();
 
     /** Sin configuracion no hay negocio que restaurar. */
     public boolean estaVacio() {

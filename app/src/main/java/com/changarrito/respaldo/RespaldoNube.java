@@ -59,6 +59,7 @@ public class RespaldoNube {
     static final String T_CIERRES = "cierres";
     static final String T_BITACORA = "bitacora";
     static final String T_MERMAS = "mermas";
+    static final String T_GASTOS = "gastos";
 
     /** Resumen del respaldo que hay en la nube (lo que se le muestra al dueno). */
     public static class InfoRespaldo {
@@ -66,7 +67,7 @@ public class RespaldoNube {
         public long fechaMs;
         public String dispositivo;
         public String nombreNegocio;
-        public long usuarios, productos, ventas, cierres, bitacora, mermas;
+        public long usuarios, productos, ventas, cierres, bitacora, mermas, gastos;
     }
 
     // Una clase por tabla para que Firestore sepa convertir cada fila a su entidad.
@@ -77,6 +78,7 @@ public class RespaldoNube {
     public static class ParteCierres { public List<CierreCajaEntity> filas; }
     public static class ParteBitacora { public List<BitacoraEntity> filas; }
     public static class ParteMermas { public List<MermaEntity> filas; }
+    public static class ParteGastos { public List<com.changarrito.database.entity.GastoEntity> filas; }
 
     private static final String TAG = "Respaldo";
 
@@ -137,6 +139,7 @@ public class RespaldoNube {
         agregarPartes(docs, T_CIERRES, r.cierres);
         agregarPartes(docs, T_BITACORA, r.bitacora);
         agregarPartes(docs, T_MERMAS, r.mermas);
+        agregarPartes(docs, T_GASTOS, r.gastos);
 
         Log.i(TAG, "Paso 2: subiendo " + docs.size() + " partes");
         WriteBatch lote = fs.batch();
@@ -167,6 +170,7 @@ public class RespaldoNube {
         info.cierres = r.cierres.size();
         info.bitacora = r.bitacora.size();
         info.mermas = r.mermas.size();
+        info.gastos = r.gastos.size();
 
         Map<String, Object> conteos = new HashMap<>();
         conteos.put(T_USUARIOS, info.usuarios);
@@ -175,6 +179,7 @@ public class RespaldoNube {
         conteos.put(T_CIERRES, info.cierres);
         conteos.put(T_BITACORA, info.bitacora);
         conteos.put(T_MERMAS, info.mermas);
+        conteos.put(T_GASTOS, info.gastos);
 
         Map<String, Object> resumen = new HashMap<>();
         resumen.put("respaldoActual", id);
@@ -252,6 +257,7 @@ public class RespaldoNube {
             info.cierres = numero(conteos.get(T_CIERRES));
             info.bitacora = numero(conteos.get(T_BITACORA));
             info.mermas = numero(conteos.get(T_MERMAS));
+            info.gastos = numero(conteos.get(T_GASTOS)); // 0 en respaldos de antes de v8
         }
         return info;
     }
@@ -314,6 +320,11 @@ public class RespaldoNube {
                     if (x != null && x.filas != null) r.mermas.addAll(x.filas);
                     break;
                 }
+                case T_GASTOS: {
+                    ParteGastos x = p.toObject(ParteGastos.class);
+                    if (x != null && x.filas != null) r.gastos.addAll(x.filas);
+                    break;
+                }
                 default:
                     break;
             }
@@ -326,7 +337,8 @@ public class RespaldoNube {
                 || r.ventas.size() != info.ventas
                 || r.cierres.size() != info.cierres
                 || r.bitacora.size() != info.bitacora
-                || r.mermas.size() != info.mermas) {
+                || r.mermas.size() != info.mermas
+                || r.gastos.size() != info.gastos) {
             throw new RespaldoException(RespaldoException.Tipo.INCOMPLETO, null);
         }
         return r;

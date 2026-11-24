@@ -9,7 +9,7 @@
 
     <!-- Resumen -->
     <string name="rep_vendiste">Vendiste</string>
-    <string name="rep_te_quedo">Te quedó</string>
+    <string name="rep_te_quedo">Ganancia de ventas</string>
     <string name="rep_ticket">Ticket promedio</string>
     <string name="rep_compras">Compras</string>
     <string name="rep_ticket_ayuda">lo que gasta cada cliente</string>
@@ -61,7 +61,7 @@
     <string name="rep_mermas_resumen">%1$d registros · calculado a precio de costo</string>
     <string name="rep_mermas_lista">Últimas mermas</string>
     <string name="rep_mermas_vacio">No hay mermas en este periodo.</string>
-    <string name="rep_mermas_como">Para registrar una merma: Inventario → Editar el producto → Registrar merma.</string>
+    <string name="rep_mermas_registrar">Registrar merma</string>
     <string name="rep_merma_sub">%1$s · %2$s · %3$s</string>
     <string name="rep_sin_turno">Sin turno</string>
 </resources>
