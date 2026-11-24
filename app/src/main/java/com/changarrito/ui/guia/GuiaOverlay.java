@@ -99,6 +99,14 @@ public class GuiaOverlay extends FrameLayout {
     private final LinearLayout pista;
     private final TextView btnSalir;
 
+    /** Cierra la guia abierta, si hay (por ejemplo, al cambiar de seccion). */
+    public static void cerrar(@Nullable Activity actividad) {
+        if (actividad == null) return;
+        ViewGroup raiz = actividad.findViewById(android.R.id.content);
+        View abierta = raiz != null ? raiz.findViewWithTag(ETIQUETA) : null;
+        if (abierta instanceof GuiaOverlay) ((GuiaOverlay) abierta).terminar();
+    }
+
     /** Muestra la guia sobre la Activity (si ya hay una abierta, no hace nada). */
     public static void mostrar(Activity actividad, List<Paso> pasos, Modo modo, @Nullable Runnable alTerminar) {
         if (actividad == null || pasos == null || pasos.isEmpty()) return;
@@ -316,6 +324,11 @@ public class GuiaOverlay extends FrameLayout {
     private void colocar(int i) {
         if (terminado || i != actual) return;
         Paso p = pasos.get(i);
+        if (!esVisible(p.objetivo, false)) {
+            // Lo que se iba a explicar ya no esta en pantalla (se cambio de seccion).
+            terminar();
+            return;
+        }
         hueco.set(rectDe(p.objetivo));
         float margen = 6 * dp;
         hueco.inset(-margen, -margen);

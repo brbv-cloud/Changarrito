@@ -356,6 +356,8 @@ public class PrincipalActivity extends AppCompatActivity {
      * toques rapidos seguidos no dejen dos secciones encimadas.
      */
     private void mostrar(@IdRes int destino, boolean animar) {
+        // La guia de una seccion no debe quedarse encima de otra.
+        if (destino != actual) com.changarrito.ui.guia.GuiaOverlay.cerrar(this);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction t = fm.beginTransaction().setReorderingAllowed(true);
         if (animar) t.setCustomAnimations(R.anim.seccion_entra, R.anim.seccion_sale);
