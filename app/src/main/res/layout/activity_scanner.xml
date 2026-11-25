@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tvInstruccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#99000000"
+        android:padding="16dp"
+        android:paddingTop="48dp"
+        android:text="Apunta la cámara al código de barras"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+    <!-- Marco guía: solo borde, la cámara se ve a través -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:background="@drawable/marco_scanner" />
+
+    <!-- Línea roja de escaneo, al centro del marco -->
+    <View
+        android:layout_width="260dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center"
+        android:background="#FF3B30" />
+
+    <Button
+        android:id="@+id/btnCancelarScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="32dp"
+        android:text="Cancelar" />
+
+</FrameLayout>

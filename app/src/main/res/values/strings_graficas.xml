@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="grafica_cien_titulo">De cada $100 que cobras</string>
+    <string name="grafica_cien_explica">%1$s son para volver a surtir la mercancía y %2$s son tu ganancia.</string>
+    <string name="grafica_cien_perdida">Se vendió por debajo del costo: por cada $100 cobrados pierdes %1$s.</string>
+    <string name="grafica_repones">Para volver a surtir</string>
+    <string name="grafica_ganas">Tu ganancia</string>
+    <string name="grafica_sin_costo">Sin costo</string>
+    <string name="grafica_dia_titulo">Día por día</string>
+    <string name="grafica_toca_barra">Toca una barra para ver el detalle de ese día.</string>
+    <string name="grafica_detalle_dia">%1$s: vendiste %2$s · repones %3$s · ganas %4$s</string>
+    <string name="grafica_detalle_dia_sin_costo">%1$s: vendiste %2$s (sin costo registrado)</string>
+    <string name="grafica_detalle_dia_sin_ventas">%1$s: sin ventas</string>
+    <string name="grafica_detalle_ventas">%1$s: vendiste %2$s</string>
+    <string name="grafica_orden_ganancia">Lo que te dejó</string>
+    <string name="grafica_orden_ventas">Lo que vendiste</string>
+
+    <string name="pdf_boton">Estado de cuenta (PDF)</string>
+    <string name="pdf_generando">Generando PDF…</string>
+    <string name="pdf_listo_titulo">Estado de cuenta listo</string>
+    <string name="pdf_listo_texto">Periodo: %1$s\n%2$d página(s).\n\n¿Qué quieres hacer con él?</string>
+    <string name="pdf_compartir">Compartir</string>
+    <string name="pdf_ver">Ver</string>
+    <string name="pdf_guardar">Guardar en Descargas</string>
+    <string name="pdf_guardado">Guardado en Descargas/Changarrito</string>
+    <string name="pdf_no_guardado">No se pudo guardar en Descargas. Usa Compartir para mandarlo o guardarlo.</string>
+    <string name="pdf_sin_visor">No hay una app para abrir PDFs. Usa Compartir.</string>
+    <string name="pdf_error">No se pudo generar el PDF (%1$s).</string>
+    <string name="pdf_asunto">Estado de cuenta %1$s</string>
+</resources>

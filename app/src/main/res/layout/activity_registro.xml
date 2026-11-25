@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Diseño: "Changarrito · Acceso". Pie anclado abajo cuando cabe; con teclado o
+     pantallas chicas todo se desplaza (fillViewport + espacio flexible). -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootRegistro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/acceso_fondo"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnAtras"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="-12dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/acceso_volver"
+                android:src="@drawable/ic_atras" />
+
+            <TextView
+                style="@style/Acceso.Titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/registro_titulo" />
+
+            <TextView
+                style="@style/Acceso.Subtitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/registro_subtitulo" />
+
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:labelFor="@id/etNombre"
+                android:text="@string/registro_nombre" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombre"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNombre"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/registro_nombre_pista"
+                    android:inputType="textPersonName|textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etCorreo"
+                android:text="@string/acceso_correo" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCorreo"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCorreo"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/acceso_correo_pista"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etContrasena"
+                android:text="@string/acceso_contrasena" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilContrasena"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="password_toggle"
+                app:helperText="@string/registro_contrasena_ayuda"
+                app:helperTextTextColor="@color/acceso_texto_secundario">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etContrasena"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/registro_contrasena_pista"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Acceso.Etiqueta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/etConfirmar"
+                android:text="@string/registro_confirmar" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilConfirmar"
+                style="@style/Acceso.Campo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmar"
+                    style="@style/Acceso.CampoTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/registro_confirmar_pista"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cbTerminos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-8dp"
+                    app:buttonTint="@color/marca_verde" />
+
+                <TextView
+                    android:id="@+id/tvTerminos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/acceso_texto_secundario"
+                    android:textColorLink="@color/marca_verde"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/acceso_error"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCrearCuenta"
+                style="@style/Acceso.BotonPrincipal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                android:text="@string/registro_crear" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/acceso_borde" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/acceso_o"
+                    android:textColor="@color/acceso_texto_secundario"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/acceso_borde" />
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGoogle"
+                style="@style/Acceso.BotonGoogle"
+                android:layout_width="match_parent"
+                android:text="@string/registro_google"
+                app:icon="@drawable/ic_google" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/registro_ya_tienes"
+                android:textColor="@color/acceso_texto_secundario"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvIniciaSesion"
+                style="@style/Acceso.Enlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:text="@string/registro_inicia_sesion"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

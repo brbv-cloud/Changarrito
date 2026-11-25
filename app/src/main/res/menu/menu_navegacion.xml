@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_inicio"
+        android:icon="@drawable/ic_nav_inicio"
+        android:title="@string/nav_inicio" />
+    <item
+        android:id="@+id/nav_inventario"
+        android:icon="@drawable/ic_nav_inventario"
+        android:title="@string/nav_inventario" />
+    <item
+        android:id="@+id/nav_vender"
+        android:icon="@drawable/ic_nav_vender"
+        android:title="@string/nav_vender" />
+    <item
+        android:id="@+id/nav_alertas"
+        android:icon="@drawable/ic_nav_alertas"
+        android:title="@string/nav_alertas" />
+    <item
+        android:id="@+id/nav_reportes"
+        android:icon="@drawable/ic_nav_reportes"
+        android:title="@string/nav_reportes" />
+</menu>

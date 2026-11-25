@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- La app ya adentro: aqui se intercambian las cinco secciones; la barra de abajo es fija. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootPrincipal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_alt"
+    android:orientation="vertical">
+
+    <!-- Detras de la barra de notificaciones: verde en Inicio, clara en lo demas -->
+    <View
+        android:id="@+id/fondoBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_bg_alt" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/contenedorSecciones"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Aviso breve: sin internet / conectado otra vez (PrincipalActivity) -->
+    <TextView
+        android:id="@+id/avisoConexion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_slate_dark"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <include layout="@layout/barra_navegacion" />
+</LinearLayout>

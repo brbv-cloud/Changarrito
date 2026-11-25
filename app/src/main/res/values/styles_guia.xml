@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Boton redondo "?" junto al titulo de cada seccion. -->
+    <style name="Guia.Boton" parent="">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_boton_guia</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">\?</item>
+        <item name="android:textColor">@color/marca_verde_oscuro</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:contentDescription">@string/guia_boton</item>
+    </style>
+
+    <!-- Textos de los botones grandes de Inicio. -->
+    <style name="Mosaico.Titulo" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Mosaico.Sub" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#E6FFFFFF</item>
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:maxLines">2</item>
+    </style>
+    <style name="Mosaico.Icono" parent="">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_gravity">top|start</item>
+        <item name="android:importantForAccessibility">no</item>
+        <item name="tint">@color/white</item>
+    </style>
+    <!-- Dibujo grande de cada boton de Inicio (emoji: se ve igual de claro en cualquier celular). -->
+    <style name="Mosaico.Emoji" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">top|start</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+</resources>

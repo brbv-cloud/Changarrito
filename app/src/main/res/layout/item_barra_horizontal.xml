@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/tvNumero"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_slate_medium"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_slate_dark"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/contenedorBarra"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/vBarra"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_barra_redonda" />
+
+            <View
+                android:id="@+id/vResto"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvSubtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/color_slate_medium"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/color_slate_dark"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ===== Inicio ===== -->
+    <string name="ini_vendido_hoy">Vendido hoy</string>
+    <string name="ini_compras_hoy">Compras de hoy</string>
+    <plurals name="ini_detalle_dueno">
+        <item quantity="one">%1$d venta · %2$s por venta</item>
+        <item quantity="other">%1$d ventas · %2$s por venta</item>
+    </plurals>
+    <string name="ini_detalle_trabajador">compras registradas hoy</string>
+    <string name="ini_meta">Promedio diario: %1$s (últimos 30 días)</string>
+    <string name="ini_meta_superada">¡Ya superaste tu promedio diario de %1$s!</string>
+    <string name="ini_meta_sin_historial">Aquí verás tu promedio de venta diario cuando tengas ventas de días anteriores.</string>
+    <string name="ini_vender">Vender</string>
+    <string name="ini_vender_sub">Toca para empezar a cobrar</string>
+    <string name="ini_inventario">Inventario</string>
+    <plurals name="ini_productos">
+        <item quantity="one">%d producto</item>
+        <item quantity="other">%d productos</item>
+    </plurals>
+    <string name="ini_por_surtir">%d por surtir</string>
+    <string name="ini_alertas">Alertas</string>
+    <plurals name="ini_alertas_sub">
+        <item quantity="one">%d por atender</item>
+        <item quantity="other">%d por atender</item>
+    </plurals>
+    <string name="ini_alertas_ok">Todo en orden</string>
+    <string name="ini_reportes">Reportes</string>
+    <string name="ini_reportes_sub">Cómo va tu negocio</string>
+    <string name="ini_agregar">Agregar</string>
+    <string name="ini_agregar_sub">producto nuevo</string>
+    <string name="ini_caja">Cerrar caja</string>
+    <string name="ini_merma">Registrar merma</string>
+    <string name="g_ini_merma_t">¿Se dañó o se perdió algo?</string>
+    <string name="g_ini_merma">Si un producto se rompe, caduca o se pierde, regístralo aquí. Se descuenta del inventario para que tus números cuadren.</string>
+    <string name="g_rep_merma_t">Registrar merma</string>
+    <string name="g_rep_merma">Elige el producto, cuánto se perdió y por qué. Aquí abajo ves cuánto dinero se te va en mermas.</string>
+    <string name="ini_ajustes">Ajustes</string>
+
+    <!-- ===== Bienvenida (primera vez) ===== -->
+    <string name="bienv_titulo">¡Bienvenido a tu changarrito!</string>
+    <string name="bienv_texto">En 1 minuto te enseñamos dónde está cada cosa: vender, tu inventario, los avisos y el corte de caja.</string>
+    <string name="bienv_si">Enséñame (1 min)</string>
+    <string name="bienv_no">Ahora no, lo veo después con “?”</string>
+
+    <!-- ===== Guia (comun) ===== -->
+    <string name="guia_boton">Cómo funciona esta pantalla</string>
+    <string name="guia_pista">Toca los puntos para saber qué hace cada parte</string>
+    <string name="guia_recorrido">o haz el recorrido completo ›</string>
+    <string name="guia_salir">✕ Salir de la guía</string>
+    <string name="guia_paso">PASO %1$d DE %2$d</string>
+    <string name="guia_contador">%1$d de %2$d</string>
+    <string name="guia_siguiente">Siguiente ›</string>
+    <string name="guia_entendido">Entendido</string>
+    <string name="guia_listo">¡Listo!</string>
+    <string name="guia_cerrar">Cerrar</string>
+    <string name="guia_saltar">Saltar</string>
+
+    <!-- Inicio -->
+    <string name="g_ini_resumen_t">¿Cómo va tu día?</string>
+    <string name="g_ini_resumen">Aquí ves cuánto llevas vendido hoy y tu promedio de venta diario. La barra muestra qué tanto llevas de ese promedio.</string>
+    <string name="g_ini_resumen_trab">Aquí ves cuántas compras van en el día.</string>
+    <string name="g_ini_vender_t">Aquí empiezas a vender</string>
+    <string name="g_ini_vender">Toca <b>Vender</b>, escoge lo que lleva el cliente y la app te dice cuánto cobrar y cuánto dar de cambio.</string>
+    <string name="g_ini_inv_t">¿Dónde están mis productos?</string>
+    <string name="g_ini_inv">Aquí ves todo tu inventario: cambia precios y ponle existencia a lo que llega. Lo que está en azul falta por surtir.</string>
+    <string name="g_ini_ale_t">Tus avisos</string>
+    <string name="g_ini_ale">Te avisamos cuando algo se acaba o está por caducar, y desde ahí le pides al proveedor por WhatsApp.</string>
+    <string name="g_ini_rep_t">¿Cómo va mi negocio?</string>
+    <string name="g_ini_rep">Cuánto vendiste, cuánto te quedó, lo que más se vende y a qué hora. También el estado de cuenta en PDF.</string>
+    <string name="g_ini_agr_t">Agregar un producto</string>
+    <string name="g_ini_agr">Da de alta un producto nuevo con su precio, existencia y caducidad.</string>
+    <string name="g_ini_caja_t">Al final del día</string>
+    <string name="g_ini_caja">Cuenta el efectivo de la caja y compáralo con lo vendido. Así sabes si cuadra.</string>
+    <string name="g_ini_caja_trab">Al terminar tu turno, cuenta el efectivo y escríbelo. El dueño verá si cuadra.</string>
+    <string name="g_ini_ayuda_t">¿Tienes dudas?</string>
+    <string name="g_ini_ayuda">Toca <b>?</b> en cualquier pantalla y te explicamos cada parte.</string>
+
+    <!-- Inventario -->
+    <string name="g_inv_buscar_t">Busca rápido</string>
+    <string name="g_inv_buscar">Escribe parte del nombre, la categoría o el código del producto.</string>
+    <string name="g_inv_escanear_t">Escanea el código</string>
+    <string name="g_inv_escanear">Apunta la cámara al código de barras para encontrar el producto o darlo de alta.</string>
+    <string name="g_inv_filtros_t">Ve solo lo importante</string>
+    <string name="g_inv_filtros">Filtra lo que queda poco, lo agotado, lo pendiente de surtir o lo que caduca pronto.</string>
+    <string name="g_inv_tarjeta_t">Cada tarjeta es un producto</string>
+    <string name="g_inv_tarjeta">Tócala para cambiar precio, existencia o caducidad. Colores: <b>gris</b> hay suficiente, <b>ámbar</b> queda poco, <b>rojo</b> se acabó, <b>azul</b> pendiente de surtir.</string>
+    <string name="g_inv_agregar_t">Agregar producto</string>
+    <string name="g_inv_agregar">Da de alta un producto nuevo.</string>
+
+    <!-- Vender -->
+    <string name="g_ven_buscar_t">Encuentra el producto</string>
+    <string name="g_ven_buscar">Escribe su nombre o código para encontrarlo rápido.</string>
+    <string name="g_ven_escanear_t">O escanéalo</string>
+    <string name="g_ven_escanear">Con la cámara: si es por pieza se agrega directo al carrito.</string>
+    <string name="g_ven_producto_t">Toca para agregar</string>
+    <string name="g_ven_producto">Por pieza agrega 1; a granel te pregunta cuánto. Mantén presionado para escribir la cantidad exacta.</string>
+    <string name="g_ven_carrito_t">Tu carrito</string>
+    <string name="g_ven_carrito">Aquí ves el total. Toca <b>Cobrar</b>, escribe con cuánto paga el cliente y te decimos el cambio.</string>
+
+    <string name="g_ven_pago_t">Pago rápido</string>
+    <string name="g_ven_pago">Toca el billete con el que te pagan y ya no tienes que escribirlo. <b>Exacto</b> es cuando te pagan justo.</string>
+    <string name="g_ven_cambio_t">El cambio</string>
+    <string name="g_ven_cambio">Aquí te decimos cuánto regresar y con qué billetes y monedas. En rojo, si el pago no alcanza.</string>
+
+    <!-- Alertas -->
+    <string name="g_ale_filtros_t">Tipos de aviso</string>
+    <string name="g_ale_filtros">Ve todos, solo los de existencia o solo los de caducidad.</string>
+    <string name="g_ale_tarjeta_t">Cada aviso</string>
+    <string name="g_ale_tarjeta"><b>Rojo</b> es urgente, <b>ámbar</b> es pronto. <b>Pedir por WhatsApp</b> le escribe a tu proveedor y <b>Ya lo atendí</b> quita el aviso.</string>
+    <string name="g_ale_atendidas_t">Lo ya atendido</string>
+    <string name="g_ale_atendidas">Aquí queda el registro de cada aviso atendido: quién y cuándo.</string>
+
+    <!-- Reportes / Caja -->
+    <string name="g_rep_temas_t">Escoge el tema</string>
+    <string name="g_rep_temas">Resumen, productos, horarios, mermas y caja.</string>
+    <string name="g_rep_periodo_t">Escoge el periodo</string>
+    <string name="g_rep_periodo">Hoy, últimos 7 días o últimos 30 días.</string>
+    <string name="g_rep_pdf_t">Estado de cuenta</string>
+    <string name="g_rep_pdf">Un PDF con todo el detalle para guardarlo o compartirlo.</string>
+    <string name="g_caja_contado_t">Cuenta el efectivo</string>
+    <string name="g_caja_contado">Escribe cuánto dinero hay en la caja.</string>
+    <string name="g_caja_boton_t">Haz el corte</string>
+    <string name="g_caja_boton">Guarda el corte; el dueño verá si cuadra con lo vendido.</string>
+</resources>

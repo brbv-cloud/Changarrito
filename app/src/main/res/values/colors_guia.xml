@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mosaico_azul">#FF2B6CB0</color>
+    <color name="guia_oscuro">#B80A1513</color>
+    <color name="guia_amarillo">#FFFBC74F</color>
+</resources>

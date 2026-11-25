@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alertas_titulo">Alertas</string>
+    <plurals name="alertas_activas_n">
+        <item quantity="one">%d alerta activa</item>
+        <item quantity="other">%d alertas activas</item>
+    </plurals>
+    <plurals name="alertas_urgentes_n">
+        <item quantity="one">%1$s · %2$d urgente</item>
+        <item quantity="other">%1$s · %2$d urgentes</item>
+    </plurals>
+    <string name="alertas_resumen_vacio">Aquí te avisamos cuando algo se acaba o está por caducar.</string>
+
+    <string name="alertas_filtro_todas">Todas (%d)</string>
+    <string name="alertas_filtro_stock">Existencia (%d)</string>
+    <string name="alertas_filtro_caducidad">Caducidad (%d)</string>
+
+    <string name="alertas_vacio_titulo">Todo en orden</string>
+    <string name="alertas_vacio_texto">No hay productos por surtir ni por caducar.</string>
+    <string name="alertas_vacio_filtro">No hay alertas de este tipo.</string>
+
+    <string name="alerta_tipo_agotado">AGOTADO</string>
+    <string name="alerta_tipo_bajo">STOCK BAJO</string>
+    <string name="alerta_tipo_caducado">CADUCADO</string>
+    <string name="alerta_tipo_por_caducar">POR CADUCAR</string>
+
+    <string name="alerta_msg_agotado">Ya no hay. Mínimo: %s</string>
+    <string name="alerta_msg_bajo">Quedan %1$s · mínimo %2$s</string>
+    <string name="alerta_msg_caducado_hoy">Caduca hoy (%s)</string>
+    <string name="alerta_msg_caducado">Caducó el %s</string>
+    <string name="alerta_msg_manana">Caduca mañana (%s)</string>
+    <string name="alerta_msg_dias">Caduca en %1$d días (%2$s)</string>
+
+    <string name="alerta_pedir">Pedir por WhatsApp</string>
+    <string name="alerta_sin_telefono">Sin teléfono del proveedor</string>
+    <string name="alerta_resolver">Ya lo atendí</string>
+    <string name="alerta_resuelta">Alerta atendida</string>
+    <string name="alerta_sin_telefono_toast">Este producto no tiene teléfono de proveedor. Agrégalo en Inventario.</string>
+    <string name="alerta_sin_whatsapp">No se pudo abrir WhatsApp. ¿Está instalado?</string>
+    <string name="alertas_filtro_atendidas">Atendidas</string>
+    <string name="alertas_historial_vacio">Todavía no hay alertas atendidas.</string>
+    <string name="alerta_atendida_por">✓ Atendida por %1$s · %2$s</string>
+    <string name="alerta_atendida">✓ Atendida · %s</string>
+    <string name="alerta_cerrada_surtido">Se cerró sola al surtir · %s</string>
+    <string name="alerta_cerrada_fecha">Se cerró sola al cambiar la fecha · %s</string>
+</resources>

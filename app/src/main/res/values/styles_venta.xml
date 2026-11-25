@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Botones rapidos de pago: "Exacto", "$130", "$200"... -->
+    <style name="Venta.Billete" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/acceso_tinte_verde</item>
+        <item name="chipStrokeColor">@color/marca_verde</item>
+        <item name="chipStrokeWidth">1.5dp</item>
+        <item name="chipCornerRadius">12dp</item>
+        <item name="android:textColor">@color/marca_verde_oscuro</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="chipMinHeight">46dp</item>
+        <item name="chipIcon">@drawable/ic_billete</item>
+        <item name="chipIconTint">@color/marca_verde_oscuro</item>
+        <item name="chipIconSize">20dp</item>
+        <item name="chipIconVisible">true</item>
+        <item name="iconStartPadding">8dp</item>
+        <item name="rippleColor">@color/marca_verde</item>
+    </style>
+</resources>

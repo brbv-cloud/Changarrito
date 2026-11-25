@@ -1,0 +1,647 @@
+{
+ "giro": "FERRETERIA",
+ "margenSugerido": 35,
+ "nota": "Precios y costos de referencia (México, 2026). El comerciante los ajusta a su proveedor.",
+ "productos": [
+  {
+   "nombre": "Tornillo para madera 1 pulgada",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.6,
+   "precio": 1.0,
+   "umbralStockBajo": 100
+  },
+  {
+   "nombre": "Tornillo para tablaroca 1 pulgada",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.4,
+   "precio": 1.0,
+   "umbralStockBajo": 100
+  },
+  {
+   "nombre": "Taquete de plástico 1/4",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.5,
+   "precio": 1.0,
+   "umbralStockBajo": 100
+  },
+  {
+   "nombre": "Clavo estándar 2 pulgadas",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "KG",
+   "costoCompra": 42,
+   "precio": 57.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Clavo para concreto 2 pulgadas",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "KG",
+   "costoCompra": 70,
+   "precio": 94.5,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Pija con taquete (bolsa 10)",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 19.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Tuerca hexagonal 1/4",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.8,
+   "precio": 1.5,
+   "umbralStockBajo": 50
+  },
+  {
+   "nombre": "Rondana plana 1/4",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.4,
+   "precio": 1.0,
+   "umbralStockBajo": 50
+  },
+  {
+   "nombre": "Taquete expansivo 3/8",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "PZA",
+   "costoCompra": 6,
+   "precio": 8.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Alambre recocido",
+   "categoria": "Tornillería y fijación",
+   "unidadMedida": "KG",
+   "costoCompra": 42,
+   "precio": 57.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cable THW calibre 12",
+   "categoria": "Eléctrico",
+   "unidadMedida": "M",
+   "costoCompra": 13,
+   "precio": 18.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Cable THW calibre 14",
+   "categoria": "Eléctrico",
+   "unidadMedida": "M",
+   "costoCompra": 9,
+   "precio": 12.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Cable dúplex calibre 16",
+   "categoria": "Eléctrico",
+   "unidadMedida": "M",
+   "costoCompra": 8,
+   "precio": 11.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Apagador sencillo",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 25,
+   "precio": 34.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Contacto doble polarizado",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Foco LED 9 W",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Foco LED 14 W",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 57.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Socket de porcelana",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 18,
+   "precio": 24.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Cinta de aislar",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 19.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Extensión eléctrica 3 m",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 74.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Multicontacto 6 salidas",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 115.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Clavija polarizada",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 16,
+   "precio": 22.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Centro de carga 2 polos",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 160,
+   "precio": 216.0,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Interruptor termomagnético 20 A",
+   "categoria": "Eléctrico",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 128.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Tubo PVC hidráulico 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "M",
+   "costoCompra": 12,
+   "precio": 16.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Tubo CPVC 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "M",
+   "costoCompra": 20,
+   "precio": 27.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Codo PVC 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 5.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Cople PVC 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Te PVC 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Llave de paso 1/2",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 88.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cinta teflón",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 11.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Pegamento para PVC 125 ml",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 61.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Manguera para jardín",
+   "categoria": "Plomería",
+   "unidadMedida": "M",
+   "costoCompra": 14,
+   "precio": 19.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Flotador para tinaco",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 128.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Llave de nariz para jardín",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 115.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Sapito para WC",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 61.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Manguera para lavabo 40 cm",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 57.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cespol para lavabo",
+   "categoria": "Plomería",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 74.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Martillo de uña 16 oz",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 120,
+   "precio": 162.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Desarmador plano 1/4",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 47.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Desarmador de cruz 1/4",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 47.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pinzas de electricista 8 pulgadas",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 145,
+   "precio": 196.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Pinzas de presión",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 115,
+   "precio": 155.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Flexómetro 5 m",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 101.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cúter grande",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 40.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Navaja para cúter (repuesto)",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Llave perica 10 pulgadas",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 160,
+   "precio": 216.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Nivel de burbuja 12 pulgadas",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 115.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Juego de llaves Allen",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 88.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Segueta con arco",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 130,
+   "precio": 175.5,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Broca para concreto 1/4",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Broca para madera 1/4",
+   "categoria": "Herramienta",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 30.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Pintura vinílica blanca 1 L",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 128.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pintura vinílica blanca 4 L",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 340,
+   "precio": 459.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Esmalte negro 1 L",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 130,
+   "precio": 175.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Thinner 1 L",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 51.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Brocha 2 pulgadas",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Rodillo 9 pulgadas con felpa",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 115.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Lija de agua no. 100",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Lija para madera no. 80",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 11.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Masking tape 1 pulgada",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 25,
+   "precio": 34.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Sellador vinílico 1 L",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 70,
+   "precio": 94.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Resanador 1 kg",
+   "categoria": "Pintura y acabados",
+   "unidadMedida": "PZA",
+   "costoCompra": 48,
+   "precio": 65.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cemento gris 50 kg",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 235,
+   "precio": 317.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cemento gris a granel",
+   "categoria": "Construcción",
+   "unidadMedida": "KG",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 25
+  },
+  {
+   "nombre": "Yeso",
+   "categoria": "Construcción",
+   "unidadMedida": "KG",
+   "costoCompra": 6,
+   "precio": 8.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Cal hidratada 25 kg",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 128.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Pegazulejo 20 kg",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 125,
+   "precio": 169.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Impermeabilizante acrílico 4 L",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 420,
+   "precio": 567.0,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Silicón transparente 280 ml",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 88.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Espuma de poliuretano",
+   "categoria": "Construcción",
+   "unidadMedida": "PZA",
+   "costoCompra": 120,
+   "precio": 162.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Candado de latón 40 mm",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 128.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cadena galvanizada 3/16",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "M",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Bisagra de 3 pulgadas (par)",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 38.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Chapa para puerta de recámara",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 210,
+   "precio": 283.5,
+   "umbralStockBajo": 1
+  },
+  {
+   "nombre": "Escoba de plástico",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 61.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Recogedor con mango",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 47.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cubeta de 19 L",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 61.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Guantes de carnaza (par)",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 61.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Pegamento de contacto 250 ml",
+   "categoria": "Jardín y hogar",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 74.5,
+   "umbralStockBajo": 3
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Formulario de los diálogos de perfil: pedir clave, crear trabajador, crear clave de dueño.
+     Cada diálogo oculta los campos que no usa. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="24dp">
+
+    <TextView
+        android:id="@+id/tvAyuda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:lineSpacingMultiplier="1.15"
+        android:textColor="@color/acceso_texto_secundario"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNombre"
+        style="@style/Acceso.Campo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:hintEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNombre"
+            style="@style/Acceso.CampoTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/trabajador_nombre"
+            android:inputType="textPersonName|textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilClave"
+        style="@style/Acceso.Campo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:endIconMode="password_toggle"
+        app:hintEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etClave"
+            style="@style/Acceso.CampoTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/trabajador_clave"
+            android:inputType="numberPassword"
+            android:letterSpacing="0.3"
+            android:maxLength="4" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilConfirmar"
+        style="@style/Acceso.Campo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:hintEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etConfirmar"
+            style="@style/Acceso.CampoTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/trabajador_confirmar_clave"
+            android:inputType="numberPassword"
+            android:letterSpacing="0.3"
+            android:maxLength="4" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

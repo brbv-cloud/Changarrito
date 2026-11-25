@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- La seccion que llega aparece con un fundido y un leve acercamiento. -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="200"
+    android:interpolator="@android:interpolator/decelerate_cubic"
+    android:startOffset="60">
+    <alpha
+        android:fromAlpha="0"
+        android:toAlpha="1" />
+    <scale
+        android:fromXScale="0.97"
+        android:fromYScale="0.97"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1"
+        android:toYScale="1" />
+</set>

@@ -1,0 +1,535 @@
+{
+ "giro": "PAPELERIA",
+ "margenSugerido": 40,
+ "nota": "Precios y costos de referencia (México, 2026). El comerciante los ajusta a su proveedor.",
+ "productos": [
+  {
+   "nombre": "Lápiz del no. 2",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Pluma tinta azul",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Pluma tinta negra",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Pluma tinta roja",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Plumón permanente negro",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 13,
+   "precio": 18.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Marcatextos amarillo",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Plumín de colores (12 pzas)",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 77.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Corrector líquido",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 16,
+   "precio": 22.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Goma blanca",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Sacapuntas metálico",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Lapicero 0.5 mm",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 31.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Puntillas 0.5 mm",
+   "categoria": "Escritura",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 13.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Cuaderno profesional raya 100 hojas",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 42.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Cuaderno profesional cuadro chico 100 hojas",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 42.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Cuaderno italiano raya 100 hojas",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 20,
+   "precio": 28.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Cuaderno forma francesa cuadro grande",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 31.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Libreta de taquigrafía",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 20.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Block de notas adhesivas",
+   "categoria": "Cuadernos y libretas",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 20.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Hoja blanca carta (paquete 100)",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 26,
+   "precio": 36.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Paquete hojas blancas carta (500)",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 133.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Hoja blanca oficio (paquete 100)",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 32,
+   "precio": 45.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Cartulina blanca",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Cartulina de color",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 6,
+   "precio": 8.5,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Papel crepé",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 7.0,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Papel china (paquete)",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Hojas de color carta (paquete 100)",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 63.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Papel bond pliego",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Papel lustre",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Foami tamaño carta",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Foami diamantado",
+   "categoria": "Papel",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 11.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Colores de madera (12 pzas)",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 53.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Crayolas (12 pzas)",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 31.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Acuarelas (12 colores)",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 39.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pincel escolar",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 11.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Plastilina (barra)",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 6,
+   "precio": 8.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Resistol blanco 110 g",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 17,
+   "precio": 24.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Lápiz adhesivo 20 g",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 16,
+   "precio": 22.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Silicón en barra",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Diamantina (frasco)",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 13.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Tijeras escolares",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 16,
+   "precio": 22.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Juego de geometría",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 39.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Regla de 30 cm",
+   "categoria": "Arte y manualidades",
+   "unidadMedida": "PZA",
+   "costoCompra": 8,
+   "precio": 11.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Folder tamaño carta",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Sobre manila carta",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 20
+  },
+  {
+   "nombre": "Clips (caja 100)",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Grapas (caja 1000)",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 16,
+   "precio": 22.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Engrapadora",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 105.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cinta adhesiva transparente",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 13.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Cinta canela",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 31.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Carpeta de argollas 1 pulgada",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 59.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Calculadora básica",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 91.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Tarjetas blancas (paquete 100)",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 31.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Etiquetas adhesivas",
+   "categoria": "Oficina",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Copia blanco y negro",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.5,
+   "precio": 1.0,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Copia a color",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 2.5,
+   "precio": 3.5,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Impresión blanco y negro",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 0.8,
+   "precio": 1.5,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Impresión a color",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 3,
+   "precio": 4.5,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Engargolado",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Enmicado tamaño credencial",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Enmicado tamaño carta",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 13.0,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Escaneo de documento",
+   "categoria": "Servicios",
+   "unidadMedida": "PZA",
+   "costoCompra": 2,
+   "precio": 3.0,
+   "umbralStockBajo": 0
+  },
+  {
+   "nombre": "Bolsa de regalo mediana",
+   "categoria": "Regalos y temporada",
+   "unidadMedida": "PZA",
+   "costoCompra": 14,
+   "precio": 20.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Papel para envolver (pliego)",
+   "categoria": "Regalos y temporada",
+   "unidadMedida": "PZA",
+   "costoCompra": 6,
+   "precio": 8.5,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Tarjeta de felicitación",
+   "categoria": "Regalos y temporada",
+   "unidadMedida": "PZA",
+   "costoCompra": 12,
+   "precio": 17.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Moño autoadherible",
+   "categoria": "Regalos y temporada",
+   "unidadMedida": "PZA",
+   "costoCompra": 4,
+   "precio": 6.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Globo látex (paquete 10)",
+   "categoria": "Regalos y temporada",
+   "unidadMedida": "PZA",
+   "costoCompra": 15,
+   "precio": 21.0,
+   "umbralStockBajo": 4
+  }
+ ]
+}

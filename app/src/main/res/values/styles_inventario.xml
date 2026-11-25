@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Etiqueta redondita de estado en la tarjeta de producto (el color lo pone el adapter). -->
+    <style name="Inventario.Etiqueta" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_chip_estado</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Filtros de arriba de la lista: Todos / Stock bajo / Agotados / Por caducar. -->
+    <style name="Inventario.Filtro" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_filtro_fondo</item>
+        <item name="android:textColor">@color/chip_filtro_texto</item>
+        <item name="chipStrokeColor">@color/chip_filtro_borde</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+</resources>

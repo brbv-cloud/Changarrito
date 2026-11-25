@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Changarrito" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/color_amber</item>
+        <item name="colorSecondaryVariant">@color/color_amber</item>
+        <item name="colorOnSecondary">@color/color_slate_dark</item>
+        <item name="android:windowBackground">@color/color_bg_alt</item>
+        <!-- La app se dibuja detras de la barra de notificaciones: iconos oscuros sobre fondo claro. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Escaner: fondo negro de camara, iconos de la barra en blanco. -->
+    <style name="Theme.Changarrito.Camara">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

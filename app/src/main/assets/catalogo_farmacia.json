@@ -1,0 +1,407 @@
+{
+ "giro": "FARMACIA",
+ "margenSugerido": 30,
+ "nota": "Precios y costos de referencia (México, 2026). El comerciante los ajusta a su proveedor.",
+ "productos": [
+  {
+   "nombre": "Paracetamol 500 mg (10 tabletas)",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 18,
+   "precio": 23.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Paracetamol infantil jarabe 120 ml",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 58.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Ibuprofeno 400 mg (10 tabletas)",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Naproxeno 250 mg (20 tabletas)",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 55.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Ácido acetilsalicílico 500 mg (20 tabletas)",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 32,
+   "precio": 42.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Analgésico para cólico (10 tabletas)",
+   "categoria": "Analgésicos y fiebre",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 71.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Antigripal (12 tabletas)",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 84.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Jarabe para la tos 120 ml",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 110.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pastillas para la garganta",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 32,
+   "precio": 42.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Descongestionante nasal en spray",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 95,
+   "precio": 123.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Solución salina nasal",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 71.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Loratadina 10 mg (10 tabletas)",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 45.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Vaporub 50 g",
+   "categoria": "Gripa y tos",
+   "unidadMedida": "PZA",
+   "costoCompra": 58,
+   "precio": 75.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Antiácido masticable (12 tabletas)",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 49.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Suero oral 625 ml",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 26,
+   "precio": 34.0,
+   "umbralStockBajo": 8
+  },
+  {
+   "nombre": "Sales de rehidratación (sobre)",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 9,
+   "precio": 12.0,
+   "umbralStockBajo": 10
+  },
+  {
+   "nombre": "Subsalicilato de bismuto 118 ml",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Butilhioscina (10 grageas)",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 84.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Loperamida 2 mg (12 tabletas)",
+   "categoria": "Malestar estomacal",
+   "unidadMedida": "PZA",
+   "costoCompra": 40,
+   "precio": 52.0,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Alcohol etílico 250 ml",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Agua oxigenada 230 ml",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Gasas estériles (paquete)",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Venda elástica 10 cm",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Cinta microporosa",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Curitas (caja 20)",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 30,
+   "precio": 39.0,
+   "umbralStockBajo": 5
+  },
+  {
+   "nombre": "Algodón 100 g",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Antiséptico en spray",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 68,
+   "precio": 88.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pomada para golpes",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Termómetro digital",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cubrebocas (caja 10)",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 45.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Jeringa desechable 5 ml",
+   "categoria": "Curación y primeros auxilios",
+   "unidadMedida": "PZA",
+   "costoCompra": 5,
+   "precio": 6.5,
+   "umbralStockBajo": 15
+  },
+  {
+   "nombre": "Vitamina C 1 g (10 tabletas efervescentes)",
+   "categoria": "Vitaminas y suplementos",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 84.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Complejo B (30 tabletas)",
+   "categoria": "Vitaminas y suplementos",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Multivitamínico (30 tabletas)",
+   "categoria": "Vitaminas y suplementos",
+   "unidadMedida": "PZA",
+   "costoCompra": 120,
+   "precio": 156.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Electrolitos orales 625 ml",
+   "categoria": "Vitaminas y suplementos",
+   "unidadMedida": "PZA",
+   "costoCompra": 28,
+   "precio": 36.5,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Gel antibacterial 250 ml",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 38,
+   "precio": 49.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Bloqueador solar FPS 50",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 160,
+   "precio": 208.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Crema corporal 400 ml",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Shampoo anticaspa 375 ml",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 110.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Cepillo dental",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 22,
+   "precio": 29.0,
+   "umbralStockBajo": 6
+  },
+  {
+   "nombre": "Hilo dental",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 35,
+   "precio": 45.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Enjuague bucal 500 ml",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 75,
+   "precio": 97.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Toallitas húmedas (80 pzas)",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 42,
+   "precio": 55.0,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Preservativos (3 pzas)",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 58.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Prueba de embarazo",
+   "categoria": "Higiene y cuidado personal",
+   "unidadMedida": "PZA",
+   "costoCompra": 55,
+   "precio": 71.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Pañales etapa 3 (40 pzas)",
+   "categoria": "Bebé",
+   "unidadMedida": "PZA",
+   "costoCompra": 240,
+   "precio": 312.0,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Toallitas para bebé (80 pzas)",
+   "categoria": "Bebé",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 58.5,
+   "umbralStockBajo": 4
+  },
+  {
+   "nombre": "Pomada para rozaduras",
+   "categoria": "Bebé",
+   "unidadMedida": "PZA",
+   "costoCompra": 65,
+   "precio": 84.5,
+   "umbralStockBajo": 3
+  },
+  {
+   "nombre": "Biberón 9 oz",
+   "categoria": "Bebé",
+   "unidadMedida": "PZA",
+   "costoCompra": 85,
+   "precio": 110.5,
+   "umbralStockBajo": 2
+  },
+  {
+   "nombre": "Chupón",
+   "categoria": "Bebé",
+   "unidadMedida": "PZA",
+   "costoCompra": 45,
+   "precio": 58.5,
+   "umbralStockBajo": 3
+  }
+ ]
+}

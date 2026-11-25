@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Changarrito">
+
+        <!-- Pantalla de arranque: si ya hay sesión guardada, salta directo a la app. -->
+        <activity
+            android:name=".ui.activities.acceso.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activities.acceso.RegistroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.acceso.RecuperarContrasenaActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.acceso.VerificarCorreoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Sprint 6: giro, catálogo, turnos y ajustes -->
+        <activity
+            android:name=".ui.activities.acceso.CambiarNegocioActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.ElegirGiroActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.VistaPreviaCatalogoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.SeleccionarTurnoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.negocio.BitacoraActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso" />
+
+        <activity
+            android:name=".ui.activities.negocio.AjustesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito.Acceso"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activities.PrincipalActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Changarrito"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".scanner.ScannerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Changarrito.Camara" />
+
+        <!-- Para compartir / abrir los PDF de estado de cuenta con otras apps -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.archivos"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/archivos_compartidos" />
+        </provider>
+    </application>
+
+</manifest>

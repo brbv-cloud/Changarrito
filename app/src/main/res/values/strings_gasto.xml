@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cuadro "Registrar gasto" -->
+    <string name="gasto_titulo">Registrar gasto</string>
+    <string name="gasto_titulo_trabajador">Gasto pagado con la caja</string>
+    <string name="gasto_tipo">¿De qué es?</string>
+    <string name="gasto_monto">¿Cuánto pagaste?</string>
+    <string name="gasto_nota">Nota (opcional), ej. recibo de octubre</string>
+    <string name="gasto_con_caja">Lo pagué con el efectivo de la caja</string>
+    <string name="gasto_con_caja_ayuda">Se resta de lo que debe haber al cerrar caja, para que cuadre.</string>
+    <string name="gasto_caja_trabajador">Sale del efectivo de la caja: se resta al cerrar caja para que cuadre.</string>
+    <string name="gasto_fecha_hoy">Fecha: hoy</string>
+    <string name="gasto_fecha">Fecha: %1$s</string>
+    <string name="gasto_no_mercancia">Lo que compras para volver a vender no va aquí: eso ya cuenta en el costo de cada producto.</string>
+    <string name="gasto_registrar">Registrar</string>
+    <string name="gasto_listo">Gasto registrado: %1$s %2$s</string>
+    <string name="gasto_error_tipo">Elige de qué es el gasto.</string>
+    <string name="gasto_error_monto">Escribe cuánto pagaste.</string>
+    <string name="gasto_borrar_titulo">¿Borrar este gasto?</string>
+    <string name="gasto_borrar_texto">%1$s · %2$s · %3$s\n\nBórralo solo si lo registraste por error.</string>
+    <string name="gasto_borrar_si">Borrar</string>
+    <string name="gasto_borrado">Gasto borrado.</string>
+
+    <!-- Inicio -->
+    <string name="ini_gasto">Registrar gasto</string>
+
+    <!-- Reportes > Gastos -->
+    <string name="rep_tab_gastos">Gastos</string>
+    <string name="rep_gastos_registrar">Registrar gasto</string>
+    <string name="rep_gastos_titulo">Gastaste</string>
+    <string name="rep_gastos_resumen">%1$d registros · renta, luz, sueldos y lo pagado con la caja</string>
+    <string name="rep_gastos_lista">Últimos gastos</string>
+    <string name="rep_gastos_vacio">No hay gastos en este periodo.</string>
+    <string name="rep_gasto_sub">%1$s · %2$s</string>
+    <string name="rep_gasto_de_caja">de la caja</string>
+
+    <!-- Reportes > Resumen: lo que quedo de verdad -->
+    <string name="rep_balance_titulo">Lo que te quedó de verdad</string>
+    <string name="rep_balance_ganancia">Ganancia de tus ventas</string>
+    <string name="rep_balance_mermas">− Mermas</string>
+    <string name="rep_balance_gastos">− Gastos</string>
+    <string name="rep_balance_final">Te quedó</string>
+
+    <!-- Caja -->
+    <string name="caja_gastos_restados">Ya se restaron %1$s de gastos pagados con la caja.</string>
+
+    <!-- Guia -->
+    <string name="g_ini_gasto_t">¿Pagaste algo del negocio?</string>
+    <string name="g_ini_gasto">Renta, luz, agua, sueldos o algo que pagaste con dinero de la caja. Así Reportes te dice cuánto te quedó de verdad.</string>
+    <string name="g_ini_gasto_trab">Si pagas algo con dinero de la caja (el garrafón, hielo, bolsas), anótalo aquí para que tu cierre cuadre.</string>
+    <string name="g_rep_gasto_t">Registrar gasto</string>
+    <string name="g_rep_gasto">Anota la renta, la luz, los sueldos o lo que salió de la caja. Si te equivocaste, toca el gasto en la lista para borrarlo.</string>
+    <string name="g_rep_balance_t">Lo que te quedó de verdad</string>
+    <string name="g_rep_balance">A lo que le ganaste a tus ventas se le restan las mermas y los gastos del periodo.</string>
+</resources>
