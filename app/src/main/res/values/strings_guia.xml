@@ -8,9 +8,9 @@
         <item quantity="other">%1$d ventas · %2$s por venta</item>
     </plurals>
     <string name="ini_detalle_trabajador">compras registradas hoy</string>
-    <string name="ini_meta">%1$d%% de lo que vendes un día normal</string>
-    <string name="ini_meta_superada">¡Ya superaste un día normal! (%1$d%%)</string>
-    <string name="ini_meta_sin_historial">Aquí verás cómo va tu día comparado con un día normal.</string>
+    <string name="ini_meta">Promedio diario: %1$s (últimos 30 días)</string>
+    <string name="ini_meta_superada">¡Ya superaste tu promedio diario de %1$s!</string>
+    <string name="ini_meta_sin_historial">Aquí verás tu promedio de venta diario cuando tengas ventas de días anteriores.</string>
     <string name="ini_vender">Vender</string>
     <string name="ini_vender_sub">Toca para empezar a cobrar</string>
     <string name="ini_inventario">Inventario</string>
@@ -58,7 +58,7 @@
 
     <!-- Inicio -->
     <string name="g_ini_resumen_t">¿Cómo va tu día?</string>
-    <string name="g_ini_resumen">Aquí ves cuánto llevas vendido hoy. La barra lo compara con un día normal de tu negocio.</string>
+    <string name="g_ini_resumen">Aquí ves cuánto llevas vendido hoy y tu promedio de venta diario. La barra muestra qué tanto llevas de ese promedio.</string>
     <string name="g_ini_resumen_trab">Aquí ves cuántas compras van en el día.</string>
     <string name="g_ini_vender_t">Aquí empiezas a vender</string>
     <string name="g_ini_vender">Toca <b>Vender</b>, escoge lo que lleva el cliente y la app te dice cuánto cobrar y cuánto dar de cambio.</string>

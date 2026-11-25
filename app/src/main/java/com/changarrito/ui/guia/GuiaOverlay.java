@@ -14,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
@@ -29,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.changarrito.R;
 import com.google.android.material.button.MaterialButton;
@@ -310,15 +313,58 @@ public class GuiaOverlay extends FrameLayout {
         actual = i;
         pista.setVisibility(GONE);
         View objetivo = pasos.get(i).objetivo;
-        RectF r = rectDe(objetivo);
-        boolean fuera = r.top < 0 || r.bottom > getHeight();
-        if (fuera) {
-            // Esta abajo (o arriba) en la pantalla con scroll: se trae a la vista primero.
-            objetivo.requestRectangleOnScreen(new Rect(0, 0, objetivo.getWidth(), objetivo.getHeight()), true);
-            postDelayed(() -> colocar(i), 260);
+        if (centrar(objetivo)) {
+            // Se esta desplazando la pantalla: se ilumina cuando ya quedo en su lugar.
+            postDelayed(() -> colocar(i), 350);
         } else {
             colocar(i);
         }
+    }
+
+    /**
+     * Deja lo que se va a explicar al centro de la pantalla, para que no quede pegado arriba
+     * (tapado por la barra de notificaciones) ni abajo (cortado), y la tarjeta quepa junto a el.
+     * Mientras la guia esta abierta no se puede deslizar a mano, por eso lo hace ella.
+     *
+     * @return true si hubo que desplazar la pantalla
+     */
+    private boolean centrar(View objetivo) {
+        RectF r = rectDe(objetivo);
+        View scroll = buscarScroll(objetivo);
+        if (scroll == null) {
+            // Sin pantalla con scroll: solo traerlo a la vista si esta fuera.
+            boolean fuera = r.top < 0 || r.bottom > getHeight();
+            if (fuera) {
+                objetivo.requestRectangleOnScreen(new Rect(0, 0, objetivo.getWidth(), objetivo.getHeight()), true);
+            }
+            return fuera;
+        }
+        // Centro de la parte visible de la pantalla con scroll (sin las barras del sistema).
+        WindowInsetsCompat ins = ViewCompat.getRootWindowInsets(this);
+        Insets barras = ins != null ? ins.getInsets(WindowInsetsCompat.Type.systemBars()) : Insets.NONE;
+        RectF zona = rectDe(scroll);
+        float arriba = Math.max(zona.top, barras.top);
+        float abajo = Math.min(zona.bottom, getHeight() - barras.bottom);
+        int dy = Math.round(r.centerY() - (arriba + abajo) / 2f);
+        if (Math.abs(dy) < 12 * dp) return false; // ya esta practicamente centrado
+        // smoothScrollBy no se pasa del principio ni del final del contenido.
+        if (scroll instanceof NestedScrollView) {
+            ((NestedScrollView) scroll).smoothScrollBy(0, dy);
+        } else {
+            ((ScrollView) scroll).smoothScrollBy(0, dy);
+        }
+        return true;
+    }
+
+    /** La pantalla con scroll (ScrollView o NestedScrollView) que contiene a la vista, si hay. */
+    @Nullable
+    private static View buscarScroll(View v) {
+        ViewParent p = v.getParent();
+        while (p instanceof View) {
+            if (p instanceof NestedScrollView || p instanceof ScrollView) return (View) p;
+            p = p.getParent();
+        }
+        return null;
     }
 
     private void colocar(int i) {

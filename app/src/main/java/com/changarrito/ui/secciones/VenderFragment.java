@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -107,6 +108,7 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         configurarProductos();
         configurarHoja();
         configurarCobro();
+        actualizarEstadoHoja(); // ya existe btnRegistrarVenta de esta vista
 
         viewModel.getCarrito().observe(getViewLifecycleOwner(), lista -> {
             items = lista != null ? lista : new ArrayList<>();
@@ -286,7 +288,23 @@ public class VenderFragment extends SeccionFragment implements CantidadVentaDial
         if (hoja == null || btnVerCarrito == null) return;
         boolean abierta = hoja.getState() == BottomSheetBehavior.STATE_EXPANDED;
         btnVerCarrito.setText(abierta ? R.string.venta_seguir : R.string.venta_ver_cobrar);
+        // En horizontal "Cobrar" vive en la barra de arriba (layout-land): solo con la hoja abierta,
+        // para no tener dos "Cobrar" cuando la hoja esta cerrada.
+        if (btnRegistrarVenta != null && esHorizontal()) {
+            btnRegistrarVenta.setVisibility(abierta ? View.VISIBLE : View.GONE);
+        }
         cerrarCarrito.setEnabled(abierta && !isHidden());
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        // Al girar, la hoja recupera aqui si estaba abierta: actualizar la barra y sus botones.
+        actualizarEstadoHoja();
+    }
+
+    private boolean esHorizontal() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override

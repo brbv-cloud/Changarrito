@@ -151,8 +151,8 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
     }
 
     /**
-     * Dueno: lo vendido hoy, ventas y venta promedio, y una barra contra un dia normal
-     * (promedio de los ultimos 30 dias con ventas). Trabajador: solo cuantas compras van.
+     * Dueno: lo vendido hoy, ventas y venta promedio, y una barra contra su promedio de venta
+     * diaria (dias con ventas de los ultimos 30, sin contar hoy). Trabajador: solo cuantas compras van.
      */
     private void mostrarResumen() {
         if (getView() == null) return;
@@ -180,7 +180,9 @@ public class InicioFragment extends SeccionFragment implements ProductoDialogFra
             int pct = (int) Math.round(ventas * 100 / promedioDiario);
             barra.setVisibility(View.VISIBLE);
             barra.setProgressCompat(Math.min(100, pct), true);
-            tvMeta.setText(pct >= 100 ? getString(R.string.ini_meta_superada, pct) : getString(R.string.ini_meta, pct));
+            // La barra compara hoy contra el promedio; el texto dice cuanto es ese promedio en pesos.
+            String promedio = CalculoGanancias.dinero(promedioDiario);
+            tvMeta.setText(pct >= 100 ? getString(R.string.ini_meta_superada, promedio) : getString(R.string.ini_meta, promedio));
         } else {
             // Negocio nuevo: todavia no hay "dia normal" con que comparar.
             barra.setVisibility(View.GONE);
