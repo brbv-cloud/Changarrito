@@ -96,11 +96,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Changarrito.Camara" />
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Changarrito" />
-
         <!-- Para compartir / abrir los PDF de estado de cuenta con otras apps -->
         <provider
             android:name="androidx.core.content.FileProvider"

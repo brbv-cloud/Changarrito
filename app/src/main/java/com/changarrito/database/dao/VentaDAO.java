@@ -67,7 +67,7 @@ public interface VentaDAO {
     /**
      * Ingresos agrupados por dia (zona horaria local) dentro de un rango, para la
      * grafica de "ultimos N dias". Solo trae dias CON al menos una venta: los dias
-     * sin ventas se rellenan con 0 en ReportesRepository/ReportesActivity, no aqui.
+     * sin ventas se rellenan con 0 fuera de aqui (ver reportes.SerieDiaria).
      */
     @Query("SELECT strftime('%Y-%m-%d', timestampVentaMs / 1000, 'unixepoch', 'localtime') AS fecha, " +
             "COALESCE(SUM(total), 0) AS total " +

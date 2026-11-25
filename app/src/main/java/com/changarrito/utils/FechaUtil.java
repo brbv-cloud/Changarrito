@@ -4,8 +4,7 @@ import java.util.Calendar;
 
 /**
  * Calcula el rango [inicio, fin] de un dia en milisegundos, en la zona horaria
- * local del dispositivo. Se usa tanto en ReportesRepository (ingresos de hoy)
- * como en CierreCajaRepository (efectivo del sistema del dia que se cierra).
+ * local del dispositivo. Se usa en CierreCajaRepository (efectivo del sistema del dia que se cierra).
  */
 public class FechaUtil {
 

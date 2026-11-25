@@ -27,3 +27,5 @@ keystore.properties
 app/release/
 *.apk
 *.aab
+# Logs que genera Android Studio / Kotlin al compilar
+.kotlin/
